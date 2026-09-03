@@ -1,0 +1,23 @@
+[Unit]
+Description=Ollama LLM Service
+After=network.target
+
+[Service]
+ExecStart=/usr/bin/ollama serve
+Restart=always
+RestartSec=5
+
+# Directorio de trabajo
+WorkingDirectory=/usr/share/ollama
+
+# Seguridad básica
+ProtectSystem=full
+ProtectHome=true
+PrivateTmp=true
+
+# Logs
+StandardOutput=journal
+StandardError=journal
+
+[Install]
+WantedBy=multi-user.target
