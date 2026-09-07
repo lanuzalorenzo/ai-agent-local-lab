@@ -116,4 +116,3 @@ Si la GPU aparece en:
 
 entonces Ollama está utilizando aceleración CUDA correctamente.  
 El laboratorio de agente IA local está listo para trabajar con modelos grandes.
-```
