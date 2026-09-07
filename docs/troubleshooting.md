@@ -136,7 +136,3 @@ scripts/gpu_check.sh
 ## ✔️ Conclusión
 Este documento recoge los problemas más frecuentes del laboratorio y sus soluciones probadas.  
 Si Ollama detecta la GPU y Continue se conecta correctamente, el sistema está listo para ejecutar modelos LLM de forma local y acelerada.
-
----
-
-Cuando quieras, me das el siguiente fichero.
