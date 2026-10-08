@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 #
 # run_agent.sh
-# Ejecuta un modelo LLM local con Ollama y muestra logs en tiempo real
+# Ejecuta un modelo local con Ollama y muestra los últimos logs al finalizar
 # Autor: Lorenzo Lanuza Arellano
 # Proyecto: ai-agent-local-lab
 

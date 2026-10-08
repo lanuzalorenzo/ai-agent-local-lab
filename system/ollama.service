@@ -3,6 +3,8 @@ Description=Ollama LLM Service
 After=network.target
 
 [Service]
+# Plantilla no validada: sin User=, systemd ejecutará el proceso como root.
+# Revisar cuenta, rutas, permisos y acceso al hardware antes de instalarla.
 ExecStart=/usr/bin/ollama serve
 Restart=always
 RestartSec=5
@@ -10,7 +12,7 @@ RestartSec=5
 # Directorio de trabajo
 WorkingDirectory=/usr/share/ollama
 
-# Seguridad básica
+# Aislamiento del sistema de archivos; no sustituye a una cuenta no privilegiada.
 ProtectSystem=full
 ProtectHome=true
 PrivateTmp=true
