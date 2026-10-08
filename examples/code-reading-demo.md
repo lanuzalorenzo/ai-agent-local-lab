@@ -1,103 +1,29 @@
-# 📖 Demo de lectura de código del agente IA local
+# Ejemplo ilustrativo: lectura de un repositorio
 
-## 🧾 Descripción
-Ejemplo técnico de cómo el agente IA local analiza un repositorio utilizando Ollama con aceleración GPU y la extensión Continue en VS Code.  
-Este documento muestra una sesión real de lectura y análisis de código realizada en el laboratorio.
+## Escenario
 
----
+Este ejemplo describe una tarea que puede probarse con un modelo local: pedir una explicación del propósito y la estructura de un repositorio y solicitar mejoras justificadas por archivos concretos. Es un escenario de prueba, no una sesión real ni una evaluación de la calidad de un modelo.
 
-## 🚀 Contexto de la sesión
-- Entorno: VS Code + Continue  
-- Modelo: `llama3.1:8b` vía Ollama  
-- GPU: NVIDIA RTX 3050 Laptop GPU (CUDA)  
-- Proyecto analizado: `ai-agent-local-lab`
+## Procedimiento propuesto
 
----
+1. Configura Continue para usar el modelo local que hayas descargado en Ollama.
+2. Selecciona un repositorio de prueba sin secretos, datos personales ni código que no tengas permiso para procesar.
+3. Pide un resumen que cite rutas existentes y distinga hechos del repositorio de recomendaciones.
+4. Verifica manualmente las afirmaciones contra los archivos y registra errores o limitaciones.
+5. Si quieres comprobar el uso de GPU, observa el sistema durante la misma inferencia según [`docs/gpu-setup.md`](../docs/gpu-setup.md).
 
-## 💬 Petición del usuario
-El usuario solicita al agente:
+## Prompt de ejemplo
 
-- Qué hace el proyecto  
-- Qué arquitectura sigue  
-- Qué mejoras técnicas recomienda  
+> Resume el propósito y la estructura de este repositorio usando solo archivos que hayas podido leer. Separa hechos observados de recomendaciones. Para cada recomendación, explica el problema concreto que resolvería. Indica las limitaciones de contexto y no inventes pruebas, resultados o configuraciones.
 
-Continue envía la petición al modelo local mediante:
+## Criterios de evaluación
 
-```
-POST http://localhost/api/generate
-Model: llama3.1:8b
-```
+| Criterio | Qué revisar |
+|---|---|
+| Trazabilidad | Las rutas citadas existen y respaldan las afirmaciones |
+| Precisión | No inventa componentes, resultados ni pruebas |
+| Utilidad | Las recomendaciones se relacionan con hallazgos concretos |
+| Privacidad | No se usaron datos sensibles y se verificó el endpoint |
+| Ejecución | Se anota modelo, versiones y evidencia real si se afirma uso de GPU |
 
----
-
-## 🧠 Análisis del repositorio por el agente
-El modelo recorre las siguientes rutas:
-
-- `scripts/` → instalación, verificación y ejecución  
-- `docs/` → arquitectura, GPU y troubleshooting  
-- `system/` → servicio `ollama.service`  
-- `examples/` → sesiones de uso del agente  
-- `README.md` → descripción general del laboratorio  
-
-Salida típica del agente:
-
-> Este repositorio define un laboratorio para ejecutar un agente de IA local sobre Ollama con aceleración GPU, integrando scripts de instalación, documentación técnica, servicio systemd y ejemplos de uso. La arquitectura es modular y orientada a reproducibilidad.
-
----
-
-## 🔍 Sugerencias técnicas del agente
-El modelo propone mejoras como:
-
-- Añadir tests automatizados  
-- Ampliar documentación  
-- Extender ejemplos de uso  
-
-Ejemplo de respuesta:
-
-> Recomiendo añadir una carpeta `tests/` con scripts de validación, un diagrama de arquitectura en `docs/architecture.md` y más ejemplos de interacción en `examples/`. Esto hará el laboratorio más profesional y fácil de entender para terceros.
-
----
-
-## ⚙️ Verificación de rendimiento durante la lectura
-Monitorización de GPU:
-
-```bash
-nvidia-smi
-```
-
-Salida típica:
-
-```
-llama3.1:8b   2800MiB / 4096MiB
-```
-
-Esto confirma que la lectura y análisis se ejecutan con aceleración CUDA.
-
----
-
-## 📜 Logs del servicio durante la demo
-```bash
-journalctl -u ollama -n 30 --no-pager
-```
-
-Ejemplo de logs:
-
-```
-model loaded: llama3.1:8b
-request: code analysis
-response generated in 1.4s
-library=CUDA
-name="NVIDIA GeForce RTX 3050 Laptop GPU"
-```
-
----
-
-## ✔️ Conclusión
-Esta demo muestra cómo el agente IA local:
-
-- entiende la estructura de un repositorio  
-- explica la arquitectura del proyecto  
-- propone mejoras técnicas razonables  
-- aprovecha la GPU para acelerar la inferencia  
-
-Sirve como referencia clara para mostrar el valor real de un agente IA local integrado en el flujo de trabajo de desarrollo.
+**Resultado observado:** no registrado. Las respuestas de un modelo son salidas no verificadas y deben revisarse antes de incorporarlas a código o documentación.
