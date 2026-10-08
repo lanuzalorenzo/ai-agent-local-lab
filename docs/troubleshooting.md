@@ -1,138 +1,45 @@
-# 🛠️ Troubleshooting — Laboratorio IA Local
+# Diagnóstico del laboratorio local
 
-## 🧾 Descripción
-Guía técnica de resolución de problemas para el laboratorio de agente IA local basado en Ollama + GPU NVIDIA.  
-Incluye los fallos más frecuentes y sus soluciones verificadas.
+Esta guía propone comprobaciones no destructivas. No se ha verificado cada caso en este repositorio, por lo que los pasos son pistas de diagnóstico, no soluciones garantizadas.
 
----
+## Ollama no aparece activo
 
-## ⚠️ 1. Ollama no detecta la GPU
+Consulta estado y logs:
 
-### Síntomas
-- `journalctl -u ollama` no muestra “CUDA”
-- `nvidia-smi` funciona, pero Ollama usa CPU
-- El modelo va lento o no carga
-
-### Solución
 ```bash
-sudo systemctl restart ollama
-journalctl -u ollama -n 50 --no-pager | grep -Ei "CUDA|GPU|NVIDIA"
-```
-
-Si Ollama fue instalado con Snap:
-```bash
-sudo snap remove ollama
-curl -fsSL https://ollama.com/install.sh | sh
-```
-
----
-
-## ⚠️ 2. `nvidia-smi` no aparece
-
-### Síntomas
-- Error: “NVIDIA-SMI has failed”
-- No aparece la GPU
-
-### Solución
-```bash
-sudo ubuntu-drivers autoinstall
-sudo reboot
-```
-
-Verificar BIOS (Dell XPS):
-- Desactivar Secure Boot  
-- Cambiar SATA de RAID a AHCI  
-
----
-
-## ⚠️ 3. Ollama no arranca
-
-### Síntomas
-- `systemctl status ollama` muestra errores
-- El servicio no inicia
-
-### Solución
-```bash
+systemctl status ollama --no-pager
 journalctl -u ollama -n 50 --no-pager
-sudo systemctl stop ollama
-sudo rm -rf /usr/share/ollama /usr/bin/ollama
-curl -fsSL https://ollama.com/install.sh | sh
 ```
 
----
+Comprueba qué paquete/unidad está instalado y qué informa el error antes de reiniciar, reinstalar o reemplazar archivos. `system/ollama.service` es una referencia no validada y no debe copiarse encima de la unidad existente como remedio general.
 
-## ⚠️ 4. Continue no detecta el modelo local
+## El sistema no detecta la GPU
 
-### Síntomas
-- VS Code muestra “Model not available”
-- Continue no responde
-
-### Solución
 ```bash
-systemctl status ollama
-ollama run llama3.1:8b
+nvidia-smi
 ```
 
-Revisar configuración:
-- VS Code → Settings → Continue → Model Provider → Ollama  
-- Modelo: `llama3.1:8b`
+Si falla, diagnostica primero el driver y la configuración específica del equipo. No desactives Secure Boot ni cambies opciones de BIOS/almacenamiento de forma genérica: esos cambios pueden afectar la seguridad o impedir que el sistema arranque.
 
----
+## Ollama no parece usar GPU
 
-## ⚠️ 5. El modelo se queda sin VRAM
+Revisa los logs durante una inferencia y consulta [`docs/gpu-setup.md`](gpu-setup.md). La falta de una palabra clave en una muestra de logs no es concluyente. Comprueba compatibilidad de hardware/runtime y disponibilidad de memoria sin asumir que reinstalar resolverá el problema.
 
-### Síntomas
-- Error: “CUDA out of memory”
-- El modelo se cierra
+## Continue no conecta con el modelo
 
-### Solución
-Usar un modelo más pequeño:
-```bash
-ollama run llama3.1:8b
-```
+- Comprueba que Ollama está activo y responde localmente.
+- Revisa en la configuración de Continue el proveedor, el identificador del modelo y el endpoint.
+- No des por supuesto un endpoint o formato de API a partir de este repositorio: no se versiona la configuración de Continue.
+- No pegues logs, prompts ni datos sensibles en reportes públicos.
 
-Cerrar aplicaciones que usen GPU:
-- Chrome  
-- VS Code con aceleración  
-- Juegos  
-- OBS  
+## El modelo falla por memoria
 
-Reiniciar Ollama:
-```bash
-sudo systemctl restart ollama
-```
+Registra el modelo utilizado, el mensaje de error y los recursos disponibles. Prueba un modelo de menor tamaño solo si es adecuado para la tarea y está disponible; cerrar aplicaciones o reiniciar el servicio son opciones operativas, no soluciones garantizadas. No interpretes la ejecución en CPU como prueba de aceleración GPU.
 
----
+## Sospecha de conflictos con Snap u otra instalación
 
-## ⚠️ 6. Problemas con Snap
+Identifica el origen de la unidad activa, la ruta del ejecutable y el método de instalación antes de modificar el sistema. No elimines directorios del sistema, datos de modelos ni toda la infraestructura Snap para resolver un conflicto de un único paquete. Si decides retirar una instalación, limita la operación al paquete confirmado y protege antes los datos que quieras conservar.
 
-### Síntomas
-- Ollama no detecta GPU  
-- PATH roto  
-- Servicios que no arrancan
+## Logs vacíos o sin información suficiente
 
-### Solución
-```bash
-sudo snap remove ollama
-sudo rm -rf /var/snap /var/lib/snapd /snap
-curl -fsSL https://ollama.com/install.sh | sh
-```
-
----
-
-## ⚠️ 7. Logs vacíos o incompletos
-
-### Síntomas
-- `journalctl` no muestra información útil
-
-### Solución
-Usar el script del repositorio:
-```
-scripts/gpu_check.sh
-```
-
----
-
-## ✔️ Conclusión
-Este documento recoge los problemas más frecuentes del laboratorio y sus soluciones probadas.  
-Si Ollama detecta la GPU y Continue se conecta correctamente, el sistema está listo para ejecutar modelos LLM de forma local y acelerada.
+Consulta primero estado y logs con `systemctl`/`journalctl`; [`scripts/gpu_check.sh`](../scripts/gpu_check.sh) agrupa algunas comprobaciones. El script puede terminar con error si el servicio está parado; eso debe tratarse como información diagnóstica, no ocultarse.

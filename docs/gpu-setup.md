@@ -1,118 +1,59 @@
-# 🖥️ Configuración de GPU para Ollama
+# Comprobación de GPU para Ollama
 
-## 🧾 Descripción
-Guía técnica para habilitar aceleración NVIDIA + CUDA en Ubuntu con el fin de ejecutar modelos LLM localmente mediante Ollama.  
-El objetivo es garantizar compatibilidad, rendimiento y estabilidad en el laboratorio de agente IA local.
+## Objetivo y alcance
 
----
+Procedimiento de diagnóstico para determinar si el sistema ve una GPU NVIDIA y si hay indicios de que Ollama la utiliza. No instala ni configura automáticamente drivers y no garantiza compatibilidad para todas las combinaciones de GPU, driver, runtime y modelo.
 
-## 📌 Requisitos
-- Ubuntu 22.04 o superior  
-- GPU NVIDIA compatible con CUDA  
-- Drivers NVIDIA instalados correctamente  
-- Herramienta `nvidia-smi` disponible  
-- Ollama instalado desde `.deb` (no Snap)
+## Requisitos previos
 
----
+- Ubuntu con una GPU NVIDIA y un driver instalado.
+- Ollama instalado y ejecutándose.
+- Acceso a `nvidia-smi`, si el driver proporciona esa herramienta.
 
-## 🔧 1. Verificar la GPU
-Ejecutar:
+Las versiones concretas de Ubuntu, driver, Ollama y modelo no están fijadas en este repositorio. Anótalas al documentar una ejecución real.
 
-```bash
-nvidia-smi
-```
+## Procedimiento de comprobación
 
-Debe aparecer la GPU, por ejemplo:
+1. **Comprueba si el sistema ve la GPU.**
 
-```
-NVIDIA GeForce RTX 3050 Laptop GPU
-```
+   ```bash
+   nvidia-smi
+   ```
 
-Si no aparece:
-- Revisar drivers  
-- Revisar Secure Boot  
-- Revisar modo AHCI/RAID en BIOS (Dell XPS)
+   Si no está disponible o falla, el problema precede a la comprobación de Ollama. Revisa el estado del driver y la configuración del equipo según el entorno; no cambies Secure Boot, BIOS o modo de almacenamiento como pasos genéricos.
 
----
+2. **Comprueba el servicio y sus logs.**
 
-## 🔧 2. Instalar drivers NVIDIA
-```bash
-sudo ubuntu-drivers autoinstall
-sudo reboot
-```
+   ```bash
+   systemctl status ollama --no-pager
+   journalctl -u ollama -n 50 --no-pager
+   ```
 
-Tras reiniciar:
+   La ausencia de menciones a CUDA en un fragmento de logs no demuestra por sí sola que la GPU no se haya utilizado.
 
-```bash
-nvidia-smi
-```
+3. **Ejecuta una inferencia controlada.**
 
----
+   ```bash
+   ollama run llama3.1:8b
+   ```
 
-## 🔧 3. Instalar CUDA (opcional)
-Ollama incluye su propio runtime CUDA.  
-Si se necesitan herramientas adicionales:
+   El modelo se obtiene si no está disponible localmente. Confirma que el modelo elegido cabe en los recursos del sistema antes de usarlo.
 
-```bash
-sudo apt install nvidia-cuda-toolkit
-```
+4. **Observa actividad durante esa inferencia.**
 
----
+   ```bash
+   nvidia-smi
+   ```
 
-## 🔧 4. Verificar que Ollama detecta la GPU
-```bash
-journalctl -u ollama -n 50 --no-pager | grep -Ei "CUDA|GPU|NVIDIA"
-```
+   Para documentar uso de GPU, conserva la relación temporal entre una inferencia concreta y evidencias pertinentes de logs/uso de recursos. No uses una salida de ejemplo como resultado propio.
 
-Debe aparecer algo similar a:
+El script [`scripts/gpu_check.sh`](../scripts/gpu_check.sh) reúne comprobaciones de servicio, logs y GPU, pero no ejecuta una inferencia ni demuestra por sí mismo que una petición se procesó en CUDA.
 
-```
-library=CUDA
-name="NVIDIA GeForce RTX 3050 Laptop GPU"
-```
+## Interpretación y seguridad
 
-Si no aparece:
-- Reiniciar el servicio  
-- Reinstalar Ollama  
-- Revisar drivers  
-- Confirmar que no se usa Snap
+- GPU visible: confirma que el sistema reporta un dispositivo, no que Ollama lo esté usando.
+- Servicio activo: confirma el estado reportado por systemd, no el funcionamiento del cliente Continue.
+- Modelo que responde: confirma una respuesta, no el backend de cómputo utilizado.
+- Evidencia de GPU durante la inferencia: respalda esa ejecución concreta; no generalizarla a otros modelos o configuraciones.
 
----
-
-## 🔧 5. Reiniciar Ollama
-```bash
-sudo systemctl restart ollama
-```
-
----
-
-## 🔧 6. Probar un modelo con GPU
-```bash
-ollama run llama3.1:8b
-```
-
-Si la GPU está activa, se verá uso de VRAM en:
-
-```bash
-nvidia-smi
-```
-
----
-
-## 🧪 7. Verificación rápida
-Puede utilizarse el script del repositorio:
-
-```
-scripts/gpu_check.sh
-```
-
----
-
-## ✔️ Conclusión
-Si la GPU aparece en:
-
-- `nvidia-smi`  
-- `journalctl -u ollama`  
-
-entonces Ollama está utilizando aceleración CUDA correctamente.  
-El laboratorio de agente IA local está listo para trabajar con modelos grandes.
+No descargues ni ejecutes scripts privilegiados, cambies drivers o desinstales paquetes como primer paso de diagnóstico. Evalúa las consecuencias y el alcance de cualquier cambio antes de aplicarlo.

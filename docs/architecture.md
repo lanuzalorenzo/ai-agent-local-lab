@@ -1,113 +1,40 @@
-# 🧩 Arquitectura del Agente IA Local
+# Arquitectura del laboratorio
 
-## 🧾 Descripción
-Diseño técnico del laboratorio de agente de IA ejecutado en GPU NVIDIA mediante Ollama.  
-Este documento describe los componentes, interacciones, dependencias y flujo de ejecución del sistema.
+## Propósito y alcance
 
----
+Este documento describe el flujo que el repositorio pretende facilitar: usar Ollama como runtime local y acceder a un modelo desde VS Code mediante Continue. Es una descripción de diseño, no una prueba de que todos los componentes estén instalados o configurados.
 
-## 🏛️ Visión general
-El laboratorio está compuesto por:
-- **Ollama** como servidor LLM local.  
-- **GPU NVIDIA** para aceleración CUDA.  
-- **VS Code + Continue** como interfaz de desarrollo.  
-- **Scripts** para instalación, verificación y ejecución.  
-- **Systemd** para ejecución persistente.  
-- **Documentación técnica** para reproducibilidad.
+## Componentes y límites de confianza
 
----
+| Componente | Responsabilidad | Consideraciones |
+|---|---|---|
+| VS Code + Continue | Interfaz y cliente del asistente | La configuración del cliente no está versionada; debe revisarse qué proveedor y endpoint usa |
+| Ollama | Recibe peticiones y ejecuta el modelo | El repositorio no verifica la interfaz de red en la que escucha ni define controles de autenticación |
+| Modelo | Genera respuestas a partir del prompt y el contexto disponible | No se fija una versión; la calidad y el consumo dependen del modelo seleccionado |
+| GPU NVIDIA / driver | Posible aceleración de inferencia | La GPU puede no estar disponible para el servicio; CPU/GPU y uso real deben verificarse por ejecución |
+| Scripts del repositorio | Instalación, diagnóstico y ejecución interactiva | Algunos pasos necesitan privilegios; revisar antes de ejecutar |
+| systemd | Gestión del proceso persistente | `system/ollama.service` es una referencia no validada y no debe reemplazar automáticamente la unidad existente |
 
-## 🧠 Componentes principales
+## Flujo previsto
 
-### 1. Ollama (runtime LLM)
-- Ejecuta modelos localmente.  
-- Expone una API HTTP.  
-- Gestiona carga de modelos y memoria.  
-- Utiliza CUDA cuando está disponible.  
+1. El usuario configura Continue para conectarse a Ollama en el mismo equipo.
+2. Continue envía una petición y el contexto que corresponda al endpoint configurado.
+3. Ollama carga el modelo seleccionado y procesa la petición en CPU o GPU según compatibilidad y disponibilidad.
+4. Continue presenta la respuesta.
+5. El usuario verifica por separado servicio, logs y uso de recursos si necesita confirmar el comportamiento.
 
-Ubicación del servicio:
-- `/usr/share/ollama`  
-- `/usr/bin/ollama`  
-- `/etc/systemd/system/ollama.service`
+El flujo no implica que Continue solo envíe datos a Ollama ni que el contenido del repositorio nunca salga del equipo. Esa propiedad depende de la configuración efectiva y debe comprobarse antes de usar información sensible.
 
----
+## Artefactos del repositorio
 
-### 2. GPU NVIDIA + CUDA
-- Acelera la inferencia de modelos.  
-- Reduce la latencia.  
-- Permite ejecutar modelos más grandes.  
-- Monitorización con `nvidia-smi`.
+- `scripts/install_ollama.sh`: instala Ollama utilizando el instalador remoto del proveedor.
+- `scripts/gpu_check.sh`: consulta servicio, logs y `nvidia-smi`.
+- `scripts/run_agent.sh`: abre una sesión interactiva de Ollama con el modelo definido en el script.
+- `docs/gpu-setup.md`: pasos de comprobación de GPU.
+- `docs/troubleshooting.md`: diagnóstico conservador.
+- `examples/`: ejemplos ilustrativos, sin evidencias de ejecución adjuntas.
+- `system/ollama.service`: unidad de referencia cuyo usuario, rutas, permisos y compatibilidad con GPU no se han validado aquí.
 
----
+## Validación necesaria para una instalación concreta
 
-### 3. VS Code + Continue
-- Interfaz del agente.  
-- Lectura de repositorios.  
-- Generación de planes.  
-- Análisis de código.  
-- Chat técnico con el modelo local.
-
----
-
-### 4. Scripts del proyecto
-- `install_ollama.sh` — instalación limpia sin Snap.  
-- `gpu_check.sh` — verificación de GPU y logs del servicio.  
-- `run_agent.sh` — ejecución del modelo y visualización de logs recientes.
-
----
-
-### 5. Servicio systemd
-Archivo: `system/ollama.service`
-
-Funciones:
-- Iniciar Ollama al arrancar.  
-- Reiniciar automáticamente si falla.  
-- Gestionar logs y estado del servicio.
-
----
-
-## 🔄 Flujo de ejecución del agente
-1. El usuario abre VS Code.  
-2. Continue se conecta a Ollama.  
-3. Ollama carga el modelo en GPU.  
-4. El usuario envía una petición.  
-5. El modelo responde usando CUDA.  
-6. Continue muestra la respuesta.  
-7. Logs y estado se monitorizan con scripts.
-
----
-
-## 🗂️ Estructura del proyecto
-```
-ai-agent-local-lab/
-├── scripts/      # Instalación, verificación y ejecución
-├── docs/         # Documentación técnica
-├── examples/     # Sesiones reales del agente
-├── system/       # Servicio systemd
-└── README.md     # Documento principal del proyecto
-```
-
----
-
-## 📡 Interacciones entre componentes
-- **VS Code** → Continue → Ollama → **GPU CUDA**  
-- Continue envía peticiones HTTP.  
-- Ollama procesa la entrada.  
-- CUDA acelera la inferencia.  
-- Ollama devuelve la respuesta.  
-- Continue la muestra en VS Code.
-
----
-
-## 🧱 Diseño modular
-El laboratorio está diseñado para ser:
-- Reproducible  
-- Extensible  
-- Documentado  
-- Fácil de mantener  
-- Compatible con futuros modelos
-
----
-
-## ✔️ Conclusión
-Esta arquitectura permite ejecutar modelos LLM de forma local, rápida y eficiente, aprovechando la GPU y manteniendo un entorno de desarrollo profesional y controlado.
+Para afirmar que una instalación funciona, registra el sistema y versiones relevantes, el modelo exacto, la configuración del endpoint y los resultados de pruebas realizadas. Para afirmar que se utilizó GPU, recoge evidencia durante una inferencia; detectar la GPU en el sistema no es suficiente. No incluyas logs con prompts, rutas privadas, tokens u otros datos sensibles.
