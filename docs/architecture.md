@@ -28,7 +28,9 @@ El flujo no implica que Continue solo envíe datos a Ollama ni que el contenido 
 ## Artefactos del repositorio
 
 - `docs/bitacora-decisiones-aprendizaje.md`: memoria técnica, decisiones de arquitectura, análisis causa-raíz y hoja de ruta futura.
+- `docs/continue-remote-ollama-setup.md`: sincronización de ventana de contexto 16K e integración de Continue con Ollama remoto.
 - `docs/server-deployment-ubuntu-ollama.md`: despliegue en servidor bare-metal headless (Ubuntu Server), Netplan y OpenSSH.
+- `system/Modelfile.portfolio-agent`: definición declarativa del agente con prompt ligero y ventana de 16K tokens.
 - `scripts/install_ollama.sh`: instala Ollama utilizando el instalador remoto del proveedor.
 - `scripts/gpu_check.sh`: consulta servicio, logs y `nvidia-smi`.
 - `scripts/run_agent.sh`: abre una sesión interactiva de Ollama con el modelo definido en el script.

@@ -76,7 +76,60 @@ Este documento registra cronológicamente las fases de investigación, decisione
 
 ---
 
-## Entrada 04: Hoja de Ruta y Ejes de Aprendizaje Futuros
+---
+
+## Entrada 04: Optimización y Ajuste de Arquitectura de Contexto (`portfolio-agent` + Continue)
+
+- **Fecha:** Octubre 2026
+- **Contexto:** Al integrar Continue en VS Code desde el equipo cliente (XPS) contra el servidor bare-metal dedicado (`http://192.168.50.156:11434`), se evaluó el uso de modelos especializados y la inyección de prompts maestros extensos.
+
+### 1. Diagnóstico del Problema Inicial
+- **Ralentización extrema en inferencia (Prompt Processing Bottleneck):** Se identificó que incluir un prompt de sistema completo y masivo (~1.500+ tokens) fijado estáticamente en el `Modelfile` de Ollama obligaba al modelo a recomputar toda esa secuencia en cada llamada, disparando los tiempos de latencia del primer token (TTFT) y volviendo inasumible la interacción ágil.
+- **Límite de ventana de contexto en cliente y servidor:** Al intentar adjuntar archivos de contexto extensos (como `prompt-maestro-diario.md`, ~18.8 KB) mediante `@file` desde Continue, el sistema arrojaba el error `File exceeds model's context length`. Esto se debía al límite por defecto de **2.048 tokens** prefijado tanto en el runtime de Ollama como en la configuración local de Continue.
+
+### 2. Acciones y Soluciones Aplicadas
+
+#### A. Reestructuración del `Modelfile` en el Servidor Remoto
+- **Prompt de Sistema Ligero:** Se sustituyó el prompt masivo por un bloque `SYSTEM` conciso que define únicamente el rol principal (*Lead Cloud Security Architect, DevSecOps & .NET Architect*), la orientación hacia *Security by Design*, el principio de *Rumbo Fijo* y el activo de referencia `lab-api-local-azure`.
+- **Ampliación de Ventana de Contexto (`num_ctx`):** Se añadió la directiva `PARAMETER num_ctx 16384` en [`system/Modelfile.portfolio-agent`](../system/Modelfile.portfolio-agent) para permitir la inyección de documentos extensos bajo demanda sin saturar la memoria inicial:
+
+```dockerfile
+FROM llama3
+
+SYSTEM """
+Actúa como Lead Cloud Security Architect, Especialista Senior en DevSecOps y Arquitecto de Software .NET. 
+Tu objetivo es ayudar en el desarrollo del portfolio técnico y de ciberseguridad, priorizando siempre la seguridad por diseño (Security by Design), el principio de Rumbo Fijo y el activo de referencia lab-api-local-azure. 
+Consulta siempre los archivos locales y el AGENTS.md del repositorio para mantener la coherencia.
+"""
+
+PARAMETER num_ctx 16384
+PARAMETER stop <|start_header_id|>
+PARAMETER stop <|end_header_id|>
+PARAMETER stop <|eot_id|>
+PARAMETER temperature 0.2
+PARAMETER top_p 0.9
+```
+
+#### B. Sincronización de Configuración en Cliente (`config.yaml` de Continue)
+- Se configuró explícitamente el parámetro `contextLength: 16384` en la definición del modelo en Continue para sincronizar el límite del cliente con el servidor remoto y evitar bloqueos preventivos al cargar ficheros:
+
+```yaml
+models:
+  - name: Portfolio Agent
+    provider: ollama
+    model: portfolio-agent
+    apiBase: http://192.168.50.156:11434
+    contextLength: 16384
+```
+
+### 3. Resultados y Patrón de Trabajo Establecido
+1. **Inferencia Inmediata:** El agente responde de forma instantánea al no tener que procesar un prompt de sistema colosal en cada llamada.
+2. **Carga Contextual Bajo Demanda:** Se estableció la buena práctica de referenciar dinámicamente los archivos del workspace (`@AGENTS.md`, `@file`, `@folder` o `@workspace`) según la tarea concreta a realizar.
+3. **Soporte de Ficheros Grandes:** Se habilitó la capacidad de adjuntar archivos de contexto de hasta 16K tokens sin errores de desbordamiento de ventana.
+
+---
+
+## Entrada 05: Hoja de Ruta y Ejes de Aprendizaje Futuros
 
 Este laboratorio está concebido para evolucionar como un portfolio de aprendizaje práctico de Inteligencia Artificial aplicada:
 
@@ -89,9 +142,10 @@ Este laboratorio está concebido para evolucionar como un portfolio de aprendiza
 - [ ] Implementación de proxy inverso TLS con NGINX o Caddy con autenticación por token/mTLS.
 
 ### Eje 3: Integración de Clientes y Asistentes de Desarrollo
-- [ ] Configuración del cliente Continue en VS Code apuntando al servidor Ollama dedicado.
+- [x] Configuración del cliente Continue en VS Code apuntando al servidor Ollama dedicado (contexto 16K sincronizado).
 - [ ] Evaluación de contexto de código completo (*codebase embeddings*) y autocompletado en tiempo real.
 
 ### Eje 4: RAG Local (Retrieval-Augmented Generation) y Agentes Autónomos
 - [ ] Construcción de un pipeline RAG local con base de datos vectorial embebida (ChromaDB / Qdrant) para consultar documentación técnica y apuntes privados de ciberseguridad sin fuga de datos.
 - [ ] Experimentación con frameworks de agentes locales (LangChain, LlamaIndex o AutoGen) conectados al modelo servido en Ollama.
+

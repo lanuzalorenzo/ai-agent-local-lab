@@ -53,7 +53,7 @@ Flujo de trabajo: el servidor ejecuta Ubuntu Server sin interfaz gráfica. Desde
 | Uso de GPU por Ollama | Revisar logs durante una inferencia y observar carga con `nvidia-smi` | Evidencia coincidente durante la misma prueba | No verificado en este repositorio |
 | Integración con Continue | Enviar una petición de prueba sin datos sensibles | El cliente responde mediante el endpoint esperado | Configuración y resultado no versionados |
 
-Consulta la [bitácora técnica y hoja de ruta](docs/bitacora-decisiones-aprendizaje.md), el [despliegue de servidor Ubuntu Server](docs/server-deployment-ubuntu-ollama.md), la [configuración de GPU](docs/gpu-setup.md), la [arquitectura del laboratorio](docs/architecture.md) y la [guía de diagnóstico](docs/troubleshooting.md).
+Consulta la [bitácora técnica y hoja de ruta](docs/bitacora-decisiones-aprendizaje.md), la [integración de Continue con Ollama remoto y contexto 16K](docs/continue-remote-ollama-setup.md), el [despliegue de servidor Ubuntu Server](docs/server-deployment-ubuntu-ollama.md), la [configuración de GPU](docs/gpu-setup.md), la [arquitectura del laboratorio](docs/architecture.md) y la [guía de diagnóstico](docs/troubleshooting.md).
 
 ## Lecciones aprendidas y límites
 
