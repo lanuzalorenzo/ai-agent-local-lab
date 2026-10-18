@@ -27,6 +27,7 @@ El flujo no implica que Continue solo envíe datos a Ollama ni que el contenido 
 
 ## Artefactos del repositorio
 
+- `docs/bitacora-decisiones-aprendizaje.md`: memoria técnica, decisiones de arquitectura, análisis causa-raíz y hoja de ruta futura.
 - `docs/server-deployment-ubuntu-ollama.md`: despliegue en servidor bare-metal headless (Ubuntu Server), Netplan y OpenSSH.
 - `scripts/install_ollama.sh`: instala Ollama utilizando el instalador remoto del proveedor.
 - `scripts/gpu_check.sh`: consulta servicio, logs y `nvidia-smi`.
