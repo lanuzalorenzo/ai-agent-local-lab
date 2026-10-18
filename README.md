@@ -17,13 +17,17 @@ Laboratorio personal para explorar un flujo de asistencia al desarrollo con Olla
 
 | Componente | Función | Estado documentado |
 |---|---|---|
-| Ollama | Runtime local para servir modelos | Instalación asistida por `scripts/install_ollama.sh`; la versión no está fijada en el repositorio |
-| GPU NVIDIA y driver | Aceleración de inferencia cuando runtime y hardware son compatibles | Comprobación orientativa documentada en `docs/gpu-setup.md`; no se garantiza aceleración |
-| VS Code + Continue | Interfaz de desarrollo que puede conectarse al runtime local | Configuración del cliente fuera del alcance versionado |
+| Ubuntu Server (Headless) | Sistema operativo bare-metal optimizado (CLI puro) para maximizar VRAM y RAM dedicadas al cómputo de LLMs | Guía completa en [`docs/server-deployment-ubuntu-ollama.md`](docs/server-deployment-ubuntu-ollama.md) |
+| Red (Netplan + NetworkManager) | Pila de red en dos fases: Ethernet declarativo vía Netplan y posterior gestión Wi-Fi con `nmtui` | Documentado en la guía de despliegue |
+| OpenSSH | Canal de administración remota segura desde el equipo cliente | Verificado y documentado |
+| Ollama | Runtime para servir y ejecutar modelos de lenguaje en el puerto 11434 | Servicio systemd gestionado; instalación vía script oficial |
+| Modelos de Inferencia | Pesos de modelos locales (Llama 3, Mistral) para ejecución offline y privada | Bucle interactivo evaluado |
+| GPU NVIDIA y driver | Aceleración de inferencia cuando runtime y hardware son compatibles | Comprobación orientativa documentada en `docs/gpu-setup.md` |
+| VS Code + Continue | Interfaz cliente que puede conectarse al runtime local | Configuración de cliente y asistente |
 | Scripts | Instalación, diagnóstico y ejecución interactiva | `scripts/`; requieren revisión y permisos adecuados |
 | Unidad systemd | Referencia de servicio | `system/ollama.service` no está validada como reemplazo de la unidad creada por el instalador |
 
-Flujo previsto: VS Code/Continue envía una petición a Ollama; Ollama ejecuta el modelo en CPU o, si se detecta y utiliza, con aceleración GPU. La ubicación local de Ollama no demuestra por sí sola qué datos procesa Continue ni que todo el flujo permanezca en el equipo.
+Flujo de trabajo: el servidor ejecuta Ubuntu Server sin interfaz gráfica. Desde el equipo principal se administra el servidor vía SSH. Ollama ejecuta el daemon y sirve los modelos (Llama 3, Mistral) en el puerto 11434. El cliente de desarrollo (VS Code / Continue) o la consola interactiva consumen la inferencia localmente.
 
 ## Implementación de controles y seguridad
 
@@ -44,7 +48,7 @@ Flujo previsto: VS Code/Continue envía una petición a Ollama; Ollama ejecuta e
 | Uso de GPU por Ollama | Revisar logs durante una inferencia y observar carga con `nvidia-smi` | Evidencia coincidente durante la misma prueba | No verificado en este repositorio |
 | Integración con Continue | Enviar una petición de prueba sin datos sensibles | El cliente responde mediante el endpoint esperado | Configuración y resultado no versionados |
 
-Los procedimientos están descritos, pero no se presentan como pruebas superadas. Consulta [configuración de GPU](docs/gpu-setup.md), [arquitectura](docs/architecture.md) y [diagnóstico](docs/troubleshooting.md).
+Los procedimientos están descritos, pero no se presentan como pruebas superadas. Consulta [despliegue de servidor Ubuntu Server](docs/server-deployment-ubuntu-ollama.md), [configuración de GPU](docs/gpu-setup.md), [arquitectura](docs/architecture.md) y [diagnóstico](docs/troubleshooting.md).
 
 ## Lecciones aprendidas y límites
 
