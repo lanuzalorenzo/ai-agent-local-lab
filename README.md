@@ -1,17 +1,22 @@
-# Laboratorio de agente de IA local
+# Laboratorio y Portfolio de Aprendizaje en IA Local
 
-Laboratorio personal para explorar un flujo de asistencia al desarrollo con Ollama, VS Code y Continue. El repositorio reúne documentación, scripts de apoyo y ejemplos; no es una distribución lista para producción ni acredita por sí solo que cada procedimiento se haya ejecutado.
+Laboratorio personal y bitácora técnica de aprendizaje práctico en Inteligencia Artificial y LLMs ejecutados on-premise. El repositorio documenta paso a paso las decisiones de arquitectura de sistemas, resolución de incidentes, despliegue bare-metal (Ubuntu Server + Ollama), integración de asistentes y la hoja de ruta para futuras ampliaciones (RAG, cuantización, agentes locales y seguridad de inferencia).
+
+## Propósito del Repositorio
+1. **Memoria Técnica y Reinstalabilidad:** Servir como guía exacta de referencia, procedimientos y resolución de problemas para reinstalar o replicar el entorno de IA de forma reproducible.
+2. **Bitácora de Decisiones y Análisis:** Registrar el *por qué* de cada decisión tecnológica (sistemas operativos headless, gestión de red declarativa, consumo de RAM/VRAM, modelos evaluados).
+3. **Portfolio de Aprendizaje en IA:** Evolucionar como un espacio dinámico para explorar nuevos debates técnicos: cuantizaciones GGUF, aceleración hardware, RAG local seguro, agentes autónomos y privacidad de datos.
 
 ## Descripción del escenario y objetivo de seguridad
 
-**Escenario:** ejecutar un modelo de lenguaje en un equipo Ubuntu con GPU NVIDIA e integrarlo en el entorno de desarrollo mediante VS Code y Continue.
+**Escenario:** Servidor dedicado bare-metal (Ubuntu Server headless) ejecutando modelos de lenguaje locales con Ollama (Llama 3, Mistral) administrado remotamente vía SSH desde equipo cliente, con soporte para integración en clientes de desarrollo (VS Code + Continue).
 
-**Objetivo:** documentar la configuración y las comprobaciones necesarias para evaluar un asistente local, haciendo visibles sus dependencias, límites y riesgos operativos.
+**Objetivo:** Documentar la configuración, resolución de bloqueos de conectividad, optimización de recursos de cómputo y comprobaciones operativas para disponer de un asistente de IA privado, auditable y escalable.
 
-**Alcance:** instalación y diagnóstico local de Ollama, aceleración NVIDIA cuando esté disponible e integración de cliente. No cubre entrenamiento, ajuste fino, despliegue remoto ni controles de producción.
+**Alcance:** Instalación del sistema base headless, pila de red Netplan/NetworkManager, OpenSSH, runtime de Ollama, evaluación de modelos interactivos y arquitectura de clientes.
 
 > [!NOTE]
-> La ejecución local no garantiza por sí sola la confidencialidad. Comprueba la configuración del cliente, el endpoint utilizado y el tráfico de red antes de introducir código o datos sensibles. No guardes secretos ni información de terceros en ejemplos, prompts o registros.
+> La ejecución local garantiza soberanía de datos sobre el cómputo del modelo, pero exige verificar la exposición de puertos de red, políticas de firewall y la configuración del cliente consumidor para evitar fugas inadvertidas.
 
 ## Arquitectura y componentes utilizados
 
@@ -48,7 +53,7 @@ Flujo de trabajo: el servidor ejecuta Ubuntu Server sin interfaz gráfica. Desde
 | Uso de GPU por Ollama | Revisar logs durante una inferencia y observar carga con `nvidia-smi` | Evidencia coincidente durante la misma prueba | No verificado en este repositorio |
 | Integración con Continue | Enviar una petición de prueba sin datos sensibles | El cliente responde mediante el endpoint esperado | Configuración y resultado no versionados |
 
-Los procedimientos están descritos, pero no se presentan como pruebas superadas. Consulta [despliegue de servidor Ubuntu Server](docs/server-deployment-ubuntu-ollama.md), [configuración de GPU](docs/gpu-setup.md), [arquitectura](docs/architecture.md) y [diagnóstico](docs/troubleshooting.md).
+Consulta la [bitácora técnica y hoja de ruta](docs/bitacora-decisiones-aprendizaje.md), el [despliegue de servidor Ubuntu Server](docs/server-deployment-ubuntu-ollama.md), la [configuración de GPU](docs/gpu-setup.md), la [arquitectura del laboratorio](docs/architecture.md) y la [guía de diagnóstico](docs/troubleshooting.md).
 
 ## Lecciones aprendidas y límites
 
