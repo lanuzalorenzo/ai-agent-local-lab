@@ -27,6 +27,7 @@ El flujo no implica que Continue solo envíe datos a Ollama ni que el contenido 
 
 ## Artefactos del repositorio
 
+- `docs/server-deployment-ubuntu-ollama.md`: despliegue en servidor bare-metal headless (Ubuntu Server), Netplan y OpenSSH.
 - `scripts/install_ollama.sh`: instala Ollama utilizando el instalador remoto del proveedor.
 - `scripts/gpu_check.sh`: consulta servicio, logs y `nvidia-smi`.
 - `scripts/run_agent.sh`: abre una sesión interactiva de Ollama con el modelo definido en el script.
