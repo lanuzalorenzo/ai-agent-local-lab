@@ -34,7 +34,7 @@ Las versiones concretas de Ubuntu, driver, Ollama y modelo no están fijadas en 
 3. **Ejecuta una inferencia controlada.**
 
    ```bash
-   ollama run llama3.1:8b
+   ollama run qwen2.5-coder:7b
    ```
 
    El modelo se obtiene si no está disponible localmente. Confirma que el modelo elegido cabe en los recursos del sistema antes de usarlo.

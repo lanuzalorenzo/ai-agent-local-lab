@@ -101,12 +101,12 @@ Con `nmtui` se conectó la interfaz inalámbrica a la red local y se persistió 
 
 1. **Descarga de pesos e inicio de sesión interactiva:**
    ```bash
-   ollama run llama3
+   ollama run qwen2.5-coder:7b
    ```
 2. **Validación de inferencia y consumo de recursos:**
    - Comprobación de tiempos de respuesta por token (tokens/segundo).
    - Verificación de uso de memoria y procesador mediante herramientas de monitorización (`top`, `htop`, o `nvidia-smi` si dispone de GPU dedicada).
-   - Evaluación adicional con modelos complementarios (e.g., `mistral`).
+   - Evaluación adicional con modelos complementarios (por ejemplo, `llama3` o `mistral`), conservando `qwen2.5-coder:7b` como modelo operativo del laboratorio.
 
 ---
 
