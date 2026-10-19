@@ -73,6 +73,7 @@ Este documento registra cronológicamente las fases de investigación, decisione
     ```
   - Evaluación cualitativa de tiempos de respuesta, latencia del primer token (TTFT - Time To First Token) y consumo en CPU/GPU.
   - Extensión a modelos de razonamiento y codificación como `mistral` / `codellama`.
+  - **Modelo operativo actual:** `qwen2.5-coder:7b`, elegido por su rendimiento en código y su integración con el `Modelfile` del laboratorio.
 
 ---
 
@@ -85,7 +86,7 @@ Este documento registra cronológicamente las fases de investigación, decisione
 
 ### 1. Diagnóstico del Problema Inicial
 - **Ralentización extrema en inferencia (Prompt Processing Bottleneck):** Se identificó que incluir un prompt de sistema completo y masivo (~1.500+ tokens) fijado estáticamente en el `Modelfile` de Ollama obligaba al modelo a recomputar toda esa secuencia en cada llamada, disparando los tiempos de latencia del primer token (TTFT) y volviendo inasumible la interacción ágil.
-- **Límite de ventana de contexto en cliente y servidor:** Al intentar adjuntar archivos de contexto extensos (como `prompt-maestro-diario.md`, ~18.8 KB) mediante `@file` desde Continue, el sistema arrojaba el error `File exceeds model's context length`. Esto se debía al límite por defecto de **2.048 tokens** prefijado tanto en el runtime de Ollama como en la configuración local de Continue.
+- **Límite de ventana de contexto en cliente y servidor:** Al intentar adjuntar archivos de contexto extensos (por ejemplo, un archivo de contexto de ~18.8 KB) mediante `@file` desde Continue, el sistema arrojaba el error `File exceeds model's context length`. Esto se debía al límite por defecto de **2.048 tokens** prefijado tanto en el runtime de Ollama como en la configuración local de Continue.
 
 ### 2. Acciones y Soluciones Aplicadas
 
@@ -94,7 +95,7 @@ Este documento registra cronológicamente las fases de investigación, decisione
 - **Ampliación de Ventana de Contexto (`num_ctx`):** Se añadió la directiva `PARAMETER num_ctx 16384` en [`system/Modelfile.portfolio-agent`](../system/Modelfile.portfolio-agent) para permitir la inyección de documentos extensos bajo demanda sin saturar la memoria inicial:
 
 ```dockerfile
-FROM llama3
+FROM qwen2.5-coder:7b
 
 SYSTEM """
 Eres un asistente de desarrollo. 
@@ -103,9 +104,8 @@ Consulta siempre los archivos locales y el AGENTS.md del repositorio para manten
 """
 
 PARAMETER num_ctx 16384
-PARAMETER stop <|start_header_id|>
-PARAMETER stop <|end_header_id|>
-PARAMETER stop <|eot_id|>
+PARAMETER stop <|im_end|>
+PARAMETER stop <|endoftext|>
 PARAMETER temperature 0.2
 PARAMETER top_p 0.9
 ```
