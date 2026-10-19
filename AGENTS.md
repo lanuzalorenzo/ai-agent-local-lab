@@ -40,6 +40,7 @@ When working in this repository:
 - Keep the operational model (`qwen2.5-coder:7b`) aligned across README, Modelfile, scripts and docs.
 - Do not expose Ollama to the Internet. Document firewall, TLS and authentication assumptions.
 - Use `ollama.lab.local` or another placeholder, never a real internal IP.
+- This lab is independent from the cybersecurity final lab. If linked from the portfolio, keep the scope and evidence separate.
 
 ## Commit Conventions
 
