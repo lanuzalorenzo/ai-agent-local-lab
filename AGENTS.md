@@ -41,6 +41,7 @@ When working in this repository:
 - Do not expose Ollama to the Internet. Document firewall, TLS and authentication assumptions.
 - Use `ollama.lab.local` or another placeholder, never a real internal IP.
 - This lab is independent from the cybersecurity final lab. If linked from the portfolio, keep the scope and evidence separate.
+- Record decisions, problems and root-cause analyses in `docs/bitacora-decisiones-aprendizaje.md`; keep the roadmap (GGUF/CUDA, network security, client integration, RAG) updated there.
 
 ## Commit Conventions
 
