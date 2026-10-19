@@ -24,7 +24,7 @@ flowchart LR
         Net[Netplan / systemd-networkd / NetworkManager]
         SSHD[OpenSSH Server :22]
         Ollama[Ollama Runtime :11434]
-        LLM[(Modelos: Llama 3 / Mistral)]
+        LLM[(Modelo operativo: Qwen 2.5 Coder 7B)]
     end
 
     SSH -->|Gestión remota SSH| SSHD
@@ -118,4 +118,4 @@ Con `nmtui` se conectó la interfaz inalámbrica a la red local y se persistió 
 | **Pila de Red** | Netplan / systemd-networkd / NetworkManager | Bootstrap por cable y enlace Wi-Fi |
 | **Administración** | OpenSSH | Gestión remota segura sin interfaz gráfica |
 | **Motor de Inferencia** | Ollama | Servidor y runtime de modelos locales |
-| **Modelos Evaluados** | Llama 3 / Mistral | Inferencia offline privada |
+| **Modelos Evaluados** | Qwen 2.5 Coder 7B (operativo); Llama 3 y Mistral evaluados inicialmente | Inferencia offline privada |
