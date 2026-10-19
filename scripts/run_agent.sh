@@ -5,7 +5,7 @@
 # Autor: Lorenzo Lanuza Arellano
 # Proyecto: ai-agent-local-lab
 
-MODEL="llama3.1:8b"
+MODEL="qwen2.5-coder:7b"
 
 echo "🚀 Iniciando agente local con el modelo: $MODEL"
 echo ""
