@@ -1,0 +1,16 @@
+# Local configuration and secrets
+.env
+.env.*
+opencode.json
+*.local.json
+
+# Model artifacts and logs
+*.gguf
+models/
+logs/
+*.log
+
+# Editor and OS files
+.vscode/
+.idea/
+.DS_Store

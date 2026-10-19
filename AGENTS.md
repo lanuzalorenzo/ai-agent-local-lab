@@ -9,9 +9,13 @@ This repository documents a local AI agent lab built with Ollama and Continue, i
 ├── AGENTS.md
 ├── README.md
 ├── LICENSE
+├── CASE_STUDY_OPENCODE_MIGRATION.md
 ├── docs/
 │   ├── architecture.md
+│   ├── bitacora-decisiones-aprendizaje.md
+│   ├── continue-remote-ollama-setup.md
 │   ├── gpu-setup.md
+│   ├── server-deployment-ubuntu-ollama.md
 │   └── troubleshooting.md
 ├── examples/
 │   ├── agent-session.md
@@ -21,6 +25,7 @@ This repository documents a local AI agent lab built with Ollama and Continue, i
 │   ├── run_agent.sh
 │   └── gpu_check.sh
 └── system/
+    ├── Modelfile.portfolio-agent
     └── ollama.service
 ```
 
@@ -30,8 +35,11 @@ When working in this repository:
 - Preserve the current structure. Follow the existing pattern when adding new documents.
 - Do not add empty files or restructure existing content without a clear reason.
 - Write documentation in clear Spanish; keep official product and tool names in their original form (Ollama, Continue, VS Code, etc.).
-- Do not include credentials, API keys, personal data or sensitive identifiers.
+- Do not include credentials, API keys, personal data, internal IP addresses or private prompt filenames.
 - Distinguish between validated results and planned or pending work.
+- Keep the operational model (`qwen2.5-coder:7b`) aligned across README, Modelfile, scripts and docs.
+- Do not expose Ollama to the Internet. Document firewall, TLS and authentication assumptions.
+- Use `ollama.lab.local` or another placeholder, never a real internal IP.
 
 ## Commit Conventions
 
