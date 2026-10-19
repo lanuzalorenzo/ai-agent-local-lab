@@ -9,7 +9,7 @@ Laboratorio personal y bitácora técnica de aprendizaje práctico en Inteligenc
 
 ## Descripción del escenario y objetivo de seguridad
 
-**Escenario:** Servidor dedicado bare-metal (Ubuntu Server headless) ejecutando modelos de lenguaje locales con Ollama (Llama 3, Mistral) administrado remotamente vía SSH desde equipo cliente, con soporte para integración en clientes de desarrollo (VS Code + Continue).
+**Escenario:** Servidor dedicado bare-metal (Ubuntu Server headless) ejecutando modelos de lenguaje locales con Ollama (Qwen 2.5 Coder 7B como modelo operativo; Llama 3 y Mistral evaluados inicialmente) administrado remotamente vía SSH desde equipo cliente, con soporte para integración en clientes de desarrollo (VS Code + Continue).
 
 **Objetivo:** Documentar la configuración, resolución de bloqueos de conectividad, optimización de recursos de cómputo y comprobaciones operativas para disponer de un asistente de IA privado, auditable y escalable.
 
@@ -26,13 +26,33 @@ Laboratorio personal y bitácora técnica de aprendizaje práctico en Inteligenc
 | Red (Netplan + NetworkManager) | Pila de red en dos fases: Ethernet declarativo vía Netplan y posterior gestión Wi-Fi con `nmtui` | Documentado en la guía de despliegue |
 | OpenSSH | Canal de administración remota segura desde el equipo cliente | Verificado y documentado |
 | Ollama | Runtime para servir y ejecutar modelos de lenguaje en el puerto 11434 | Servicio systemd gestionado; instalación vía script oficial |
-| Modelos de Inferencia | Pesos de modelos locales (Llama 3, Mistral) para ejecución offline y privada | Bucle interactivo evaluado |
+| Modelos de Inferencia | Pesos de modelos locales; `qwen2.5-coder:7b` es el modelo operativo. Llama 3 y Mistral se evaluaron inicialmente | Bucle interactivo evaluado; modelo operativo definido en `system/Modelfile.portfolio-agent` |
 | GPU NVIDIA y driver | Aceleración de inferencia cuando runtime y hardware son compatibles | Comprobación orientativa documentada en `docs/gpu-setup.md` |
 | VS Code + Continue | Interfaz cliente que puede conectarse al runtime local | Configuración de cliente y asistente |
 | Scripts | Instalación, diagnóstico y ejecución interactiva | `scripts/`; requieren revisión y permisos adecuados |
 | Unidad systemd | Referencia de servicio | `system/ollama.service` no está validada como reemplazo de la unidad creada por el instalador |
 
-Flujo de trabajo: el servidor ejecuta Ubuntu Server sin interfaz gráfica. Desde el equipo principal se administra el servidor vía SSH. Ollama ejecuta el daemon y sirve los modelos (Llama 3, Mistral) en el puerto 11434. El cliente de desarrollo (VS Code / Continue) o la consola interactiva consumen la inferencia localmente.
+Flujo de trabajo: el servidor ejecuta Ubuntu Server sin interfaz gráfica. Desde el equipo principal se administra el servidor vía SSH. Ollama ejecuta el daemon y sirve el modelo operativo (`qwen2.5-coder:7b`) en el puerto 11434. El cliente de desarrollo (VS Code / Continue) o la consola interactiva consumen la inferencia localmente.
+
+## Seguridad del laboratorio
+
+| Control | Implementación | Límite |
+|---|---|---|
+| Exposición de Ollama | Escucha limitada a la red de laboratorio; no se publica en Internet | Requiere firewall y verificación con `ss -lntp` |
+| Acceso remoto | SSH para administración; proxy con TLS si cruza redes no confiables | No se incluye configuración de proxy |
+| Claves de API cloud | Variables de entorno (`{env:NVIDIA_API_KEY}`) | No se versionan claves |
+| Datos de contexto | Código de laboratorio y datos sintéticos | No usar prompts privados ni datos de clientes |
+| Prompts privados | Fuera del repositorio y del contexto cloud | No se referencian rutas privadas |
+| Modelos | Descarga desde fuentes oficiales; licencia revisada | La procedencia debe verificarse en cada actualización |
+| Logs | Tratados como potencialmente sensibles | No se publican logs con prompts |
+
+Checklist antes de usar el laboratorio:
+
+- [ ] Ollama no escucha en `0.0.0.0` sin firewall.
+- [ ] El puerto `11434` no está expuesto a Internet.
+- [ ] La clave de API cloud está en el entorno, no en `opencode.json`.
+- [ ] El contexto enviado al cloud no contiene secretos ni datos personales.
+- [ ] El modelo local y su licencia están identificados.
 
 ## Implementación de controles y seguridad
 
@@ -53,7 +73,7 @@ Flujo de trabajo: el servidor ejecuta Ubuntu Server sin interfaz gráfica. Desde
 | Uso de GPU por Ollama | Revisar logs durante una inferencia y observar carga con `nvidia-smi` | Evidencia coincidente durante la misma prueba | No verificado en este repositorio |
 | Integración con Continue | Enviar una petición de prueba sin datos sensibles | El cliente responde mediante el endpoint esperado | Configuración y resultado no versionados |
 
-Consulta la [bitácora técnica y hoja de ruta](docs/bitacora-decisiones-aprendizaje.md), la [integración de Continue con Ollama remoto y contexto 16K](docs/continue-remote-ollama-setup.md), el [despliegue de servidor Ubuntu Server](docs/server-deployment-ubuntu-ollama.md), la [configuración de GPU](docs/gpu-setup.md), la [arquitectura del laboratorio](docs/architecture.md) y la [guía de diagnóstico](docs/troubleshooting.md).
+Consulta la [bitácora técnica y hoja de ruta](docs/bitacora-decisiones-aprendizaje.md), la [integración de Continue con Ollama remoto y contexto 16K](docs/continue-remote-ollama-setup.md), el [despliegue de servidor Ubuntu Server](docs/server-deployment-ubuntu-ollama.md), la [configuración de GPU](docs/gpu-setup.md), la [arquitectura del laboratorio](docs/architecture.md), la [guía de diagnóstico](docs/troubleshooting.md) y el [caso de estudio de OpenCode](CASE_STUDY_OPENCODE_MIGRATION.md).
 
 ## Lecciones aprendidas y límites
 
