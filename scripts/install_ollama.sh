@@ -49,4 +49,4 @@ fi
 
 echo "✅ Instalación completada."
 echo "Puedes probar un modelo con:"
-echo "    ollama run llama3.1:8b"
+echo "    ollama run qwen2.5-coder:7b"
