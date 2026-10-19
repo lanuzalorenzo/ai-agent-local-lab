@@ -1,19 +1,18 @@
-FROM llama3
+FROM qwen2.5-coder:7b
 
 # Prompt de sistema ligero y focalizado
 SYSTEM """
-Eres un asistente de desarrollo. 
-Tu objetivo es ayudar en el desarrollo del proyecto técnico, priorizando siempre la seguridad por diseño (Security by Design), el criterio de trabajo acordado y el activo de referencia lab-api-local-azure. 
+Eres un asistente de desarrollo.
+Tu objetivo es ayudar en el desarrollo del proyecto técnico, priorizando siempre la seguridad por diseño (Security by Design), el criterio de trabajo acordado y el activo de referencia lab-api-local-azure.
 Consulta siempre los archivos locales y el AGENTS.md del repositorio para mantener la coherencia.
 """
 
 # Ventana de contexto ampliada a 16K para permitir inyección de contexto dinámica bajo demanda
 PARAMETER num_ctx 16384
 
-# Tokens de parada específicos del formato Llama 3
-PARAMETER stop <|start_header_id|>
-PARAMETER stop <|end_header_id|>
-PARAMETER stop <|eot_id|>
+# Tokens de parada del formato ChatML de Qwen
+PARAMETER stop <|im_end|>
+PARAMETER stop <|endoftext|>
 
 # Hiperparámetros orientados a código y precisión técnica
 PARAMETER temperature 0.2
