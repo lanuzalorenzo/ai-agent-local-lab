@@ -136,3 +136,5 @@ entorno para la clave:
 3. La seguridad del laboratorio depende de la red y de la gestión de claves, no
    solo de que el modelo se ejecute “en local”.
 4. La documentación debe distinguir configuración, ejecución y medición.
+
+La mecánica de continuidad entre sesiones (comandos, briefs y estado en archivos) se documenta en [`docs/opencode-session-continuity.md`](docs/opencode-session-continuity.md).

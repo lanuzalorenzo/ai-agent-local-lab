@@ -1,11 +1,17 @@
 # Laboratorio y Portfolio de Aprendizaje en IA Local
 
-Laboratorio personal y bitácora técnica de aprendizaje práctico en Inteligencia Artificial y LLMs ejecutados on-premise. El repositorio documenta paso a paso las decisiones de arquitectura de sistemas, resolución de incidentes, despliegue bare-metal (Ubuntu Server + Ollama), integración de asistentes y la hoja de ruta para futuras ampliaciones (RAG, cuantización, agentes locales y seguridad de inferencia).
+Laboratorio personal y bitácora técnica de **IA local aplicada a desarrollo y seguridad**. Documenta paso a paso las decisiones de arquitectura, la resolución de incidentes, el despliegue bare-metal (Ubuntu Server + Ollama), la integración de asistentes y la hoja de ruta para futuras ampliaciones (RAG, cuantización, agentes locales, continuidad de sesiones y evaluación y seguridad de funciones con LLM).
 
 ## Propósito del Repositorio
 1. **Memoria Técnica y Reinstalabilidad:** Servir como guía exacta de referencia, procedimientos y resolución de problemas para reinstalar o replicar el entorno de IA de forma reproducible.
 2. **Bitácora de Decisiones y Análisis:** Registrar el *por qué* de cada decisión tecnológica (sistemas operativos headless, gestión de red declarativa, consumo de RAM/VRAM, modelos evaluados).
-3. **Portfolio de Aprendizaje en IA:** Evolucionar como un espacio dinámico para explorar nuevos debates técnicos: cuantizaciones GGUF, aceleración hardware, RAG local seguro, agentes autónomos y privacidad de datos.
+3. **Portfolio de Aprendizaje en IA Local Aplicada:** Explorar patrones de trabajo con agentes, continuidad de sesiones, evaluación de salidas y seguridad de funciones con LLM, además de cuantizaciones GGUF, aceleración hardware, RAG local y privacidad de datos.
+
+## Alcance
+
+**Incluye:** inferencia local con Ollama, clientes de desarrollo (Continue, OpenCode), flujos híbridos local/cloud, patrones de continuidad entre sesiones, evaluación de calidad y pruebas de seguridad de funciones con LLM.
+
+**No incluye:** rankings de modelos, noticias de IA, tutoriales genéricos de prompting ni comparativas de rendimiento sin medición propia. El eje sigue siendo **local-first**: el cloud aparece como complemento justificado, no como tema principal.
 
 ## Descripción del escenario y objetivo de seguridad
 
@@ -74,6 +80,12 @@ Checklist antes de usar el laboratorio:
 | Integración con Continue | Enviar una petición de prueba sin datos sensibles | El cliente responde mediante el endpoint esperado | Configuración y resultado no versionados |
 
 Consulta la [bitácora técnica y hoja de ruta](docs/bitacora-decisiones-aprendizaje.md), la [integración de Continue con Ollama remoto y contexto 16K](docs/continue-remote-ollama-setup.md), el [despliegue de servidor Ubuntu Server](docs/server-deployment-ubuntu-ollama.md), la [configuración de GPU](docs/gpu-setup.md), la [arquitectura del laboratorio](docs/architecture.md), la [guía de diagnóstico](docs/troubleshooting.md) y el [caso de estudio de OpenCode](CASE_STUDY_OPENCODE_MIGRATION.md).
+
+Documentos aplicados:
+
+- [Continuidad de sesiones con OpenCode](docs/opencode-session-continuity.md): comandos, briefs y estado en archivos.
+- [Evaluación y seguridad de una función con LLM](docs/ai-security-evaluation.md): conjunto dorado, inyección, métricas y CI.
+- [Inferencia local frente a cloud](docs/local-vs-cloud.md): criterios de decisión y errores frecuentes.
 
 ## Lecciones aprendidas y límites
 
