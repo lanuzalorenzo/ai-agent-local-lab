@@ -16,6 +16,9 @@ This repository documents a local AI agent lab built with Ollama and Continue, i
 │   ├── continue-remote-ollama-setup.md
 │   ├── gpu-setup.md
 │   ├── server-deployment-ubuntu-ollama.md
+│   ├── opencode-session-continuity.md
+│   ├── ai-security-evaluation.md
+│   ├── local-vs-cloud.md
 │   └── troubleshooting.md
 ├── examples/
 │   ├── agent-session.md
@@ -38,6 +41,8 @@ When working in this repository:
 - Do not include credentials, API keys, personal data, internal IP addresses or private prompt filenames.
 - Distinguish between validated results and planned or pending work.
 - Keep the operational model (`qwen2.5-coder:7b`) aligned across README, Modelfile, scripts and docs.
+- Keep the local-first scope: cloud is a justified complement, not the main topic. Do not add model rankings, news or unmeasured benchmarks.
+- In AI evaluation documents, separate design and expectations from measured results; do not present thresholds as outcomes.
 - Do not expose Ollama to the Internet. Document firewall, TLS and authentication assumptions.
 - Use `ollama.lab.local` or another placeholder, never a real internal IP.
 - This lab is independent from the cybersecurity final lab. If linked from the portfolio, keep the scope and evidence separate.

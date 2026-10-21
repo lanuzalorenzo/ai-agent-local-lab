@@ -28,6 +28,9 @@ El flujo no implica que Continue solo envíe datos a Ollama ni que el contenido 
 ## Artefactos del repositorio
 
 - `docs/bitacora-decisiones-aprendizaje.md`: memoria técnica, decisiones de arquitectura, análisis causa-raíz y hoja de ruta futura.
+- `docs/opencode-session-continuity.md`: patrón de continuidad entre sesiones con comandos y archivos de estado.
+- `docs/ai-security-evaluation.md`: marco de evaluación de calidad y seguridad de funciones con LLM.
+- `docs/local-vs-cloud.md`: criterios para decidir dónde ejecutar cada carga de trabajo.
 - `docs/continue-remote-ollama-setup.md`: sincronización de ventana de contexto 16K e integración de Continue con Ollama remoto.
 - `docs/server-deployment-ubuntu-ollama.md`: despliegue en servidor bare-metal headless (Ubuntu Server), Netplan y OpenSSH.
 - `system/Modelfile.portfolio-agent`: definición declarativa del agente con prompt ligero y ventana de 16K tokens.
