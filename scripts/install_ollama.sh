@@ -12,10 +12,12 @@ if ! command -v apt-get >/dev/null 2>&1; then
     exit 1
 fi
 
-read -r -p "Se instalará Ollama usando su instalador remoto y se habilitará el servicio. ¿Continuar? [y/N] " CONFIRM
-if [[ "$CONFIRM" != "y" && "$CONFIRM" != "Y" ]]; then
-    echo "Instalación cancelada."
-    exit 1
+if [[ "${ASSUME_YES:-0}" != "1" ]]; then
+    read -r -p "Se instalará Ollama usando su instalador remoto y se habilitará el servicio. ¿Continuar? [y/N] " CONFIRM
+    if [[ "$CONFIRM" != "y" && "$CONFIRM" != "Y" ]]; then
+        echo "Instalación cancelada."
+        exit 1
+    fi
 fi
 
 echo "🔧 Actualizando paquetes..."
