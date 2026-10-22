@@ -106,7 +106,7 @@ Una evaluación útil se ejecuta sola:
 3. Publica un resumen con métricas y diferencias respecto a la ejecución anterior.
 4. Falla si baja la exactitud, aumenta el coste o se rompe una prueba de seguridad.
 
-En local se puede usar Ollama; en CI, un modelo pequeño o respuestas grabadas. Lo importante es que la prueba sea reproducible y no dependa de una sesión manual.
+En local se usa Ollama; en CI, un modelo pequeño o respuestas grabadas. Lo importante es que la prueba sea reproducible y no dependa de una sesión manual.
 
 ## 8. Evidencias y límites
 

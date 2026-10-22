@@ -1,5 +1,7 @@
 # Comprobación de GPU para Ollama
 
+> **En fácil:** quieres saber si tu tarjeta gráfica NVIDIA la ve el sistema y si Ollama la está usando para correr el modelo. Esta guía te dice qué comandos ejecutar y qué mirar.
+
 ## Objetivo y alcance
 
 Procedimiento de diagnóstico para determinar si el sistema ve una GPU NVIDIA y si hay indicios de que Ollama la utiliza. No instala ni configura automáticamente drivers y no garantiza compatibilidad para todas las combinaciones de GPU, driver, runtime y modelo.

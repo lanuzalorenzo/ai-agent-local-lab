@@ -1,5 +1,7 @@
 # Continuidad de sesiones con OpenCode
 
+> **En fácil:** un agente no recuerda lo que hiciste ayer. Para que no se pierda el hilo, el estado se guarda en archivos versionados y el agente los lee al arrancar. Así puedes cambiar de modelo, de máquina o cerrar la sesión sin volver a empezar.
+
 > **Estado:** patrón documentado a partir del uso. No es una evaluación comparativa de modelos ni una garantía de que cualquier agente lo aplique igual.
 >
 > **Alcance:** OpenCode como cliente de agentes. El patrón es aplicable a otros clientes que permitan comandos personalizados y lectura de archivos.
@@ -13,7 +15,7 @@ Una sesión de agente es efímera:
 - las sesiones largas se compactan y pierden detalle;
 - si el estado vive solo en la conversación, no se puede auditar ni recuperar.
 
-La continuidad no debe depender de la memoria del modelo. Debe depender de archivos versionados.
+La continuidad no debe depender de la memoria del modelo; debe depender de archivos versionados.
 
 ## 2. Principio: el estado vive en archivos
 
