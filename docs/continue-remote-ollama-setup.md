@@ -1,7 +1,8 @@
 # Guía de Configuración: Continue (VS Code) + Ollama Remoto
 
-Configuración del cliente de desarrollo Continue en VS Code conectado al servidor
-bare-metal dedicado de inferencia local.
+> **En fácil:** conectas tu editor (VS Code) a un servidor que tienes en casa para usar la IA sin que tus datos salgan de tu red. Esta guía explica cómo hacerlo paso a paso.
+
+Configuración del cliente de desarrollo Continue en VS Code conectado al servidor bare-metal dedicado de inferencia local.
 
 > **Privacidad:** esta guía usa `ollama.lab.local` como hostname de ejemplo. No
 > publiques direcciones IP internas, nombres de máquinas ni rutas de prompts
@@ -20,9 +21,7 @@ bare-metal dedicado de inferencia local.
 
 ## 2. Configuración en Continue (`~/.continue/config.yaml` o `config.json`)
 
-Para evitar el error de cliente `File exceeds model's context length`, es
-imprescindible sincronizar el parámetro `contextLength` de Continue con la
-directiva `num_ctx` definida en el `Modelfile` del servidor:
+Para evitar el error `File exceeds model's context length`, es necesario sincronizar el parámetro `contextLength` de Continue con la directiva `num_ctx` del `Modelfile` del servidor:
 
 ```yaml
 models:
@@ -35,10 +34,9 @@ models:
 
 ---
 
-## 3. Patrón de Trabajo Óptimo (Inyección de Contexto Bajo Demanda)
+## 3. Patrón de Trabajo: Inyección de Contexto Bajo Demanda
 
-En lugar de sobrecargar el prompt de sistema del modelo con documentos masivos en
-cada llamada:
+En lugar de cargar el prompt de sistema con documentos extensos en cada llamada:
 
 1. **Prompt de sistema base minimalista:** solo define el rol (*Software
    Architect, DevSecOps & Cloud Security*) y las restricciones éticas y

@@ -20,7 +20,7 @@ Laboratorio personal y bitácora técnica de **IA local aplicada a desarrollo y 
 
 ## Descripción del escenario y objetivo de seguridad
 
-**Escenario:** Servidor dedicado bare-metal (Ubuntu Server headless) ejecutando modelos de lenguaje locales con Ollama (Qwen 2.5 Coder 7B como modelo operativo; Llama 3 y Mistral evaluados inicialmente) administrado remotamente vía SSH desde equipo cliente (XPS), con soporte para integración en clientes de desarrollo (VS Code + Continue).
+**Escenario:** Servidor dedicado bare-metal (Ubuntu Server headless) ejecutando modelos de lenguaje locales con Ollama (Qwen 2.5 Coder 7B como modelo operativo; Llama 3 y Mistral evaluados inicialmente) administrado remotamente vía SSH desde equipo cliente, con soporte para integración en clientes de desarrollo (VS Code + Continue).
 
 **Objetivo:** Documentar la configuración, la resolución de bloqueos de conectividad, la optimización de recursos de cómputo y las comprobaciones operativas para disponer de un asistente de IA privado y auditable.
 
@@ -35,7 +35,7 @@ Laboratorio personal y bitácora técnica de **IA local aplicada a desarrollo y 
 |---|---|---|
 | Ubuntu Server (Headless) | Sistema operativo bare-metal optimizado (CLI puro) para maximizar VRAM y RAM dedicadas al cómputo de LLMs | Guía completa en [`docs/server-deployment-ubuntu-ollama.md`](docs/server-deployment-ubuntu-ollama.md) |
 | Red (Netplan + NetworkManager) | Pila de red en dos fases: Ethernet declarativo vía Netplan y posterior gestión Wi-Fi con `nmtui` | Documentado en la guía de despliegue |
-| OpenSSH | Canal de administración remota segura desde el equipo cliente (XPS) | Verificado y documentado |
+| OpenSSH | Canal de administración remota segura desde el equipo cliente | Verificado y documentado |
 | Ollama | Runtime para servir y ejecutar modelos de lenguaje en el puerto 11434 | Servicio systemd gestionado; instalación vía script oficial |
 | Modelos de Inferencia | Pesos de modelos locales; `qwen2.5-coder:7b` es el modelo operativo. Llama 3 y Mistral se evaluaron inicialmente | Bucle interactivo evaluado; modelo operativo definido en `system/Modelfile.portfolio-agent` |
 | GPU NVIDIA y driver | Aceleración de inferencia cuando runtime y hardware son compatibles | Comprobación orientativa documentada en `docs/gpu-setup.md` |
@@ -43,7 +43,7 @@ Laboratorio personal y bitácora técnica de **IA local aplicada a desarrollo y 
 | Scripts | Instalación, ejecución del laboratorio de robustez, diagnóstico y ejecución interactiva | `scripts/`; requieren revisión y permisos adecuados |
 | Unidad systemd | Referencia de servicio | `system/ollama.service` no está validada como reemplazo de la unidad creada por el instalador |
 
-Flujo de trabajo: el servidor ejecuta Ubuntu Server sin interfaz gráfica. Desde el equipo principal (XPS) se administra el servidor vía SSH. Ollama ejecuta el daemon y sirve el modelo operativo (`qwen2.5-coder:7b`) en el puerto 11434. El cliente de desarrollo (VS Code / Continue) o la consola interactiva consumen la inferencia localmente.
+Flujo de trabajo: el servidor ejecuta Ubuntu Server sin interfaz gráfica. Desde el equipo principal se administra el servidor vía SSH. Ollama ejecuta el daemon y sirve el modelo operativo (`qwen2.5-coder:7b`) en el puerto 11434. El cliente de desarrollo (VS Code / Continue) o la consola interactiva consumen la inferencia localmente.
 
 ## Seguridad del laboratorio
 
@@ -73,7 +73,7 @@ Checklist antes de usar el laboratorio:
 | Desinstalación | El script ya no elimina instalaciones previas ni datos automáticamente | Resolver conflictos de instalaciones manualmente y con alcance acotado |
 | Datos de entrada | Se recomienda usar código y prompts no sensibles en las demos | No se versionan controles de acceso, retención ni configuración completa de Continue |
 | Exposición del servicio | El repositorio no configura ni verifica el alcance de escucha de la API | Comprobar endpoint, interfaz de red y conectividad antes de usar datos sensibles |
-| Evidencias | Los ejemplos distinguen instrucciones de resultados realmente observados | No se incluyen registros de una ejecución reproducible en este repositorio |
+| Evidencias | Los ejemplos distinguen instrucciones de resultados realmente observados | Las evidencias de ejecución (robustez de prompts) están en `docs/evidencias/`; los ejemplos no son ejecuciones reproducibles automatizadas |
 
 ## Validación o pruebas documentadas
 
