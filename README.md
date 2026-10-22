@@ -1,11 +1,16 @@
 # Laboratorio y Portfolio de Aprendizaje en IA Local
 
-Laboratorio personal y bitácora técnica de **IA local aplicada a desarrollo y seguridad**. Documenta paso a paso las decisiones de arquitectura, la resolución de incidentes, el despliegue bare-metal (Ubuntu Server + Ollama), la integración de asistentes y la hoja de ruta para futuras ampliaciones (RAG, cuantización, agentes locales, continuidad de sesiones y evaluación y seguridad de funciones con LLM).
+> **En fácil:** un ordenador propio ejecuta el modelo de lenguaje, así que los datos no salen de casa. El repositorio cuenta cómo se montó, qué falló y qué se aprendió.
 
-## Propósito del Repositorio
-1. **Memoria Técnica y Reinstalabilidad:** Servir como guía exacta de referencia, procedimientos y resolución de problemas para reinstalar o replicar el entorno de IA de forma reproducible.
-2. **Bitácora de Decisiones y Análisis:** Registrar el *por qué* de cada decisión tecnológica (sistemas operativos headless, gestión de red declarativa, consumo de RAM/VRAM, modelos evaluados).
-3. **Portfolio de Aprendizaje en IA Local Aplicada:** Explorar patrones de trabajo con agentes, continuidad de sesiones, evaluación de salidas y seguridad de funciones con LLM, además de cuantizaciones GGUF, aceleración hardware, RAG local y privacidad de datos.
+Laboratorio personal y bitácora técnica de **IA local aplicada a desarrollo y seguridad**. Documenta las decisiones de arquitectura, la resolución de incidentes, el despliegue bare-metal (Ubuntu Server + Ollama), la integración de asistentes y la hoja de ruta (RAG, cuantización, agentes locales, continuidad de sesiones y evaluación de seguridad con LLM).
+
+## Propósito del repositorio
+
+| Objetivo | Qué deja en el repositorio |
+|---|---|
+| Memoria técnica y reinstalabilidad | Procedimientos y resolución de problemas para replicar el entorno de forma reproducible |
+| Bitácora de decisiones | El *por qué* de cada elección: sistema headless, red declarativa, consumo de RAM/VRAM y modelos evaluados |
+| Portfolio de aprendizaje | Patrones con agentes, continuidad de sesiones, evaluación de salidas y seguridad de funciones con LLM; también GGUF, aceleración hardware, RAG local y privacidad |
 
 ## Alcance
 
@@ -17,7 +22,7 @@ Laboratorio personal y bitácora técnica de **IA local aplicada a desarrollo y 
 
 **Escenario:** Servidor dedicado bare-metal (Ubuntu Server headless) ejecutando modelos de lenguaje locales con Ollama (Qwen 2.5 Coder 7B como modelo operativo; Llama 3 y Mistral evaluados inicialmente) administrado remotamente vía SSH desde equipo cliente (XPS), con soporte para integración en clientes de desarrollo (VS Code + Continue).
 
-**Objetivo:** Documentar la configuración, resolución de bloqueos de conectividad, optimización de recursos de cómputo y comprobaciones operativas para disponer de un asistente de IA privado, auditable y escalable.
+**Objetivo:** Documentar la configuración, la resolución de bloqueos de conectividad, la optimización de recursos de cómputo y las comprobaciones operativas para disponer de un asistente de IA privado y auditable.
 
 **Alcance:** Instalación del sistema base headless, pila de red Netplan/NetworkManager, OpenSSH, runtime de Ollama, evaluación de modelos interactivos y arquitectura de clientes.
 
@@ -83,15 +88,16 @@ Consulta la [bitácora técnica y hoja de ruta](docs/bitacora-decisiones-aprendi
 
 Documentos aplicados:
 
-- [Continuidad de sesiones con OpenCode](docs/opencode-session-continuity.md): comandos, briefs y estado en archivos.
-- [Evaluación y seguridad de una función con LLM](docs/ai-security-evaluation.md): conjunto dorado, inyección, métricas y CI.
-- [Robustez de prompts frente a perturbaciones de entrada](docs/prompt-robustness-testing.md): cargas canario, familias de transformación, matriz de intensidad y métricas de evasión.
-  - [Evidencia del instrumento](docs/evidencias/2026-10-22-robustez-prompt/README.md): 113 casos congelados, 15 transformaciones activas y un control negativo; sin medición de modelo.
-  - [Ejecución con modelo](docs/evidencias/2026-10-22-robustez-ejecucion/README.md): `qwen2.5:3b`, N0 y N1; la inyección directa funciona sin transformar.
-  - [Línea base con el instrumento corregido](docs/evidencias/2026-10-22-robustez-ejecucion-1302/README.md): control negativo 3/3 válido; la obediencia en N0 se reproduce en 0,50.
-  - [Fase de ejecución](docs/prompt-robustness-testing.md#13-fase-de-ejecución): `scripts/run_robustness_lab.sh` instala, ejecuta y restaura el equipo.
-  - **En fácil:** el modelo recibe pedidos con texto escrito por otras personas. La prueba comprueba si ese texto puede darle órdenes y si escribirlas de forma rara cambia el resultado. La orden empleada es inofensiva —escribir `CANARIO-7F3A`—, así que la prueba se puede publicar y ejecutar en CI.
-- [Inferencia local frente a cloud](docs/local-vs-cloud.md): criterios de decisión y errores frecuentes.
+| Documento | Qué aporta |
+|---|---|
+| [Continuidad de sesiones con OpenCode](docs/opencode-session-continuity.md) | Comandos, briefs y estado en archivos |
+| [Evaluación y seguridad de una función con LLM](docs/ai-security-evaluation.md) | Conjunto dorado, inyección, métricas y CI |
+| [Robustez de prompts frente a perturbaciones de entrada](docs/prompt-robustness-testing.md) | Cargas canario, familias de transformación, matriz de intensidad y métricas de evasión |
+| [Evidencia del instrumento](docs/evidencias/2026-10-22-robustez-prompt/README.md) | 113 casos congelados, 15 transformaciones activas y un control negativo; sin medición de modelo |
+| [Ejecución con modelo](docs/evidencias/2026-10-22-robustez-ejecucion/README.md) | `qwen2.5:3b`, N0 y N1; la inyección directa funciona sin transformar |
+| [Línea base con el instrumento corregido](docs/evidencias/2026-10-22-robustez-ejecucion-1302/README.md) | Control negativo 3/3 válido; la obediencia en N0 se reproduce en 0,50 |
+| [Fase de ejecución](docs/prompt-robustness-testing.md#13-fase-de-ejecución) | `scripts/run_robustness_lab.sh` instala, ejecuta y restaura el equipo |
+| [Inferencia local frente a cloud](docs/local-vs-cloud.md) | Criterios de decisión y errores frecuentes |
 
 ## Lecciones aprendidas y límites
 

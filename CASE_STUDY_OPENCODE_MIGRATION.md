@@ -1,23 +1,17 @@
-# Caso de Estudio: Estrategia de Dos Flujos para Asistencia de IA — OpenCode (CLI) con Entorno Híbrido (Local + Cloud)
+# Caso de estudio: dos flujos de asistencia con IA
 
-## 1. Visión General del Proyecto
+> **En fácil:** unas tareas no pueden salir de casa y otras necesitan un modelo más grande. El documento reparte cada tarea entre un servidor local y un proveedor en la nube, y explica qué se gana y qué se pierde en cada lado.
 
-Diseño de una estrategia de desarrollo asistido por IA basada en **dos flujos de
-trabajo independientes y desacoplados**, para alternar según las exigencias de
-privacidad, contexto y capacidad de razonamiento entre un servidor de inferencia
-local y modelos de alta capacidad en la nube.
+## 1. Visión general del proyecto
 
-El objetivo no es “usar la IA para todo”, sino asignar cada tarea al entorno que
-ofrece el mejor equilibrio entre privacidad, coste, latencia y calidad.
+Diseño de una estrategia de desarrollo asistido por IA basada en **dos flujos de trabajo independientes y desacoplados**, para alternar según las exigencias de privacidad, contexto y capacidad de razonamiento entre un servidor de inferencia local y modelos de alta capacidad en la nube.
 
----
+El objetivo no es «usar la IA para todo», sino asignar cada tarea al entorno que ofrece el mejor equilibrio entre privacidad, coste, latencia y calidad.
 
-## 2. Flujo 1: Desarrollo Privado y Edición Local (Ollama + Servidor Dedicado)
+## 2. Flujo 1: desarrollo privado y edición local (Ollama + servidor dedicado)
 
-- **Propósito:** edición de código sensible, pruebas offline, autocompletado en
-  IDE y tareas que requieran control de datos.
-- **Infraestructura:** servidor local en red privada (`http://ollama.lab.local:11434`)
-  ejecutando Ollama con **Qwen 2.5 Coder (7B)**.
+- **Propósito:** edición de código sensible, pruebas offline, autocompletado en IDE y tareas que requieran control de datos.
+- **Infraestructura:** servidor local en red privada (`http://ollama.lab.local:11434`) ejecutando Ollama con **Qwen 2.5 Coder (7B)**.
 - **Casos de uso:**
   - Modificación de ficheros de código fuente y parches directos en el repositorio.
   - Ejecución de scripts o tareas de ciberseguridad sin exponer datos a APIs de terceros.
@@ -25,33 +19,23 @@ ofrece el mejor equilibrio entre privacidad, coste, latencia y calidad.
 - **Límites:**
   - La ventana de contexto es menor que la de los modelos cloud.
   - La calidad depende del hardware y del modelo descargado.
-  - “Local” no implica automáticamente “privado”: hay que controlar la escucha
-    de red, el firewall, los logs y el cliente.
+  - «Local» no implica automáticamente «privado»: hay que controlar la escucha de red, el firewall, los logs y el cliente.
 
----
+## 3. Flujo 2: documentación masiva y arquitectura (NVIDIA NIM / cloud)
 
-## 3. Flujo 2: Documentación Masiva y Arquitectura (NVIDIA NIM / Cloud)
-
-- **Propósito:** análisis de repositorios completos, estructuración de carpetas,
-  generación de documentación Markdown y cumplimiento de formatos.
-- **Infraestructura:** API de **NVIDIA NIM** integrada en OpenCode, con modelos de
-  gran escala (por ejemplo, **Nemotron 70B** o **DeepSeek R1**).
+- **Propósito:** análisis de repositorios completos, estructuración de carpetas, generación de documentación Markdown y cumplimiento de formatos.
+- **Infraestructura:** API de **NVIDIA NIM** integrada en OpenCode, con modelos de gran escala (por ejemplo, **Nemotron 70B** o **DeepSeek R1**).
 - **Casos de uso:**
   - Ventanas de contexto amplias (64k+ tokens) para leer árboles de directorios.
   - Razonamiento avanzado para arquitectura y redacción técnica.
 - **Límites:**
-  - Los datos salen del entorno local; no usar con código sensible, secretos ni
-    datos personales.
+  - Los datos salen del entorno local; no usar con código sensible, secretos ni datos personales.
   - Depende de cuotas, disponibilidad y políticas del proveedor.
   - La clave de API debe gestionarse fuera del repositorio.
 
----
+## 4. Configuración técnica de ambos proveedores (`opencode.json`)
 
-## 4. Configuración Técnica de Ambos Proveedores (`opencode.json`)
-
-La configuración unificada permite invocar cualquiera de los dos flujos según la
-necesidad de la tarea. El ejemplo es válido y usa sustitución de variables de
-entorno para la clave:
+La configuración unificada permite invocar cualquiera de los dos flujos según la necesidad de la tarea. El ejemplo es válido y usa sustitución de variables de entorno para la clave:
 
 ```json
 {
@@ -85,13 +69,9 @@ entorno para la clave:
 }
 ```
 
-> Sustituye `ollama.lab.local` por el hostname de tu red y define
-> `NVIDIA_API_KEY` en el entorno. No guardes la clave en `opencode.json` ni en el
-> repositorio.
+> Sustituye `ollama.lab.local` por el hostname de tu red y define `NVIDIA_API_KEY` en el entorno. No guardes la clave en `opencode.json` ni en el repositorio.
 
----
-
-## 5. Criterios de Selección
+## 5. Criterios de selección
 
 | Criterio | Flujo local | Flujo cloud |
 |---|---|---|
@@ -102,22 +82,16 @@ entorno para la clave:
 | Calidad en arquitectura | Buena con modelos de código | Alta con modelos grandes |
 | Datos permitidos | Código de laboratorio y datos sintéticos | Documentación pública, nunca secretos |
 
----
-
-## 6. Seguridad del Laboratorio
+## 6. Seguridad del laboratorio
 
 - Ollama no debe escuchar en `0.0.0.0:11434` sin firewall.
-- El puerto no se publica en Internet; el acceso remoto usa red privada y, si es
-  necesario, un proxy con TLS y autenticación.
+- El puerto no se publica en Internet; el acceso remoto usa red privada y, si es necesario, un proxy con TLS y autenticación.
 - Las claves de API se inyectan por variables de entorno y nunca se versionan.
-- Los prompts privados, notas personales y datos de clientes quedan fuera del
-  repositorio y del contexto enviado al cloud.
+- Los prompts privados, notas personales y datos de clientes quedan fuera del repositorio y del contexto enviado al cloud.
 - Los modelos se descargan de fuentes oficiales; se revisa el origen y la licencia.
 - Los logs de inferencia se tratan como potencialmente sensibles.
 
----
-
-## 7. Estado y Validación
+## 7. Estado y validación
 
 | Elemento | Estado |
 |---|---|
@@ -127,14 +101,11 @@ entorno para la clave:
 | Flujo cloud NVIDIA NIM | Documentado; no se incluyen claves ni ejecuciones |
 | Medición de latencia/calidad | No realizada; no se presentan métricas |
 
----
-
-## 8. Lecciones Aprendidas
+## 8. Lecciones aprendidas
 
 1. Separar flujos evita enviar código sensible a la nube por comodidad.
 2. La ventana de contexto es un criterio de selección, no una moda.
-3. La seguridad del laboratorio depende de la red y de la gestión de claves, no
-   solo de que el modelo se ejecute “en local”.
+3. La seguridad del laboratorio depende de la red y de la gestión de claves, no solo de que el modelo se ejecute «en local».
 4. La documentación debe distinguir configuración, ejecución y medición.
 
 La mecánica de continuidad entre sesiones (comandos, briefs y estado en archivos) se documenta en [`docs/opencode-session-continuity.md`](docs/opencode-session-continuity.md).
