@@ -86,9 +86,11 @@ Documentos aplicados:
 - [Continuidad de sesiones con OpenCode](docs/opencode-session-continuity.md): comandos, briefs y estado en archivos.
 - [Evaluación y seguridad de una función con LLM](docs/ai-security-evaluation.md): conjunto dorado, inyección, métricas y CI.
 - [Robustez de prompts frente a perturbaciones de entrada](docs/prompt-robustness-testing.md): cargas canario, familias de transformación, matriz de intensidad y métricas de evasión.
-  - [Evidencia del instrumento](docs/evidencias/2026-10-22-robustez-prompt/README.md): 128 casos congelados, 19 transformaciones validadas; sin medición de modelo.
+  - [Evidencia del instrumento](docs/evidencias/2026-10-22-robustez-prompt/README.md): 113 casos congelados, 15 transformaciones activas y un control negativo; sin medición de modelo.
   - [Ejecución con modelo](docs/evidencias/2026-10-22-robustez-ejecucion/README.md): `qwen2.5:3b`, N0 y N1; la inyección directa funciona sin transformar.
+  - [Línea base con el instrumento corregido](docs/evidencias/2026-10-22-robustez-ejecucion-1302/README.md): control negativo 3/3 válido; la obediencia en N0 se reproduce en 0,50.
   - [Fase de ejecución](docs/prompt-robustness-testing.md#13-fase-de-ejecución): `scripts/run_robustness_lab.sh` instala, ejecuta y restaura el equipo.
+  - **En fácil:** el modelo recibe pedidos con texto escrito por otras personas. La prueba comprueba si ese texto puede darle órdenes y si escribirlas de forma rara cambia el resultado. La orden empleada es inofensiva —escribir `CANARIO-7F3A`—, así que la prueba se puede publicar y ejecutar en CI.
 - [Inferencia local frente a cloud](docs/local-vs-cloud.md): criterios de decisión y errores frecuentes.
 
 ## Lecciones aprendidas y límites
