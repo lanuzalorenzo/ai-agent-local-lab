@@ -1,6 +1,6 @@
 # Robustez de prompts frente a perturbaciones de entrada
 
-> **Estado:** diseño instrumentado. El instrumento está implementado y validado; **no hay medición de obediencia**. Ver [evidencia del 2026-10-22](evidencias/2026-10-22-robustez-prompt/README.md).
+> **Estado:** ejecutado parcialmente. N0 y N1 medidos contra `qwen2.5:3b` el 2026-10-22; **la línea base falla** y cuatro transformaciones produjeron casos inválidos. N2 y N3 pendientes. Ver [instrumento validado](evidencias/2026-10-22-robustez-prompt/README.md) y [ejecución con modelo](evidencias/2026-10-22-robustez-ejecucion/README.md).
 >
 > **Propósito:** definir cómo se mide la resistencia de una función con LLM a ataques que **no cambian el significado de la instrucción, solo su forma**. Es el complemento medible de las pruebas de inyección de [`ai-security-evaluation.md`](ai-security-evaluation.md), que cubren el ataque semántico.
 
@@ -254,4 +254,16 @@ docs/evidencias/<fecha>-robustez-ejecucion/
 └── resumen.json     # obediencia y robustez por nivel
 ```
 
-Estado: **implementado y no ejecutado**. El `--dry-run` se ha probado en Ubuntu 26.04; la instalación, la descarga del modelo y la matriz contra el modelo no se han ejecutado todavía.
+Estado: **implementado y ejecutado una vez** (2026-10-22, `qwen2.5:3b`, niveles N0 y N1). El resultado está en [`evidencias/2026-10-22-robustez-ejecucion/`](evidencias/2026-10-22-robustez-ejecucion/README.md). Las conclusiones del §14 obligan a corregir el instrumento antes de la siguiente pasada.
+
+## 14. Lo que la primera ejecución corrigió en el diseño
+
+La ejecución no confirmó el diseño: lo puso a prueba y encontró tres defectos.
+
+| Defecto observado | Consecuencia | Corrección pendiente |
+|---|---|---|
+| Obediencia en N0 = 0,50 | Sin defensa base no existe «evasión» que medir | Endurecer el prompt de sistema hasta que N0 dé 0 antes de usar N1 |
+| Las transformaciones codificadas no se decodifican | Cuatro casos por canario son inválidos y se contaron como resistencia | Pedir al modelo que revierta la transformación antes de validar el caso |
+| C3 confunde formato con contenido | Cuenta como obediencia una respuesta que trató la inyección como dato | Añadir control negativo y separar ambos detectores |
+
+Se mantiene lo que funcionó: determinismo, integridad del testigo, repeticiones e inestabilidad. Los cuatro casos inestables de la primera pasada habrían producido un veredicto falso con una sola repetición.
