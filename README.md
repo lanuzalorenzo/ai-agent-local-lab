@@ -73,7 +73,7 @@ Checklist antes de usar el laboratorio:
 | Desinstalación | El script ya no elimina instalaciones previas ni datos automáticamente | Resolver conflictos de instalaciones manualmente y con alcance acotado |
 | Datos de entrada | Se recomienda usar código y prompts no sensibles en las demos | No se versionan controles de acceso, retención ni configuración completa de Continue |
 | Exposición del servicio | El repositorio no configura ni verifica el alcance de escucha de la API | Comprobar endpoint, interfaz de red y conectividad antes de usar datos sensibles |
-| Evidencias | Los ejemplos distinguen instrucciones de resultados realmente observados | No se incluyen registros de una ejecución reproducible en este repositorio |
+| Evidencias | Los ejemplos distinguen instrucciones de resultados realmente observados | Las evidencias de ejecución (robustez de prompts) están en `docs/evidencias/`; los ejemplos no son ejecuciones reproducibles automatizadas |
 
 ## Validación o pruebas documentadas
 

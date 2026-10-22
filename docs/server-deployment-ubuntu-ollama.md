@@ -1,17 +1,19 @@
 # Despliegue de Servidor de IA Local con Ubuntu Server y Ollama
 
-Guía técnica de arquitectura, instalación y resolución de conectividad para el despliegue de un servidor bare-metal dedicado (Ubuntu Server) orientado a la inferencia de Modelos de Lenguaje de Gran Tamaño (LLMs) con Ollama, administrado remotamente vía SSH desde un equipo cliente de trabajo.
+> **En fácil:** montas un ordenador solo para que corra la IA en tu casa. Sin pantalla, sin ratón, solo red. Lo controlas desde tu portátil por SSH y los datos nunca salen de tu red.
+
+Guía técnica de arquitectura, instalación y resolución de conectividad para el despliegue de un servidor bare-metal dedicado (Ubuntu Server) orientado a la inferencia de Modelos de Lenguaje de Gran Tamaño (LLMs) con Ollama, administrado remotamente vía SSH desde un equipo cliente.
 
 ---
 
 ## 1. Descripción del Escenario y Justificación Técnica
 
 ### Selección de Ubuntu Server (Headless)
-- **Optimización de Recursos (VRAM / RAM):** Se implementó una instalación pura por línea de comandos (CLI sin entorno de escritorio ni gestor de ventanas tipo GNOME o Wayland) con el objetivo de maximizar la memoria RAM y VRAM dedicada íntegramente al cómputo y carga de tensores de los modelos de lenguaje (LLMs).
-- **Estabilidad y Reducción de Superficie de Ataque:** Infraestructura minimalista gobernada por `systemd`, eliminando procesos innecesarios en segundo plano y reduciendo la exposición de servicios auxiliares.
-- **Topología de Trabajo:**
-  - **Servidor Bare-Metal:** Ubuntu Server ejecutando el daemon de `ollama` en el puerto 11434.
-  - **Cliente de Administración:** Equipo principal conectado mediante SSH seguro (OpenSSH) y clientes de inferencia local.
+- **Recursos para el modelo:** Instalación CLI pura (sin entorno de escritorio ni gestor de ventanas tipo GNOME o Wayland) para dedicar la RAM y VRAM al cómputo y carga de tensores de los modelos de lenguaje.
+- **Estabilidad y superficie de ataque reducida:** Infraestructura minimalista gobernada por `systemd`, eliminando procesos innecesarios y reduciendo la exposición de servicios auxiliares.
+- **Topología de trabajo:**
+  - **Servidor bare-metal:** Ubuntu Server ejecutando el daemon de `ollama` en el puerto 11434.
+  - **Cliente de administración:** Equipo principal conectado mediante SSH seguro (OpenSSH) y clientes de inferencia local.
 
 ```mermaid
 flowchart LR
@@ -36,10 +38,10 @@ flowchart LR
 
 ## 2. Diagnóstico y Resolución de Conectividad en Servidor Mínimo
 
-En instalaciones limpias de Ubuntu Server (versión headless mínima), no vienen preinstaladas utilidades interactivas de gestión Wi-Fi de usuario como `nmtui`, `NetworkManager` ni `dhclient`. Para resolver el bootstrap inicial de red se aplicó una estrategia de conectividad en dos fases:
+En una instalación limpia de Ubuntu Server (versión headless mínima) no vienen preinstaladas utilidades interactivas de gestión Wi-Fi como `nmtui`, `NetworkManager` ni `dhclient`. Para resolver el arranque inicial de red se aplicó una estrategia en dos fases:
 
 ### Fase 1: Conectividad Declarativa Ethernet con Netplan
-Se conectó el servidor por cable de red y se definió la configuración declarativa mediante Netplan y `systemd-networkd` para obtener salida a repositorios:
+Se conecta el servidor por cable y se define la configuración declarativa mediante Netplan y `systemd-networkd` para obtener salida a repositorios:
 
 1. Edición de `/etc/netplan/01-netcfg.yaml` (o archivo correspondiente según el instalador):
    ```yaml
@@ -50,19 +52,19 @@ Se conectó el servidor por cable de red y se definió la configuración declara
        enp3s0:
          dhcp4: true
    ```
-2. Aplicación de la configuración de red:
+2. Aplicación de la configuración:
    ```bash
    sudo netplan apply
    ```
 
 ### Fase 2: Aprovisionamiento de Gestión Inalámbrica
-Una vez garantizado el acceso a internet a través del enlace Ethernet, se instalaron las herramientas necesarias para dotar al servidor de flexibilidad física sin perder la administración remota:
+Una vez garantizado el acceso a internet por Ethernet, se instalan las herramientas para dar flexibilidad física al servidor sin perder la administración remota:
 
 ```bash
 sudo apt update && sudo apt install network-manager -y
 sudo nmtui
 ```
-Con `nmtui` se conectó la interfaz inalámbrica a la red local y se persistió el perfil de red.
+Con `nmtui` se conecta la interfaz inalámbrica a la red local y se guarda el perfil de red.
 
 ---
 
@@ -99,7 +101,7 @@ Con `nmtui` se conectó la interfaz inalámbrica a la red local y se persistió 
 
 ## 5. Descarga e Inferencia de Modelos de IA
 
-1. **Descarga de pesos e inicio de sesión interactiva:**
+1. **Descarga de pesos y ejecución interactiva:**
    ```bash
    ollama run qwen2.5-coder:7b
    ```
