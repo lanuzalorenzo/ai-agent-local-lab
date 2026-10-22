@@ -151,10 +151,13 @@ Este laboratorio está concebido para evolucionar como un portfolio de aprendiza
 
 ### Eje 5: Evaluación y Robustez de LLM
 - [ ] Construir el conjunto dorado mínimo (20–50 casos) descrito en [`ai-security-evaluation.md`](ai-security-evaluation.md) y automatizarlo en CI.
-- [ ] Implementar la matriz de perturbación de [`prompt-robustness-testing.md`](prompt-robustness-testing.md): canarios C1–C4, familias F1–F4 y niveles N0–N2.
-- [ ] Ejecutar la matriz en el equipo Ubuntu con [`run_robustness_lab.sh`](../scripts/run_robustness_lab.sh) y registrar la huella del entorno junto a los resultados.
+- [x] Implementar la matriz de perturbación de [`prompt-robustness-testing.md`](prompt-robustness-testing.md): canarios C0–C4, familias F1–F4 y niveles N0–N3.
+- [x] Ejecutar la matriz en el equipo Ubuntu con [`run_robustness_lab.sh`](../scripts/run_robustness_lab.sh) y registrar la huella del entorno junto a los resultados.
 - [x] Primera ejecución (2026-10-22, `qwen2.5:3b`, N0 y N1): obediencia en el control del 50 %, inyección directa funcional sin transformación.
-- [ ] Corregir el instrumento antes de la segunda pasada: control negativo, comprobación de decodificación y detector de C3 separado de formato.
+- [x] Añadir el control negativo C0 y excluir las cuatro transformaciones que el modelo no decodifica: medían ilegibilidad, no resistencia.
+- [x] Segunda pasada, solo N0 (2026-10-22, prompt `v1`): control negativo 3/3 con JSON válido; obediencia 0,50, idéntica a la primera.
+- [x] Versionar el prompt de sistema y registrar su huella en cada ejecución.
+- [ ] Completar la corrección del instrumento: comprobación de decodificación (reactiva F3) y detector de C3 separado del formato.
 - [ ] Endurecer el prompt de sistema hasta que N0 dé cero y repetir N1; solo entonces la cifra de robustez significa algo.
 - [ ] Separar en cada ejecución el fallo del filtro (evasión) del fallo del modelo (obediencia); sin ese desglose no se sabe qué corregir.
 - [ ] Usar la misma matriz para comparar modelos locales con una **puntuación por tarea**, no un ranking general: el resultado solo es válido para el prompt y la tarea evaluados.

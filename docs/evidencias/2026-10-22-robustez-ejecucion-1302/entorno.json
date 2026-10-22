@@ -1,0 +1,15 @@
+{
+  "fecha": "2026-10-22T13:10:28+02:00",
+  "sistema": "Ubuntu 26.04.1 LTS",
+  "kernel": "7.0.0-38-generic",
+  "cpu": "12th Gen Intel(R) Core(TM) i7-12700H",
+  "cpu_nucleos": 20,
+  "ram_gb": 31,
+  "gpu": "NVIDIA GeForce RTX 3050 Laptop GPU, 4096 MiB",
+  "python": "3.14.4",
+  "ollama": "ollama version is 0.40.8",
+  "modelo": "qwen2.5:3b",
+  "modelo_digest": "357c53fb659c",
+  "endpoint": "http://127.0.0.1:11434",
+  "nota": "Sin nombre de equipo ni direcciones IP: la huella describe el entorno, no la identidad."
+}

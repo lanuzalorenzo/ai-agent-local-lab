@@ -1,8 +1,23 @@
 # Evaluación y seguridad de una función con LLM
 
-> **Estado:** diseño. No hay métricas ni resultados de ejecución en este repositorio.
+> **Estado:** diseño, con una excepción medida. La dimensión de seguridad tiene una primera pasada real sobre un modelo pequeño: ver [robustez de prompts](prompt-robustness-testing.md). El resto de dimensiones no se han ejecutado.
 >
 > **Propósito:** definir cómo se evalúa una función que usa un LLM antes de presentarla como útil y segura, tanto si el modelo es local como si es remoto.
+
+## En fácil
+
+Una función con un modelo de lenguaje no se aprueba porque una vez respondió bien delante de alguien.
+
+Se aprueba si cumples cuatro cosas, y cada una se comprueba a su manera:
+
+| Pregunta | Cómo se comprueba |
+|---|---|
+| ¿Acierta? | Con una lista de casos y su respuesta esperada, no con impresiones |
+| ¿Se deja manipular? | Con intentos de manipulación escritos de antemano y resultado esperado |
+| ¿Cuánto cuesta? | Contando lo que se envía y lo que devuelve |
+| ¿Va rápido? | Midiendo, no notando |
+
+La trampa habitual es la primera: probar con los casos que ya sabes que salen bien. La lista se escribe **antes** de ver los resultados, igual que un examen se escribe antes de corregirlo.
 
 ## 1. Qué se evalúa
 
