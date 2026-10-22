@@ -35,7 +35,7 @@ Laboratorio personal y bitácora técnica de **IA local aplicada a desarrollo y 
 | Modelos de Inferencia | Pesos de modelos locales; `qwen2.5-coder:7b` es el modelo operativo. Llama 3 y Mistral se evaluaron inicialmente | Bucle interactivo evaluado; modelo operativo definido en `system/Modelfile.portfolio-agent` |
 | GPU NVIDIA y driver | Aceleración de inferencia cuando runtime y hardware son compatibles | Comprobación orientativa documentada en `docs/gpu-setup.md` |
 | VS Code + Continue | Interfaz cliente que puede conectarse al runtime local | Configuración de cliente y asistente |
-| Scripts | Instalación, diagnóstico y ejecución interactiva | `scripts/`; requieren revisión y permisos adecuados |
+| Scripts | Instalación, ejecución del laboratorio de robustez, diagnóstico y ejecución interactiva | `scripts/`; requieren revisión y permisos adecuados |
 | Unidad systemd | Referencia de servicio | `system/ollama.service` no está validada como reemplazo de la unidad creada por el instalador |
 
 Flujo de trabajo: el servidor ejecuta Ubuntu Server sin interfaz gráfica. Desde el equipo principal (XPS) se administra el servidor vía SSH. Ollama ejecuta el daemon y sirve el modelo operativo (`qwen2.5-coder:7b`) en el puerto 11434. El cliente de desarrollo (VS Code / Continue) o la consola interactiva consumen la inferencia localmente.
@@ -85,6 +85,9 @@ Documentos aplicados:
 
 - [Continuidad de sesiones con OpenCode](docs/opencode-session-continuity.md): comandos, briefs y estado en archivos.
 - [Evaluación y seguridad de una función con LLM](docs/ai-security-evaluation.md): conjunto dorado, inyección, métricas y CI.
+- [Robustez de prompts frente a perturbaciones de entrada](docs/prompt-robustness-testing.md): cargas canario, familias de transformación, matriz de intensidad y métricas de evasión.
+  - [Evidencia del instrumento](docs/evidencias/2026-10-22-robustez-prompt/README.md): 128 casos congelados, 19 transformaciones validadas; sin medición de modelo.
+  - [Fase de ejecución](docs/prompt-robustness-testing.md#13-fase-de-ejecución): `scripts/run_robustness_lab.sh` instala, ejecuta y restaura el equipo.
 - [Inferencia local frente a cloud](docs/local-vs-cloud.md): criterios de decisión y errores frecuentes.
 
 ## Lecciones aprendidas y límites

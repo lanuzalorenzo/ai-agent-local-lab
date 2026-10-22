@@ -18,13 +18,18 @@ This repository documents a local AI agent lab built with Ollama and Continue, i
 │   ├── server-deployment-ubuntu-ollama.md
 │   ├── opencode-session-continuity.md
 │   ├── ai-security-evaluation.md
+│   ├── prompt-robustness-testing.md
 │   ├── local-vs-cloud.md
 │   └── troubleshooting.md
+├── docs/evidencias/
+│   └── 2026-10-22-robustez-prompt/
 ├── examples/
 │   ├── agent-session.md
 │   └── code-reading-demo.md
 ├── scripts/
 │   ├── install_ollama.sh
+│   ├── prompt_robustness_matrix.py
+│   ├── run_robustness_lab.sh
 │   ├── run_agent.sh
 │   └── gpu_check.sh
 └── system/
