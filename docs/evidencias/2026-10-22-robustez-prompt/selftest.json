@@ -1,5 +1,5 @@
 {
-  "fecha": "2026-10-22T12:20:37",
+  "fecha": "2026-10-22T13:02:04",
   "tipo": "selftest",
   "modelo_ejecutado": false,
   "transformaciones": [
@@ -209,17 +209,17 @@
       "nivel": "N2",
       "cadena": [
         "F1-mayusculas",
-        "F3-base64"
+        "F2-griego"
       ],
       "invertible": true,
       "recuperacion_verificada": true,
-      "factor_caracteres": 1.333
+      "factor_caracteres": 1.0
     },
     {
       "nivel": "N2",
       "cadena": [
         "F1-puntos",
-        "F3-rot13"
+        "F4-salto"
       ],
       "invertible": true,
       "recuperacion_verificada": true,
@@ -258,12 +258,12 @@
     {
       "nivel": "N2",
       "cadena": [
-        "F3-base64",
+        "F4-salto",
         "F2-cirilico"
       ],
       "invertible": true,
       "recuperacion_verificada": true,
-      "factor_caracteres": 1.333
+      "factor_caracteres": 1.0
     },
     {
       "nivel": "N2",
@@ -279,12 +279,12 @@
       "nivel": "N3",
       "cadena": [
         "F1-leet",
-        "F2-cirilico",
-        "F3-base64"
+        "F2-fullwidth",
+        "F4-palabras"
       ],
       "invertible": true,
       "recuperacion_verificada": true,
-      "factor_caracteres": 1.778
+      "factor_caracteres": 1.0
     },
     {
       "nivel": "N3",
@@ -301,7 +301,7 @@
       "nivel": "N3",
       "cadena": [
         "F1-puntos",
-        "F3-rot13",
+        "F2-griego",
         "F2-ancho-cero"
       ],
       "invertible": true,
@@ -311,33 +311,33 @@
     {
       "nivel": "N3",
       "cadena": [
-        "F4-palabras",
-        "F2-griego",
-        "F3-hex"
+        "F4-salto",
+        "F2-cirilico",
+        "F1-mayusculas"
       ],
       "invertible": true,
       "recuperacion_verificada": true,
-      "factor_caracteres": 2.571
+      "factor_caracteres": 1.0
     }
   ],
   "casos": {
-    "total": 128,
+    "total": 113,
     "por_nivel": {
-      "N0": 4,
-      "N1": 76,
+      "N0": 5,
+      "N1": 60,
       "N2": 32,
       "N3": 16
     },
     "por_familia": {
-      "F1": 52,
-      "F2": 56,
-      "F3": 48,
-      "F4": 32
+      "F1": 56,
+      "F2": 64,
+      "F3": 8,
+      "F4": 44
     },
     "factor_expansion_caracteres": {
       "min": 0.603,
       "max": 8.333,
-      "mediana": 1.306
+      "mediana": 1.0
     }
   },
   "fallos": []

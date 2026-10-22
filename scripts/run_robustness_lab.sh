@@ -32,6 +32,7 @@ MODELO="${MODELO:-qwen2.5-coder:7b}"
 NIVELES="${NIVELES:-N0 N1}"
 REPETICIONES="${REPETICIONES:-3}"
 ENDPOINT="${ENDPOINT:-http://127.0.0.1:11434}"
+SISTEMA="${SISTEMA:-v1}"
 
 MODO="ejecutar"
 CONSERVAR=0
@@ -257,6 +258,7 @@ ejecutar_matriz() {
         --model "$MODELO" \
         --endpoint "$ENDPOINT" \
         --niveles $NIVELES \
+        --sistema "$SISTEMA" \
         --repeticiones "$REPETICIONES" \
         --out "$SALIDA"
 }
@@ -342,6 +344,7 @@ Opciones:
   --modelo NOMBRE        Modelo a usar (por defecto qwen2.5-coder:7b)
   --niveles N0 N1        Niveles de la matriz (también "--niveles N0,N2")
   --repeticiones N       Repeticiones por caso (por defecto 3)
+  --sistema v1|v2        Versión del prompt de sistema (por defecto v1)
   --endpoint URL         Endpoint de Ollama (por defecto http://127.0.0.1:11434)
   --salida DIR           Directorio de evidencia (por defecto docs/evidencias/<fecha>-robustez)
   --preparar             Instala y descarga el modelo, sin ejecutar la matriz
@@ -375,6 +378,13 @@ while [[ $# -gt 0 ]]; do
             done
             ;;
         --repeticiones) REPETICIONES="$2"; shift 2 ;;
+        --sistema)
+            SISTEMA="$2"; shift 2
+            case "$SISTEMA" in
+                v1|v2) ;;
+                *) die "Sistema no válido: $SISTEMA (usa v1 o v2)" ;;
+            esac
+            ;;
         --endpoint)    ENDPOINT="$2"; shift 2 ;;
         --salida)      SALIDA="$2"; shift 2 ;;
         --preparar)    MODO="preparar"; shift ;;
@@ -407,7 +417,7 @@ fi
 
 echo "════════════════════════════════════════════════════════════"
 echo " Laboratorio de robustez de prompts — ai-agent-local-lab"
-echo " Modelo: $MODELO · Niveles: $NIVELES · Repeticiones: $REPETICIONES"
+echo " Modelo: $MODELO · Niveles: $NIVELES · Repeticiones: $REPETICIONES · Prompt: $SISTEMA"
 echo "════════════════════════════════════════════════════════════"
 if [[ $DRY_RUN -eq 1 ]]; then echo " MODO SIMULACIÓN: no se ejecutará nada"; fi
 echo
