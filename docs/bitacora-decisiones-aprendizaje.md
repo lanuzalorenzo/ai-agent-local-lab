@@ -149,3 +149,12 @@ Este laboratorio está concebido para evolucionar como un portfolio de aprendiza
 - [ ] Construcción de un pipeline RAG local con base de datos vectorial embebida (ChromaDB / Qdrant) para consultar documentación técnica y apuntes privados de ciberseguridad sin fuga de datos.
 - [ ] Experimentación con frameworks de agentes locales (LangChain, LlamaIndex o AutoGen) conectados al modelo servido en Ollama.
 
+### Eje 5: Evaluación y Robustez de LLM
+- [ ] Construir el conjunto dorado mínimo (20–50 casos) descrito en [`ai-security-evaluation.md`](ai-security-evaluation.md) y automatizarlo en CI.
+- [ ] Implementar la matriz de perturbación de [`prompt-robustness-testing.md`](prompt-robustness-testing.md): canarios C1–C4, familias F1–F4 y niveles N0–N2.
+- [ ] Ejecutar la matriz en el equipo Ubuntu con [`run_robustness_lab.sh`](../scripts/run_robustness_lab.sh) y registrar la huella del entorno junto a los resultados.
+- [ ] Separar en cada ejecución el fallo del filtro (evasión) del fallo del modelo (obediencia); sin ese desglose no se sabe qué corregir.
+- [ ] Usar la misma matriz para comparar modelos locales con una **puntuación por tarea**, no un ranking general: el resultado solo es válido para el prompt y la tarea evaluados.
+- [ ] Medir el factor de expansión de tokens de cada transformación: una mitigación que multiplica el coste por diez es un problema de consumo, no solo de filtrado.
+
+

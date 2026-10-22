@@ -57,6 +57,8 @@ Un LLM que «casi siempre» devuelve JSON válido no es una interfaz fiable.
 
 Cada prueba debe tener una entrada reproducible y un criterio observable. «El modelo se portó bien» no es evidencia.
 
+Estas pruebas cubren el ataque **semántico**: la instrucción se entiende tal cual. La variante de superficie —la misma instrucción con otra forma, para evadir filtros— se mide aparte, en [Robustez frente a perturbaciones de entrada](prompt-robustness-testing.md). Son complementarias: un sistema puede rechazar la inyección literal y obedecer a la misma orden codificada en base64.
+
 ## 5. Redacción y registro
 
 - No enviar secretos, tokens, datos personales ni rutas internas al modelo.
@@ -76,6 +78,7 @@ Definir los umbrales **antes** de ejecutar, no después de ver el resultado:
 | Falsos positivos | Casos legítimos rechazados / casos legítimos | ≤ 5 % |
 | Latencia | p50 y p95 por petición | p95 dentro del presupuesto de la función |
 | Coste | Tokens de entrada y salida × precio | Dentro del tope acordado |
+| Robustez a perturbación | Casos que resisten variantes de forma sobre el conjunto de inyección | Ver [matriz de perturbación](prompt-robustness-testing.md) |
 
 Los umbrales son una decisión de producto y de riesgo. Un 90 % puede ser suficiente para clasificar tickets y no serlo para decidir un acceso.
 
