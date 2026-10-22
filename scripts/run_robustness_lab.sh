@@ -340,7 +340,7 @@ ayuda() {
 
 Opciones:
   --modelo NOMBRE        Modelo a usar (por defecto qwen2.5-coder:7b)
-  --niveles "N0 N1"      Niveles de la matriz (por defecto "N0 N1")
+  --niveles N0 N1        Niveles de la matriz (también "--niveles N0,N2")
   --repeticiones N       Repeticiones por caso (por defecto 3)
   --endpoint URL         Endpoint de Ollama (por defecto http://127.0.0.1:11434)
   --salida DIR           Directorio de evidencia (por defecto docs/evidencias/<fecha>-robustez)
@@ -358,7 +358,22 @@ EOF
 while [[ $# -gt 0 ]]; do
     case "$1" in
         --modelo)      MODELO="$2"; shift 2 ;;
-        --niveles)     NIVELES="$2"; shift 2 ;;
+        --niveles)
+            shift
+            NIVELES=""
+            while [[ $# -gt 0 && "$1" != --* ]]; do
+                NIVELES="$NIVELES ${1//,/ }"
+                shift
+            done
+            NIVELES="$(echo $NIVELES)"
+            [[ -n "$NIVELES" ]] || die "--niveles requiere al menos un nivel (N0, N1, N2, N3)"
+            for n in $NIVELES; do
+                case "$n" in
+                    N0|N1|N2|N3) ;;
+                    *) die "Nivel no válido: $n (usa N0, N1, N2 o N3)" ;;
+                esac
+            done
+            ;;
         --repeticiones) REPETICIONES="$2"; shift 2 ;;
         --endpoint)    ENDPOINT="$2"; shift 2 ;;
         --salida)      SALIDA="$2"; shift 2 ;;
