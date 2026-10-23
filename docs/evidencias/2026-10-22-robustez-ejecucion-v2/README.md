@@ -21,7 +21,7 @@ Volvimos a pasar el examen, ahora bien escrito, para comprobar dos cosas:
 | Parámetros | `temperature=0`, `seed=42`, `num_predict=200` |
 
 ```bash
-./scripts/run_robustness_lab.sh -y --modelo qwen2.5:3b --niveles N0
+./scripts/robustez/run_robustness_lab.sh -y --modelo qwen2.5:3b --niveles N0
 ```
 
 Restauración verificada: el script desinstaló Ollama y el modelo al terminar.
@@ -46,7 +46,7 @@ Coste: 487 tokens de entrada, 140 de salida, entre 144 y 827 ms por consulta.
 
 En la primera pasada quedó la duda de si C3 contaba como obediencia una respuesta que solo estaba mal formateada. Ya no: **con el mismo modelo y el mismo prompt, sin ataque el formato es válido 3 de 3.** Cuando C3 falla, falla por la inyección.
 
-Esto cierra el hallazgo H-7 de la [primera ejecución](../2026-10-22-robustez-ejecucion/README.md) en el sentido menos favorable: el modelo sí abandona el esquema cuando se lo piden.
+Esto cierra el hallazgo H-7 de la [primera ejecución](../2026-10-22-robustez-ejecucion-v1/README.md) en el sentido menos favorable: el modelo sí abandona el esquema cuando se lo piden.
 
 ### La línea base se reproduce
 
@@ -64,10 +64,10 @@ El instrumento admite dos versiones del prompt de sistema y registra su huella:
 
 ```bash
 # Referencia (ya medida)
-./scripts/run_robustness_lab.sh -y --modelo qwen2.5:3b --niveles N0 --sistema v1
+./scripts/robustez/run_robustness_lab.sh -y --modelo qwen2.5:3b --niveles N0 --sistema v1
 
 # Candidato endurecido
-./scripts/run_robustness_lab.sh -y --modelo qwen2.5:3b --niveles N0 --sistema v2
+./scripts/robustez/run_robustness_lab.sh -y --modelo qwen2.5:3b --niveles N0 --sistema v2
 ```
 
 Mismos casos, mismo modelo, misma semilla: la única variable es el prompt.

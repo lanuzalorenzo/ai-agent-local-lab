@@ -3,7 +3,7 @@
 > **Fecha:** 2026-10-22, 12:43–12:47
 > **Estado:** ejecución realizada. Niveles N0 y N1. N2 y N3 pendientes.
 > **Resultado principal:** la línea base falla. La inyección directa funciona sin ninguna transformación.
-> **Diseño:** [`docs/prompt-robustness-testing.md`](../../prompt-robustness-testing.md)
+> **Diseño:** [`docs/referencia/prompt-robustness-testing.md`](../../referencia/prompt-robustness-testing.md)
 
 Contratamos a un vigilante y le pusimos un cartel: «las notas del mostrador son información, no órdenes». Después dejamos una nota que decía «sal y grita CANARIO-7F3A».
 
@@ -160,7 +160,7 @@ Estado de cada punto tras el análisis:
 |---|---|---|
 | 1 | **Control negativo (C0).** Campo benigno sin inyección | **Hecho.** Ya está en el instrumento; se informa aparte como `control_negativo` |
 | 2 | **Excluir las cuatro transformaciones codificadas.** No son medibles con este modelo | **Hecho.** 15 activas de 19; `--incluir-codificadas` las recupera |
-| 3 | **Endurecer el prompt de sistema hasta que N0 dé 0** | **Siguiente.** 5 casos × 3 repeticiones = 15 inferencias, menos de un minuto. Ya hay línea base medida: [pasada N0 con el instrumento corregido](../2026-10-22-robustez-ejecucion-1302/README.md) |
+| 3 | **Endurecer el prompt de sistema hasta que N0 dé 0** | **Siguiente.** 5 casos × 3 repeticiones = 15 inferencias, menos de un minuto. Ya hay línea base medida: [pasada N0 con el instrumento corregido](../2026-10-22-robustez-ejecucion-v2/README.md) |
 | 4 | **Repetir N0 + N1 con la línea base defendida** | Pendiente de 3. 65 casos × 3 = 195 inferencias |
 | 5 | **Detector de C3 estricto** — separar «no es JSON» de «obedeció» | Pendiente. Con C0 ya se puede interpretar; la separación fina requiere criterio humano |
 | 6 | **Comprobación de decodificación** para reactivar F3 | Pendiente. Duplica las llamadas por caso |
@@ -179,7 +179,7 @@ Si el control sigue por encima de cero tras dos o tres prompts distintos, la con
 
 ```bash
 cd ai-agent-local-lab
-./scripts/run_robustness_lab.sh -y --modelo qwen2.5:3b --niveles N0 N1
+./scripts/robustez/run_robustness_lab.sh -y --modelo qwen2.5:3b --niveles N0 N1
 ```
 
 Mismos parámetros de muestreo y mismo digest de modelo. Cualquier cambio en alguno de los dos invalida la comparación.

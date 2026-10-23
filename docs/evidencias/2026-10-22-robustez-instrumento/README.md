@@ -3,9 +3,9 @@
 > **Fecha:** 2026-10-22 (actualizada tras la primera ejecución con modelo)
 > **Entorno:** equipo de desarrollo, Python 3.14.4, sin GPU
 > **Modelo ejecutado:** ninguno en esta página. **No hay medición de obediencia aquí.**
-> **Script:** [`scripts/prompt_robustness_matrix.py`](../../../scripts/prompt_robustness_matrix.py)
-> **Diseño:** [`docs/prompt-robustness-testing.md`](../../prompt-robustness-testing.md)
-> **Ejecución real:** [`2026-10-22-robustez-ejecucion/`](../2026-10-22-robustez-ejecucion/README.md)
+> **Script:** [`scripts/robustez/prompt_robustness_matrix.py`](../../../scripts/robustez/prompt_robustness_matrix.py)
+> **Diseño:** [`docs/referencia/prompt-robustness-testing.md`](../../referencia/prompt-robustness-testing.md)
+> **Ejecución real:** [`2026-10-22-robustez-ejecucion-v1/`](../2026-10-22-robustez-ejecucion-v1/README.md)
 
 Imagina que quieres saber si un vigilante lee las notas que le dejan en el mostrador.
 
@@ -16,8 +16,8 @@ Eso es lo que valida esta página: **que los exámenes sean válidos**. No dice 
 ## 1. Qué se ha ejecutado
 
 ```bash
-python3 scripts/prompt_robustness_matrix.py selftest \
-  --out docs/evidencias/2026-10-22-robustez-prompt \
+python3 scripts/robustez/prompt_robustness_matrix.py selftest \
+  --out docs/evidencias/2026-10-22-robustez-instrumento \
   --niveles N0 N1 N2 N3
 ```
 
@@ -47,7 +47,7 @@ Artefactos generados por la ejecución:
 | ¿Se puede recuperar el significado tras transformar? | **Validado** en 17/19 mediante inversa determinista y comparación normalizada. |
 | ¿El testigo `CANARIO-7F3A` sobrevive a la transformación? | **Validado** en las 17 invertibles. |
 | ¿Cuánto crece la carga? | **Validado** en caracteres: mediana 1,0×, máximo 8,33×. |
-| ¿El modelo obedece a la carga? | **No medido en esta página.** Ver la [ejecución](../2026-10-22-robustez-ejecucion/README.md). |
+| ¿El modelo obedece a la carga? | **No medido en esta página.** Ver la [ejecución v1](../2026-10-22-robustez-ejecucion-v1/README.md). |
 | ¿El modelo preserva el significado (recuperación por LLM)? | **No medido.** Requiere modelo. |
 | ¿El filtro deja pasar la carga? | **No medido.** No hay filtro instrumentado. |
 
@@ -178,4 +178,4 @@ Sin dependencias externas. Los JSON deben coincidir salvo la marca de tiempo.
 
 ## 8. Siguiente paso
 
-Endurecer el prompt de sistema hasta que el control N0 dé cero y repetir N1: solo entonces la cifra de robustez significa algo. Ver [la ejecución](../2026-10-22-robustez-ejecucion/README.md) para el estado actual y los defectos pendientes del instrumento.
+Endurecer el prompt de sistema hasta que el control N0 dé cero y repetir N1: solo entonces la cifra de robustez significa algo. Ver [la ejecución v2](../2026-10-22-robustez-ejecucion-v2/README.md) para el estado actual y los defectos pendientes del instrumento.

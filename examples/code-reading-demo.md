@@ -10,7 +10,7 @@ Este ejemplo describe una tarea que puede probarse con un modelo local: pedir un
 2. Selecciona un repositorio de prueba sin secretos, datos personales ni código que no tengas permiso para procesar.
 3. Pide un resumen que cite rutas existentes y distinga hechos del repositorio de recomendaciones.
 4. Verifica manualmente las afirmaciones contra los archivos y registra errores o limitaciones.
-5. Si quieres comprobar el uso de GPU, observa el sistema durante la misma inferencia según [`docs/gpu-setup.md`](../docs/gpu-setup.md).
+5. Si quieres comprobar el uso de GPU, observa el sistema durante la misma inferencia según [`docs/guias/gpu-setup.md`](../docs/guias/gpu-setup.md).
 
 ## Prompt de ejemplo
 
