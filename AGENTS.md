@@ -1,10 +1,10 @@
-# Repository Guide — ai-agent-local-lab
+# Guía para agentes: ai-agent-local-lab
 
-> **If you are new:** the content contract is defined in `portfolio-ciberseguridad-lorenzo/AGENTS.md`. This file adds repo-specific conventions.
+> **Si llegas nuevo:** el contrato de contenido es el de `portfolio-ciberseguridad-lorenzo/AGENTS.md`. Este archivo añade convenciones técnicas propias del laboratorio de IA.
 
-This repository documents a local AI agent lab built with Ollama and Continue, integrated as a development and security portfolio companion tool.
+Este repositorio documenta un laboratorio local de agentes de IA construido con Ollama y Continue, integrado como herramienta complementaria de desarrollo y seguridad en el portfolio.
 
-## Structure
+## Estructura
 
 ```text
 .
@@ -42,29 +42,29 @@ This repository documents a local AI agent lab built with Ollama and Continue, i
     └── ollama.service
 ```
 
-## Content conventions (shared with portfolio)
-- **Forbidden:** "En fácil", "TL;DR", "In short" or similar register labels. Write in clear, direct Spanish; keep official product/tool names in original form (Ollama, Continue, VS Code, etc.).
-- **States:** use only **Validado**, **Parcial**, **Runbook preparado**, **Diseño** or **Pendiente**. A design or runbook not executed is not a validation.
-- **Document structure:**
-  - Practice `README.md`: 240–310 words, problem in prose, table with what was done/found, 2–3 lessons, links.
-  - `informe.md` only if it sustains what the page cannot (catalogue, values, matrix, verification). Does not duplicate the page.
-  - `runbook.md` only for re-runnable practices.
-  - `bitacora/` only if it records a fact not captured elsewhere.
-- **Evidence vs finding:** an audit that finds the issue worked, but the control is not approved. The table shows observed result and severity; separately, what was fixed and what was only recommended.
-- **Local-first scope:** cloud is a justified complement, not the main topic. Do not add model rankings, news or unmeasured benchmarks.
-- In AI evaluation documents, separate design/expectations from measured results; do not present thresholds as outcomes.
-- Do not expose Ollama to the Internet. Document firewall, TLS and authentication assumptions.
-- Use `ollama.lab.local` or another placeholder, never a real internal IP.
-- This lab is independent from the cybersecurity final lab. If linked from the portfolio, keep scope and evidence separate.
-- Record decisions, problems and root-cause analyses in `docs/bitacora-decisiones-aprendizaje.md`; keep the roadmap (GGUF/CUDA, network security, client integration, RAG) updated there.
+## Convenciones de contenido (compartidas con el portfolio)
+- **Prohibido:** bloques «En fácil», «TL;DR», «En resumen» u otros rótulos de registro. Se escribe en español claro y directo; los nombres oficiales de productos y herramientas se conservan (Ollama, Continue, VS Code, etc.).
+- **Estados:** usa solo **Validado**, **Parcial**, **Runbook preparado**, **Diseño** o **Pendiente**. Un diseño o runbook sin ejecutar no es una validación.
+- **Estructura de docs:**
+  - `README.md` de práctica: 240–310 palabras, problema en prosa, tabla con lo hecho/encontrado, 2–3 lecciones, enlaces.
+  - `informe.md` solo si sostiene lo que la página no puede (catálogo, valores, matriz, verificación). No duplica la página.
+  - `runbook.md` solo para prácticas reejecutables.
+  - `bitacora/` solo si guarda un hecho que no está en otro sitio.
+- **Evidencia vs hallazgo:** una auditoría que encuentra el problema ha funcionado, pero el control no está aprobado. La tabla lleva resultado observado y gravedad; aparte, qué se corrigió y qué solo se recomendó.
+- **Alcance local-first:** el cloud es un complemento justificado, no el tema principal. No añadas rankings de modelos, noticias ni comparativas sin medición propia.
+- En documentos de evaluación de IA, separa diseño/expectativas de resultados medidos; no presentes umbrales como resultados.
+- No expongas Ollama a Internet. Documenta supuestos de firewall, TLS y autenticación.
+- Usa `ollama.lab.local` u otro placeholder, nunca una IP interna real.
+- Este laboratorio es independiente del laboratorio final de ciberseguridad. Si se enlaza desde el portfolio, mantiene su alcance y evidencias separados.
+- Registra decisiones, problemas y análisis de causa raíz en `docs/bitacora-decisiones-aprendizaje.md`; mantén la hoja de ruta (GGUF/CUDA, seguridad de red, integración de cliente, RAG) actualizada allí.
 
-## Commit Conventions
-Format: `type(scope): imperative summary in English`
-Allowed scopes:
-- `docs` — changes to documentation files under `docs/`
-- `examples` — changes to example files under `examples/`
-- `scripts` — changes to shell scripts under `scripts/`
-- `system` — changes to system service files under `system/`
-- `repo` — general repository changes (README, AGENTS.md, LICENSE, root-level config)
-Allowed types: `feat`, `fix`, `docs`, `refactor`, `test`, `chore`
-Subject must be imperative, concise and in English.
+## Convenciones de Commits
+Formato: `type(scope): imperative summary in English`
+Ámbitos permitidos:
+- `docs` — cambios en archivos de documentación bajo `docs/`
+- `examples` — cambios en archivos de ejemplos bajo `examples/`
+- `scripts` — cambios en scripts de shell bajo `scripts/`
+- `system` — cambios en archivos de servicio del sistema bajo `system/`
+- `repo` — cambios generales del repositorio (README, AGENTS.md, LICENSE, config a nivel raíz)
+Tipos permitidos: `feat`, `fix`, `docs`, `refactor`, `test`, `chore`
+El asunto debe ser imperativo, conciso y en inglés.
