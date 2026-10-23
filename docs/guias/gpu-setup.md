@@ -47,7 +47,7 @@ Las versiones concretas de Ubuntu, driver, Ollama y modelo no están fijadas en 
 
    Para documentar uso de GPU, conserva la relación temporal entre una inferencia concreta y evidencias pertinentes de logs/uso de recursos. No uses una salida de ejemplo como resultado propio.
 
-El script [`scripts/gpu_check.sh`](../scripts/gpu_check.sh) reúne comprobaciones de servicio, logs y GPU, pero no ejecuta una inferencia ni demuestra por sí mismo que una petición se procesó en CUDA.
+El script [`run_agent.sh`](../../scripts/utilidades/run_agent.sh) permite lanzar el agente y verificar el entorno de servicio, logs y GPU, pero no ejecuta una inferencia ni demuestra por sí mismo que una petición se procesó en CUDA.
 
 ## Interpretación y seguridad
 

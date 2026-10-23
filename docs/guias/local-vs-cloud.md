@@ -45,7 +45,7 @@ El caso de estudio de este repositorio describe dos flujos con el mismo cliente:
 
 La decisión no es permanente: se revisa cuando cambia el dato, el coste o la capacidad. Lo importante es que la configuración deje claro qué proveedor usa cada flujo y que no se mezclen datos sensibles con el flujo remoto.
 
-Ver [`CASE_STUDY_OPENCODE_MIGRATION.md`](../CASE_STUDY_OPENCODE_MIGRATION.md).
+Ver [`CASE_STUDY_OPENCODE_MIGRATION.md`](../../docs/referencia/CASE_STUDY_OPENCODE_MIGRATION.md).
 
 ## 5. Errores frecuentes
 
