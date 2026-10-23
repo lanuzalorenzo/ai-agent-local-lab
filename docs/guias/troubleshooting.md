@@ -23,7 +23,7 @@ Si falla, diagnostica primero el driver y la configuración específica del equi
 
 ## Ollama no parece usar GPU
 
-Revisa los logs durante una inferencia y consulta [`docs/gpu-setup.md`](gpu-setup.md). La falta de una palabra clave en una muestra de logs no es concluyente. Comprueba compatibilidad de hardware/runtime y disponibilidad de memoria sin asumir que reinstalar resolverá el problema.
+Revisa los logs durante una inferencia y consulta [`docs/guias/gpu-setup.md`](gpu-setup.md). La falta de una palabra clave en una muestra de logs no es concluyente. Comprueba compatibilidad de hardware/runtime y disponibilidad de memoria sin asumir que reinstalar resolverá el problema.
 
 ## Continue no conecta con el modelo
 
@@ -42,4 +42,4 @@ Identifica el origen de la unidad activa, la ruta del ejecutable y el método de
 
 ## Logs vacíos o sin información suficiente
 
-Consulta primero estado y logs con `systemctl`/`journalctl`; [`scripts/gpu_check.sh`](../scripts/gpu_check.sh) agrupa algunas comprobaciones. El script puede terminar con error si el servicio está parado; eso debe tratarse como información diagnóstica, no ocultarse.
+Consulta primero estado y logs con `systemctl`/`journalctl`; [`scripts/instalacion/gpu_check.sh`](../scripts/instalacion/gpu_check.sh) agrupa algunas comprobaciones. El script puede terminar con error si el servicio está parado; eso debe tratarse como información diagnóstica, no ocultarse.
