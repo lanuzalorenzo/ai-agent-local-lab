@@ -1,7 +1,5 @@
 # Inferencia local frente a cloud: criterios de decisión
 
-> **En fácil:** no hay una respuesta única. Unos trabajos se hacen en casa porque el dato no puede salir; otros en la nube porque necesitan más máquina. Lo que decide es el dato, el coste, el tiempo y la capacidad.
-
 > **Estado:** criterios documentados. No es un benchmark ni una comparación de rendimiento medida.
 >
 > **Propósito:** decidir dónde ejecutar cada carga de trabajo sin convertir la elección en una preferencia ideológica.

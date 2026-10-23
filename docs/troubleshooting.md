@@ -1,7 +1,5 @@
 # Diagnóstico del laboratorio local
 
-> **En fácil:** algo no funciona. Esta lista te dice qué comprobar primero, sin borrar nada ni reinstalar a lo loco. Son pistas, no soluciones garantizadas.
-
 Esta guía propone comprobaciones no destructivas. No se ha verificado cada caso en este repositorio, por lo que los pasos son pistas de diagnóstico, no soluciones garantizadas.
 
 ## Ollama no aparece activo

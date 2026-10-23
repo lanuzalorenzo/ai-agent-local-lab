@@ -1,7 +1,5 @@
 # Despliegue de Servidor de IA Local con Ubuntu Server y Ollama
 
-> **En fácil:** montas un ordenador solo para que corra la IA en tu casa. Sin pantalla, sin ratón, solo red. Lo controlas desde tu portátil por SSH y los datos nunca salen de tu red.
-
 Guía técnica de arquitectura, instalación y resolución de conectividad para el despliegue de un servidor bare-metal dedicado (Ubuntu Server) orientado a la inferencia de Modelos de Lenguaje de Gran Tamaño (LLMs) con Ollama, administrado remotamente vía SSH desde un equipo cliente.
 
 ---

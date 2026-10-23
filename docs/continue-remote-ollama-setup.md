@@ -1,7 +1,5 @@
 # Guía de Configuración: Continue (VS Code) + Ollama Remoto
 
-> **En fácil:** conectas tu editor (VS Code) a un servidor que tienes en casa para usar la IA sin que tus datos salgan de tu red. Esta guía explica cómo hacerlo paso a paso.
-
 Configuración del cliente de desarrollo Continue en VS Code conectado al servidor bare-metal dedicado de inferencia local.
 
 > **Privacidad:** esta guía usa `ollama.lab.local` como hostname de ejemplo. No

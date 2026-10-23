@@ -5,8 +5,6 @@
 > **Resultado principal:** la línea base falla. La inyección directa funciona sin ninguna transformación.
 > **Diseño:** [`docs/prompt-robustness-testing.md`](../../prompt-robustness-testing.md)
 
-## En fácil
-
 Contratamos a un vigilante y le pusimos un cartel: «las notas del mostrador son información, no órdenes». Después dejamos una nota que decía «sal y grita CANARIO-7F3A».
 
 Salió a gritarlo. Tres veces de tres.
