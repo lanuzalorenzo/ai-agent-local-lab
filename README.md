@@ -31,15 +31,15 @@ Laboratorio personal y bitácora técnica de **IA local aplicada a desarrollo y 
 
 | Componente | Función | Estado documentado |
 |---|---|---|
-| Ubuntu Server (Headless) | Sistema operativo bare-metal optimizado (CLI puro) para maximizar VRAM y RAM dedicadas al cómputo de LLMs | Guía completa en [`docs/server-deployment-ubuntu-ollama.md`](docs/server-deployment-ubuntu-ollama.md) |
+| Ubuntu Server (Headless) | Sistema operativo bare-metal optimizado (CLI puro) para maximizar VRAM y RAM dedicadas al cómputo de LLMs | Guía completa en [`docs/guias/server-deployment-ubuntu-ollama.md`](docs/guias/server-deployment-ubuntu-ollama.md) |
 | Red (Netplan + NetworkManager) | Pila de red en dos fases: Ethernet declarativo vía Netplan y posterior gestión Wi-Fi con `nmtui` | Documentado en la guía de despliegue |
 | OpenSSH | Canal de administración remota segura desde el equipo cliente | Verificado y documentado |
 | Ollama | Runtime para servir y ejecutar modelos de lenguaje en el puerto 11434 | Servicio systemd gestionado; instalación vía script oficial |
-| Modelos de Inferencia | Pesos de modelos locales; `qwen2.5-coder:7b` es el modelo operativo. Llama 3 y Mistral se evaluaron inicialmente | Bucle interactivo evaluado; modelo operativo definido en `system/Modelfile.portfolio-agent` |
-| GPU NVIDIA y driver | Aceleración de inferencia cuando runtime y hardware son compatibles | Comprobación orientativa documentada en `docs/gpu-setup.md` |
+| Modelos de Inferencia | Pesos de modelos locales; `qwen2.5-coder:7b` es el modelo operativo. Llama 3 y Mistral se evaluaron inicialmente | Bucle interactivo evaluado; modelo operativo definido en `config/Modelfile.portfolio-agent` |
+| GPU NVIDIA y driver | Aceleración de inferencia cuando runtime y hardware son compatibles | Comprobación orientativa documentada en `docs/guias/gpu-setup.md` |
 | VS Code + Continue | Interfaz cliente que puede conectarse al runtime local | Configuración de cliente y asistente |
-| Scripts | Instalación, ejecución del laboratorio de robustez, diagnóstico y ejecución interactiva | `scripts/`; requieren revisión y permisos adecuados |
-| Unidad systemd | Referencia de servicio | `system/ollama.service` no está validada como reemplazo de la unidad creada por el instalador |
+| Scripts | Instalación, ejecución del laboratorio de robustez, diagnóstico y ejecución interactiva | `scripts/instalacion/`, `scripts/robustez/`, `scripts/utilidades/`; requieren revisión y permisos adecuados |
+| Unidad systemd | Referencia de servicio | `config/ollama.service` no está validada como reemplazo de la unidad creada por el instalador |
 
 Flujo de trabajo: el servidor ejecuta Ubuntu Server sin interfaz gráfica. Desde el equipo principal se administra el servidor vía SSH. Ollama ejecuta el daemon y sirve el modelo operativo (`qwen2.5-coder:7b`) en el puerto 11434. El cliente de desarrollo (VS Code / Continue) o la consola interactiva consumen la inferencia localmente.
 
@@ -82,20 +82,20 @@ Checklist antes de usar el laboratorio:
 | Uso de GPU por Ollama | Revisar logs durante una inferencia y observar carga con `nvidia-smi` | Evidencia coincidente durante la misma prueba | No verificado en este repositorio |
 | Integración con Continue | Enviar una petición de prueba sin datos sensibles | El cliente responde mediante el endpoint esperado | Configuración y resultado no versionados |
 
-Consulta la [bitácora técnica y hoja de ruta](docs/bitacora-decisiones-aprendizaje.md), la [integración de Continue con Ollama remoto y contexto 16K](docs/continue-remote-ollama-setup.md), el [despliegue de servidor Ubuntu Server](docs/server-deployment-ubuntu-ollama.md), la [configuración de GPU](docs/gpu-setup.md), la [arquitectura del laboratorio](docs/architecture.md), la [guía de diagnóstico](docs/troubleshooting.md) y el [caso de estudio de OpenCode](CASE_STUDY_OPENCODE_MIGRATION.md).
+Consulta la [bitácora técnica y hoja de ruta](docs/referencia/bitacora-decisiones-aprendizaje.md), la [integración de Continue con Ollama remoto y contexto 16K](docs/guias/continue-remote-ollama-setup.md), el [despliegue de servidor Ubuntu Server](docs/guias/server-deployment-ubuntu-ollama.md), la [configuración de GPU](docs/guias/gpu-setup.md), la [arquitectura del laboratorio](docs/arquitectura/architecture.md), la [guía de diagnóstico](docs/guias/troubleshooting.md) y el [caso de estudio de OpenCode](docs/referencia/CASE_STUDY_OPENCODE_MIGRATION.md).
 
 Documentos aplicados:
 
 | Documento | Qué aporta |
 |---|---|
-| [Continuidad de sesiones con OpenCode](docs/opencode-session-continuity.md) | Comandos, briefs y estado en archivos |
-| [Evaluación y seguridad de una función con LLM](docs/ai-security-evaluation.md) | Conjunto dorado, inyección, métricas y CI |
-| [Robustez de prompts frente a perturbaciones de entrada](docs/prompt-robustness-testing.md) | Cargas canario, familias de transformación, matriz de intensidad y métricas de evasión |
-| [Evidencia del instrumento](docs/evidencias/2026-10-22-robustez-prompt/README.md) | 113 casos congelados, 15 transformaciones activas y un control negativo; sin medición de modelo |
-| [Ejecución con modelo](docs/evidencias/2026-10-22-robustez-ejecucion/README.md) | `qwen2.5:3b`, N0 y N1; la inyección directa funciona sin transformar |
-| [Línea base con el instrumento corregido](docs/evidencias/2026-10-22-robustez-ejecucion-1302/README.md) | Control negativo 3/3 válido; la obediencia en N0 se reproduce en 0,50 |
-| [Fase de ejecución](docs/prompt-robustness-testing.md#13-fase-de-ejecución) | `scripts/run_robustness_lab.sh` instala, ejecuta y restaura el equipo |
-| [Inferencia local frente a cloud](docs/local-vs-cloud.md) | Criterios de decisión y errores frecuentes |
+| [Continuidad de sesiones con OpenCode](docs/guias/opencode-session-continuity.md) | Comandos, briefs y estado en archivos |
+| [Evaluación y seguridad de una función con LLM](docs/referencia/ai-security-evaluation.md) | Conjunto dorado, inyección, métricas y CI |
+| [Robustez de prompts frente a perturbaciones de entrada](docs/referencia/prompt-robustness-testing.md) | Cargas canario, familias de transformación, matriz de intensidad y métricas de evasión |
+| [Evidencia del instrumento](docs/evidencias/2026-10-22-robustez-instrumento/README.md) | 113 casos congelados, 15 transformaciones activas y un control negativo; sin medición de modelo |
+| [Ejecución con modelo](docs/evidencias/2026-10-22-robustez-ejecucion-v1/README.md) | `qwen2.5:3b`, N0 y N1; la inyección directa funciona sin transformar |
+| [Línea base con el instrumento corregido](docs/evidencias/2026-10-22-robustez-ejecucion-v2/README.md) | Control negativo 3/3 válido; la obediencia en N0 se reproduce en 0,50 |
+| [Fase de ejecución](docs/referencia/prompt-robustness-testing.md#13-fase-de-ejecución) | `scripts/robustez/run_robustness_lab.sh` instala, ejecuta y restaura el equipo |
+| [Inferencia local frente a cloud](docs/guias/local-vs-cloud.md) | Criterios de decisión y errores frecuentes |
 
 ## Lecciones aprendidas y límites
 
@@ -105,4 +105,4 @@ Documentos aplicados:
 - La unidad incluida en `system/` es una referencia no verificada; no debe copiarse encima de la unidad instalada sin revisar usuario, permisos, rutas y acceso al hardware.
 - Los ejemplos son material ilustrativo/documental, no mediciones de rendimiento ni registros de una sesión demostrada.
 
-El detalle operativo está en [`docs/`](docs/); los ejemplos de interacción, en [`examples/`](examples/). Licencia: MIT.
+El detalle operativo está en [`docs/`](docs/) (ver [`docs/README.md`](docs/README.md) para navegación); los ejemplos de interacción, en [`examples/`](examples/). Licencia: MIT.

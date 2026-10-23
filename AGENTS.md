@@ -11,33 +11,42 @@ Este repositorio documenta un laboratorio local de agentes de IA construido con 
 ├── AGENTS.md
 ├── README.md
 ├── LICENSE
-├── CASE_STUDY_OPENCODE_MIGRATION.md
 ├── docs/
-│   ├── architecture.md
-│   ├── bitacora-decisiones-aprendizaje.md
-│   ├── continue-remote-ollama-setup.md
-│   ├── gpu-setup.md
-│   ├── server-deployment-ubuntu-ollama.md
-│   ├── opencode-session-continuity.md
-│   ├── ai-security-evaluation.md
-│   ├── prompt-robustness-testing.md
-│   ├── local-vs-cloud.md
-│   └── troubleshooting.md
-├── docs/evidencias/
-│   └── 2026-10-22-robustez-prompt/
-├── evolutivos/
-│   ├── contenerizacion.md
-│   └── squad.md
+│   ├── README.md
+│   ├── arquitectura/
+│   │   ├── architecture.md
+│   │   ├── contenerizacion.md
+│   │   └── squad.md
+│   ├── guias/
+│   │   ├── continue-remote-ollama-setup.md
+│   │   ├── gpu-setup.md
+│   │   ├── local-vs-cloud.md
+│   │   ├── opencode-session-continuity.md
+│   │   ├── server-deployment-ubuntu-ollama.md
+│   │   └── troubleshooting.md
+│   ├── referencia/
+│   │   ├── ai-security-evaluation.md
+│   │   ├── bitacora-decisiones-aprendizaje.md
+│   │   ├── CASE_STUDY_OPENCODE_MIGRATION.md
+│   │   └── prompt-robustness-testing.md
+│   └── evidencias/
+│       ├── 2026-10-22-robustez-instrumento/
+│       ├── 2026-10-22-robustez-ejecucion-v1/
+│       ├── 2026-10-22-robustez-ejecucion-v2/
+│       └── plantilla-evidencia.md
 ├── examples/
 │   ├── agent-session.md
 │   └── code-reading-demo.md
 ├── scripts/
-│   ├── install_ollama.sh
-│   ├── prompt_robustness_matrix.py
-│   ├── run_robustness_lab.sh
-│   ├── run_agent.sh
-│   └── gpu_check.sh
-└── system/
+│   ├── instalacion/
+│   │   ├── install_ollama.sh
+│   │   └── gpu_check.sh
+│   ├── robustez/
+│   │   ├── prompt_robustness_matrix.py
+│   │   └── run_robustness_lab.sh
+│   └── utilidades/
+│       └── run_agent.sh
+└── config/
     ├── Modelfile.portfolio-agent
     └── ollama.service
 ```
@@ -64,7 +73,7 @@ Formato: `type(scope): imperative summary in English`
 - `docs` — cambios en archivos de documentación bajo `docs/`
 - `examples` — cambios en archivos de ejemplos bajo `examples/`
 - `scripts` — cambios en scripts de shell bajo `scripts/`
-- `system` — cambios en archivos de servicio del sistema bajo `system/`
+- `config` — cambios en archivos de configuración bajo `config/`
 - `repo` — cambios generales del repositorio (README, AGENTS.md, LICENSE, config a nivel raíz)
 Tipos permitidos: `feat`, `fix`, `docs`, `refactor`, `test`, `chore`
 El asunto debe ser imperativo, conciso y en inglés.
