@@ -1,7 +1,5 @@
 # Bitácora de Aprendizaje, Decisiones Técnicas y Evolución de IA Local
 
-> **En fácil:** es el diario técnico del laboratorio. Cuenta qué se montó, qué falló, por qué se tomó cada decisión y qué queda por hacer. Sirve para volver a montar el entorno desde cero y para no repetir errores.
-
 Este documento registra cronológicamente las fases de investigación, decisiones arquitectónicas, problemas encontrados, análisis causa-raíz y soluciones implementadas en el laboratorio. Su propósito es servir como memoria técnica verificable, guía de reinstalación o recuperación ante desastres y base de conocimiento para debatir y expandir capacidades futuras.
 
 ---
@@ -158,5 +156,4 @@ Este laboratorio evoluciona como portfolio de aprendizaje de Inteligencia Artifi
 - [ ] Separar en cada ejecución el fallo del filtro (evasión) del fallo del modelo (obediencia); sin ese desglose no se sabe qué corregir.
 - [ ] Usar la misma matriz para comparar modelos locales con una **puntuación por tarea**, no un ranking general: el resultado solo es válido para el prompt y la tarea evaluados.
 - [ ] Medir el factor de expansión de tokens de cada transformación: una mitigación que multiplica el coste por diez es un problema de consumo, no solo de filtrado.
-
 

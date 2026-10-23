@@ -1,7 +1,5 @@
 # Laboratorio y Portfolio de Aprendizaje en IA Local
 
-> **En fácil:** un ordenador propio ejecuta el modelo de lenguaje, así que los datos no salen de casa. El repositorio cuenta cómo se montó, qué falló y qué se aprendió.
-
 Laboratorio personal y bitácora técnica de **IA local aplicada a desarrollo y seguridad**. Documenta las decisiones de arquitectura, la resolución de incidentes, el despliegue bare-metal (Ubuntu Server + Ollama), la integración de asistentes y la hoja de ruta (RAG, cuantización, agentes locales, continuidad de sesiones y evaluación de seguridad con LLM).
 
 ## Propósito del repositorio

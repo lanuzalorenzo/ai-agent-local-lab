@@ -4,8 +4,6 @@
 >
 > **Propósito:** definir cómo se evalúa una función que usa un LLM antes de presentarla como útil y segura, tanto si el modelo es local como si es remoto.
 
-## En fácil
-
 Una función con un modelo de lenguaje no se aprueba porque una vez respondió bien delante de alguien.
 
 Se aprueba si cumples cuatro cosas, y cada una se comprueba a su manera:

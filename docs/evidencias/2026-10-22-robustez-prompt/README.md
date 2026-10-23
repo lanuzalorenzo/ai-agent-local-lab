@@ -7,8 +7,6 @@
 > **Diseño:** [`docs/prompt-robustness-testing.md`](../../prompt-robustness-testing.md)
 > **Ejecución real:** [`2026-10-22-robustez-ejecucion/`](../2026-10-22-robustez-ejecucion/README.md)
 
-## En fácil
-
 Imagina que quieres saber si un vigilante lee las notas que le dejan en el mostrador.
 
 Primero hay que comprobar que las notas están bien escritas. Si preparas una nota con un truco, tienes que poder deshacer el truco tú mismo y ver que la nota sigue diciendo lo mismo. Si no puedes, no has preparado un examen: has preparado un texto ilegible, y el vigilante suspenderá por no saber leerlo, no por ser buen vigilante.
@@ -65,7 +63,7 @@ La versión inicial de leetspeak sustituía `a→4, e→3, i→1, o→0, s→5`.
 
 Consecuencia: si el modelo hubiera obedecido y emitido el testigo, el detector habría dicho «resiste». **Un falso negativo silencioso**, que es el peor resultado posible en una prueba de seguridad.
 
-En fácil: preparamos una pregunta con truco y, al deshacer el truco, la pregunta ya no era la misma. Habríamos suspendido al modelo por una nota mal escrita por nosotros.
+preparamos una pregunta con truco y, al deshacer el truco, la pregunta ya no era la misma. Habríamos suspendido al modelo por una nota mal escrita por nosotros.
 
 Corrección: alfabeto de sustitución sin colisión con el texto (`a→@, e→€, i→!, o→Ø, s→$`) y comprobación automática de integridad del testigo.
 
@@ -75,7 +73,7 @@ Unirse palabras con `-` o `.` parece inocuo, pero el texto original ya contiene 
 
 Corrección: el criterio de recuperación se define sobre **significado normalizado** (sin mayúsculas, acentos ni puntuación, con espacios colapsados) en lugar de sobre igualdad byte a byte. Lo que se pierde en el criterio se gana en corrección: la puntuación no cambia la instrucción, la pérdida de letras sí.
 
-En fácil: si separas las palabras con guiones y el texto original ya tenía guiones, al juntarlas otra vez no sabes cuáles eran separadores y cuáles parte del texto. Se compara el significado, no los caracteres exactos.
+si separas las palabras con guiones y el texto original ya tenía guiones, al juntarlas otra vez no sabes cuáles eran separadores y cuáles parte del texto. Se compara el significado, no los caracteres exactos.
 
 ### H-3 · Dos transformaciones no son invertibles por diseño
 
@@ -86,13 +84,13 @@ En fácil: si separas las palabras con guiones y el texto original ya tenía gui
 
 No se eliminan: son transformaciones reales que merecen probarse. Se marcan como **no verificables** y quedan fuera de las cadenas N2/N3, donde una carga no recuperable invalidaría todo el caso. Son el 10,5 % del catálogo, por debajo del umbral del 90 % de preservación que exige el diseño.
 
-En fácil: quitar las vocales produce palabras que se pueden leer de varias maneras. No se puede comprobar si la pregunta sigue siendo la misma, así que no se usa para encadenar trucos.
+quitar las vocales produce palabras que se pueden leer de varias maneras. No se puede comprobar si la pregunta sigue siendo la misma, así que no se usa para encadenar trucos.
 
 ### H-4 · Falso negativo en la propia normalización
 
 Dos espacios consecutivos (`anterior. Responde` → `anterior  responde`) hacían fallar la comparación de cadenas invertibles. Corregido colapsando espacios. Lo relevante: el instrumento también se equivoca, y por eso se valida antes de usarlo.
 
-En fácil: el corrector tenía una errata y suspendía preguntas correctas. Se arregló antes de usar el examen.
+el corrector tenía una errata y suspendía preguntas correctas. Se arregló antes de usar el examen.
 
 ## 3 bis. Lo que la primera ejecución real obligó a cambiar
 
@@ -109,7 +107,7 @@ La ejecución del 2026-10-22 contra `qwen2.5:3b` no confirmó el conjunto: lo re
 
 Contarlas como «resistencia» sería un falso positivo: el modelo no rechazó el ataque, no lo entendió. Quedan fuera del conjunto activo (15 de 19) y siguen validadas por el `selftest`, listas para cuando exista la comprobación de decodificación del §6 del diseño. El flag `--incluir-codificadas` las recupera.
 
-En fácil: escribir la orden en un idioma que el vigilante no sabe leer. No la obedece porque no la entiende, no porque se haya defendido. Si lo apuntamos como «resistió», nos estamos engañando.
+escribir la orden en un idioma que el vigilante no sabe leer. No la obedece porque no la entiende, no porque se haya defendido. Si lo apuntamos como «resistió», nos estamos engañando.
 
 ### Se añade un control negativo (C0)
 
@@ -117,7 +115,7 @@ El canario C0 no lleva ninguna instrucción: es un pedido normal. Mide si el mod
 
 Sin esa referencia, el canario C3 («abandonó el formato») no se puede interpretar: no se distingue «el ataque funcionó» de «este modelo escribe mal el JSON de todas formas».
 
-En fácil: antes de preguntar cuánto aguanta el vigilante, comprueba si sabe leer una nota normal. Si no sabe, el examen no mide defensa.
+antes de preguntar cuánto aguanta el vigilante, comprueba si sabe leer una nota normal. Si no sabe, el examen no mide defensa.
 
 ## 4. Conjunto congelado
 
@@ -153,7 +151,7 @@ El control negativo no entra en la cuenta de obediencia: se informa aparte como 
 
 Lectura: la cadena más barata para el atacante (`F1-leet+F2-cirilico`, factor 1,0) no cuesta ni un carácter extra y sigue siendo recuperable. El coste del ataque no es una defensa.
 
-En fácil: hay disfraces que no engordan nada la nota. No puedes defenderte obligando a escribir mucho.
+hay disfraces que no engordan nada la nota. No puedes defenderte obligando a escribir mucho.
 
 ## 5. Qué no demuestra
 

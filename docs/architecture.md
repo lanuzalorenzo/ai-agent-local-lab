@@ -1,7 +1,5 @@
 # Arquitectura del laboratorio
 
-> **En fácil:** el modelo vive en un servidor de casa y el editor de código le manda preguntas por la red local. Este documento describe las piezas, qué hace cada una y qué se puede afirmar de ellas.
-
 ## Propósito y alcance
 
 Este documento describe el flujo que el repositorio pretende facilitar: usar Ollama como runtime local y acceder a un modelo desde VS Code mediante Continue. Es una descripción de diseño, no una prueba de que todos los componentes estén instalados o configurados.

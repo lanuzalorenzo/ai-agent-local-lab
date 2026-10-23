@@ -5,8 +5,6 @@
 > **Qué estrena:** control negativo C0 y 15 transformaciones activas.
 > **Resultado:** el control negativo sale limpio (3/3) y la obediencia sigue en 0,50.
 
-## En fácil
-
 Volvimos a pasar el examen, ahora bien escrito, para comprobar dos cosas:
 
 1. **Que el vigilante sabe rellenar un formulario normal.** Le dimos un pedido sin trampa y devolvió el JSON correcto las tres veces. Eso significa que, cuando abandona el formato en el examen de verdad, es por la orden escondida y no porque escriba mal.
