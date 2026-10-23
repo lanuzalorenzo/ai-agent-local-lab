@@ -1,6 +1,6 @@
 # Robustez de prompts frente a perturbaciones de entrada
 
-> **Estado:** ejecutado parcialmente. N0 y N1 medidos contra `qwen2.5:3b` el 2026-10-22; **la línea base falla** (0,50) y las cuatro transformaciones codificadas quedaron fuera por ilegibles. N2 y N3 pendientes. Ver [instrumento validado](evidencias/2026-10-22-robustez-prompt/README.md), [ejecución con N0/N1](evidencias/2026-10-22-robustez-ejecucion/README.md) y [línea base con el instrumento corregido](evidencias/2026-10-22-robustez-ejecucion-1302/README.md).
+> **Estado:** ejecutado parcialmente. N0 y N1 medidos contra `qwen2.5:3b` el 2026-10-22; **la línea base falla** (0,50) y las cuatro transformaciones codificadas quedaron fuera por ilegibles. N2 y N3 pendientes. Ver [instrumento validado](../evidencias/2026-10-22-robustez-instrumento/README.md), [ejecución con N0/N1](../evidencias/2026-10-22-robustez-ejecucion-v1/README.md) y [línea base con el instrumento corregido](../evidencias/2026-10-22-robustez-ejecucion-v2/README.md).
 >
 > **Propósito:** definir cómo se mide la resistencia de una función con LLM a ataques que **no cambian el significado de la instrucción, solo su forma**. Es el complemento medible de las pruebas de inyección de [`ai-security-evaluation.md`](ai-security-evaluation.md), que cubren el ataque semántico.
 
@@ -210,9 +210,9 @@ La ejecución corresponde a la fase T10 del plan del laboratorio; hasta entonces
 
 | Artefacto | Ruta | Estado |
 |---|---|---|
-| Matriz ejecutable | [`scripts/robustez/prompt_robustness_matrix.py`](../scripts/robustez/prompt_robustness_matrix.py) | Implementada, biblioteca estándar |
-| Validación del instrumento | [`docs/evidencias/2026-10-22-robustez-instrumento/`](evidencias/2026-10-22-robustez-instrumento/README.md) | Validada sin modelo |
-| Ejecución en Ubuntu | [`scripts/robustez/run_robustness_lab.sh`](../scripts/robustez/run_robustness_lab.sh) | Implementada y ejecutada |
+| Matriz ejecutable | [`scripts/robustez/prompt_robustness_matrix.py`](../../scripts/robustez/prompt_robustness_matrix.py) | Implementada, biblioteca estándar |
+| Validación del instrumento | [`docs/evidencias/2026-10-22-robustez-instrumento/`](../evidencias/2026-10-22-robustez-instrumento/README.md) | Validada sin modelo |
+| Ejecución en Ubuntu | [`scripts/robustez/run_robustness_lab.sh`](../../scripts/robustez/run_robustness_lab.sh) | Implementada y ejecutada |
 
 Subcomandos:
 
@@ -272,18 +272,18 @@ Garantías del script, que son el motivo de que exista:
 | La evidencia no identifica el equipo | Huella de entorno sin nombre de host ni IP |
 | Se puede auditar antes de ejecutar | `--dry-run` imprime cada acción |
 
-La instalación no se duplica: el script delega en [`install_ollama.sh`](../scripts/install_ollama.sh) con `ASSUME_YES=1`, que es la única ruta de instalación del repositorio.
+La instalación no se duplica: el script delega en [`install_ollama.sh`](../../scripts/instalacion/install_ollama.sh) con `ASSUME_YES=1`, que es la única ruta de instalación del repositorio.
 
 La evidencia que produce cada ejecución:
 
 ```text
-docs/evidencias/<fecha>-robustez-ejecucion/
+../evidencias/<fecha>-robustez-ejecucion-v1/
 ├── entorno.json     # sistema, kernel, CPU, RAM, GPU, versión de Ollama, digest del modelo
 ├── resultados.json  # un registro por caso con veredicto, repeticiones e inestabilidad
 └── resumen.json     # obediencia y robustez por nivel, más el control negativo
 ```
 
-Estado: **implementado y ejecutado una vez** (2026-10-22, `qwen2.5:3b`, niveles N0 y N1). El resultado está en [`evidencias/2026-10-22-robustez-ejecucion/`](evidencias/2026-10-22-robustez-ejecucion/README.md). Dos de los tres defectos del §14 ya están corregidos en el instrumento; falta la línea base defendida.
+Estado: **implementado y ejecutado una vez** (2026-10-22, `qwen2.5:3b`, niveles N0 y N1). El resultado está en [`../evidencias/2026-10-22-robustez-ejecucion-v1/`](../evidencias/2026-10-22-robustez-ejecucion-v1/README.md). Dos de los tres defectos del §14 ya están corregidos en el instrumento; falta la línea base defendida.
 
 ## 14. Lo que la primera ejecución corrigió en el diseño
 

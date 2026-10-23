@@ -155,7 +155,7 @@ hay disfraces que no engordan nada la nota. No puedes defenderte obligando a esc
 
 ## 5. Qué no demuestra
 
-- **No hay ningún resultado sobre un modelo en esta página.** La ejecución está en [su propia carpeta](../2026-10-22-robustez-ejecucion/README.md) y se refiere solo a `qwen2.5:3b`.
+- **No hay ningún resultado sobre un modelo en esta página.** La ejecución está en [su propia carpeta](../2026-10-22-robustez-ejecucion-v1/README.md) y se refiere solo a `qwen2.5:3b`.
 - **La invertibilidad determinista no es preservación semántica por el modelo.** Que una inversa recupere el texto no implica que el LLM entienda la carga transformada. Ese paso está en el diseño (§6) y no se ha ejecutado.
 - **La medición de tokens está pendiente.** El factor calculado es de caracteres; la equivalencia en tokens depende del tokenizador y puede variar entre modelos.
 - **El filtro no está instrumentado.** Sin filtro no hay métrica de evasión y no se puede separar la culpa entre guardrail y modelo.

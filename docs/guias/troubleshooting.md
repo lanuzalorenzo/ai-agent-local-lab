@@ -42,4 +42,4 @@ Identifica el origen de la unidad activa, la ruta del ejecutable y el método de
 
 ## Logs vacíos o sin información suficiente
 
-Consulta primero estado y logs con `systemctl`/`journalctl`; [`scripts/instalacion/gpu_check.sh`](../scripts/instalacion/gpu_check.sh) agrupa algunas comprobaciones. El script puede terminar con error si el servicio está parado; eso debe tratarse como información diagnóstica, no ocultarse.
+Consulta primero estado y logs con `systemctl`/`journalctl`; [`scripts/instalacion/gpu_check.sh`](../../scripts/instalacion/gpu_check.sh) agrupa algunas comprobaciones. El script puede terminar con error si el servicio está parado; eso debe tratarse como información diagnóstica, no ocultarse.

@@ -86,7 +86,7 @@ Este documento registra cronológicamente las fases de investigación, decisione
 
 #### A. Reestructuración del `Modelfile` en el Servidor Remoto
 - **Prompt de Sistema Ligero:** Se sustituyó el prompt masivo por un bloque `SYSTEM` conciso que define únicamente el rol principal (*Lead Cloud Security Architect, DevSecOps & .NET Architect*), la orientación hacia *Security by Design*, el principio de *Rumbo Fijo* y el activo de referencia `lab-api-local-azure`.
-- **Ampliación de Ventana de Contexto (`num_ctx`):** Se añadió la directiva `PARAMETER num_ctx 16384` en [`system/Modelfile.portfolio-agent`](../system/Modelfile.portfolio-agent) para permitir la inyección de documentos extensos bajo demanda sin saturar la memoria inicial:
+- **Ampliación de Ventana de Contexto (`num_ctx`):** Se añadió la directiva `PARAMETER num_ctx 16384` en [`system/Modelfile.portfolio-agent`](../../config/Modelfile.portfolio-agent) para permitir la inyección de documentos extensos bajo demanda sin saturar la memoria inicial:
 
 ```dockerfile
 FROM qwen2.5-coder:7b
@@ -146,7 +146,7 @@ Este laboratorio evoluciona como portfolio de aprendizaje de Inteligencia Artifi
 ### Eje 5: Evaluación y Robustez de LLM
 - [ ] Construir el conjunto dorado mínimo (20–50 casos) descrito en [`ai-security-evaluation.md`](ai-security-evaluation.md) y automatizarlo en CI.
 - [x] Implementar la matriz de perturbación de [`prompt-robustness-testing.md`](prompt-robustness-testing.md): canarios C0–C4, familias F1–F4 y niveles N0–N3.
-- [x] Ejecutar la matriz en el equipo Ubuntu con [`run_robustness_lab.sh`](../scripts/run_robustness_lab.sh) y registrar la huella del entorno junto a los resultados.
+- [x] Ejecutar la matriz en el equipo Ubuntu con [`run_robustness_lab.sh`](../../scripts/robustez/run_robustness_lab.sh) y registrar la huella del entorno junto a los resultados.
 - [x] Primera ejecución (2026-10-22, `qwen2.5:3b`, N0 y N1): obediencia en el control del 50 %, inyección directa funcional sin transformación.
 - [x] Añadir el control negativo C0 y excluir las cuatro transformaciones que el modelo no decodifica: medían ilegibilidad, no resistencia.
 - [x] Segunda pasada, solo N0 (2026-10-22, prompt `v1`): control negativo 3/3 con JSON válido; obediencia 0,50, idéntica a la primera.
