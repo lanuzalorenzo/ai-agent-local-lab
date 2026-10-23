@@ -23,6 +23,9 @@ This repository documents a local AI agent lab built with Ollama and Continue, i
 │   └── troubleshooting.md
 ├── docs/evidencias/
 │   └── 2026-10-22-robustez-prompt/
+├── evolutivos/
+│   ├── contenerizacion.md
+│   └── squad.md
 ├── examples/
 │   ├── agent-session.md
 │   └── code-reading-demo.md
