@@ -7,11 +7,11 @@
 # Proyecto: ai-agent-local-lab
 #
 # Uso:
-#   ./scripts/run_robustness_lab.sh                 # instala, ejecuta y restaura
-#   ./scripts/run_robustness_lab.sh --preparar      # solo deja el entorno listo
-#   ./scripts/run_robustness_lab.sh --keep          # no restaura al terminar
-#   ./scripts/run_robustness_lab.sh --restore       # revierte una sesión anterior
-#   ./scripts/run_robustness_lab.sh --dry-run       # muestra el plan sin ejecutar
+#   ./scripts/robustez/run_robustness_lab.sh                 # instala, ejecuta y restaura
+#   ./scripts/robustez/run_robustness_lab.sh --preparar      # solo deja el entorno listo
+#   ./scripts/robustez/run_robustness_lab.sh --keep          # no restaura al terminar
+#   ./scripts/robustez/run_robustness_lab.sh --restore       # revierte una sesión anterior
+#   ./scripts/robustez/run_robustness_lab.sh --dry-run       # muestra el plan sin ejecutar
 #
 # Garantías:
 #   - Solo instala Ollama si no existe. Si ya existe, no lo modifica.
@@ -153,14 +153,14 @@ instalar_ollama_si_falta() {
         return 0
     fi
 
-    log "Ollama no está instalado: se usa scripts/install_ollama.sh"
+    log "Ollama no está instalado: se usa scripts/instalacion/install_ollama.sh"
     if [[ $DRY_RUN -eq 0 ]]; then estado_set OLLAMA_INSTALADO_POR_SCRIPT 1; fi
 
     if [[ $DRY_RUN -eq 1 ]]; then
-        printf '   [dry-run] ASSUME_YES=1 bash %s\n' "$DIR_SCRIPT/install_ollama.sh"
+        printf '   [dry-run] ASSUME_YES=1 bash %s\n' "$DIR_SCRIPT/../instalacion/install_ollama.sh"
         return 0
     fi
-    ASSUME_YES=1 bash "$DIR_SCRIPT/install_ollama.sh"
+    ASSUME_YES=1 bash "$DIR_SCRIPT/../instalacion/install_ollama.sh"
     command -v ollama >/dev/null 2>&1 || die "La instalación terminó pero 'ollama' no está en PATH"
 }
 
@@ -254,7 +254,7 @@ PY
 
 ejecutar_matriz() {
     log "Ejecutando la matriz de robustez"
-    ejecutar python3 "$RAIZ_REPO/scripts/prompt_robustness_matrix.py" run \
+    ejecutar python3 "$RAIZ_REPO/scripts/robustez/prompt_robustness_matrix.py" run \
         --model "$MODELO" \
         --endpoint "$ENDPOINT" \
         --niveles $NIVELES \

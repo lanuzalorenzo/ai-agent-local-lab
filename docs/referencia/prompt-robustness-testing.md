@@ -210,29 +210,29 @@ La ejecución corresponde a la fase T10 del plan del laboratorio; hasta entonces
 
 | Artefacto | Ruta | Estado |
 |---|---|---|
-| Matriz ejecutable | [`scripts/prompt_robustness_matrix.py`](../scripts/prompt_robustness_matrix.py) | Implementada, biblioteca estándar |
-| Validación del instrumento | [`docs/evidencias/2026-10-22-robustez-prompt/`](evidencias/2026-10-22-robustez-prompt/README.md) | Validada sin modelo |
-| Ejecución en Ubuntu | [`scripts/run_robustness_lab.sh`](../scripts/run_robustness_lab.sh) | Implementada y ejecutada |
+| Matriz ejecutable | [`scripts/robustez/prompt_robustness_matrix.py`](../scripts/robustez/prompt_robustness_matrix.py) | Implementada, biblioteca estándar |
+| Validación del instrumento | [`docs/evidencias/2026-10-22-robustez-instrumento/`](evidencias/2026-10-22-robustez-instrumento/README.md) | Validada sin modelo |
+| Ejecución en Ubuntu | [`scripts/robustez/run_robustness_lab.sh`](../scripts/robustez/run_robustness_lab.sh) | Implementada y ejecutada |
 
 Subcomandos:
 
 ```bash
 # Conjunto congelado de casos
-python3 scripts/prompt_robustness_matrix.py build --out /tmp/robustez --niveles N0 N1 N2 N3
+python3 scripts/robustez/prompt_robustness_matrix.py build --out /tmp/robustez --niveles N0 N1 N2 N3
 
 # Validación sin modelo: determinismo, recuperación semántica e integridad del testigo
-python3 scripts/prompt_robustness_matrix.py selftest --out /tmp/robustez --niveles N0 N1 N2 N3
+python3 scripts/robustez/prompt_robustness_matrix.py selftest --out /tmp/robustez --niveles N0 N1 N2 N3
 
 # Ejecución contra un modelo
-python3 scripts/prompt_robustness_matrix.py run --model qwen2.5:3b \
+python3 scripts/robustez/prompt_robustness_matrix.py run --model qwen2.5:3b \
   --endpoint http://127.0.0.1:11434 --niveles N0 N1 --repeticiones 3
 
 # Reactivar las transformaciones codificadas (solo con la comprobación del §6)
-python3 scripts/prompt_robustness_matrix.py run --model qwen2.5:3b \
+python3 scripts/robustez/prompt_robustness_matrix.py run --model qwen2.5:3b \
   --niveles N0 N1 --incluir-codificadas
 
 # Probar otra versión del prompt de sistema (ver §15)
-python3 scripts/prompt_robustness_matrix.py run --model qwen2.5:3b \
+python3 scripts/robustez/prompt_robustness_matrix.py run --model qwen2.5:3b \
   --niveles N0 --sistema v2
 ```
 
@@ -246,19 +246,19 @@ El laboratorio está preparado para producir la evidencia en un equipo Ubuntu, s
 
 ```bash
 # Simular el plan sin tocar nada
-./scripts/run_robustness_lab.sh --dry-run
+./scripts/robustez/run_robustness_lab.sh --dry-run
 
 # Ejecutar: instala si falta, corre la matriz y restaura al terminar
-./scripts/run_robustness_lab.sh -y
+./scripts/robustez/run_robustness_lab.sh -y
 
 # Ejecución más corta para una primera pasada
-./scripts/run_robustness_lab.sh -y --modelo qwen2.5:3b --niveles N0
+./scripts/robustez/run_robustness_lab.sh -y --modelo qwen2.5:3b --niveles N0
 
 # Dejar el entorno montado para trabajar a mano
-./scripts/run_robustness_lab.sh -y --preparar --keep
+./scripts/robustez/run_robustness_lab.sh -y --preparar --keep
 
 # Revertir una sesión anterior
-./scripts/run_robustness_lab.sh --restore
+./scripts/robustez/run_robustness_lab.sh --restore
 ```
 
 Garantías del script, que son el motivo de que exista:

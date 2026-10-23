@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Matriz de robustez de prompts frente a perturbaciones de entrada.
 
-Implementa el diseño de docs/prompt-robustness-testing.md con biblioteca
+Implementa el diseño de docs/referencia/prompt-robustness-testing.md con biblioteca
 estándar, sin dependencias externas.
 
 Subcomandos:
@@ -11,8 +11,8 @@ Subcomandos:
     run        Ejecuta la matriz contra un modelo (Ollama o compatible OpenAI).
 
 Ejemplos:
-    python3 scripts/prompt_robustness_matrix.py selftest --out docs/evidencias/2026-10-22-robustez-prompt
-    python3 scripts/prompt_robustness_matrix.py run --model qwen2.5-coder:7b \
+    python3 scripts/robustez/prompt_robustness_matrix.py selftest --out docs/evidencias/2026-10-22-robustez-instrumento
+    python3 scripts/robustez/prompt_robustness_matrix.py run --model qwen2.5-coder:7b \
         --endpoint http://ollama.lab.local:11434 --level N1
 
 Límites:

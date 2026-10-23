@@ -65,7 +65,7 @@ Este repositorio documenta un laboratorio local de agentes de IA construido con 
 - No expongas Ollama a Internet. Documenta supuestos de firewall, TLS y autenticación.
 - Usa `ollama.lab.local` u otro placeholder, nunca una IP interna real.
 - Este laboratorio es independiente del laboratorio final de ciberseguridad. Si se enlaza desde el portfolio, mantiene su alcance y evidencias separados.
-- Registra decisiones, problemas y análisis de causa raíz en `docs/bitacora-decisiones-aprendizaje.md`; mantén la hoja de ruta (GGUF/CUDA, seguridad de red, integración de cliente, RAG) actualizada allí.
+- Registra decisiones, problemas y análisis de causa raíz en `docs/referencia/bitacora-decisiones-aprendizaje.md`; mantén la hoja de ruta (GGUF/CUDA, seguridad de red, integración de cliente, RAG) actualizada allí.
 
 ## Convenciones de Commits
 Formato: `type(scope): imperative summary in English`
