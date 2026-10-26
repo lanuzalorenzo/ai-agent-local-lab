@@ -34,6 +34,7 @@ Marcos de evaluación, bitácora técnica y casos de estudio.
 | [`bitacora-decisiones-aprendizaje.md`](referencia/bitacora-decisiones-aprendizaje.md) | Memoria técnica cronológica: decisiones, incidentes, causa raíz, hoja de ruta (GGUF/CUDA, red, clientes, RAG) |
 | [`CASE_STUDY_OPENCODE_MIGRATION.md`](referencia/CASE_STUDY_OPENCODE_MIGRATION.md) | Caso de estudio: migración de asistentes y lecciones de continuidad de sesión |
 | [`coste-contexto-y-optimizacion.md`](referencia/coste-contexto-y-optimizacion.md) | Riesgo de consumo elevado de prompts, controles de optimización y prevención |
+| [`opencode-vs-vscode-antigravity.md`](referencia/opencode-vs-vscode-antigravity.md) | Criterios de decisión: OpenCode vs VS Code / Google Antigravity (privacidad, coste, contexto) |
 
 ## Evidencias (`evidencias/`)
 
