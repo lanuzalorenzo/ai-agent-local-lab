@@ -26,7 +26,7 @@ set -Eeuo pipefail
 # --------------------------------------------------------------------------
 
 DIR_SCRIPT="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-RAIZ_REPO="$(cd "$DIR_SCRIPT/.." && pwd)"
+RAIZ_REPO="$(cd "$DIR_SCRIPT/../.." && pwd)"
 
 MODELO="${MODELO:-qwen2.5-coder:7b}"
 NIVELES="${NIVELES:-N0 N1}"
