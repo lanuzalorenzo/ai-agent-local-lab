@@ -94,6 +94,7 @@ Documentos aplicados:
 | [Evidencia del instrumento](docs/evidencias/2026-10-22-robustez-instrumento/README.md) | 113 casos congelados, 15 transformaciones activas y un control negativo; sin medición de modelo |
 | [Ejecución con modelo](docs/evidencias/2026-10-22-robustez-ejecucion-v1/README.md) | `qwen2.5:3b`, N0 y N1; la inyección directa funciona sin transformar |
 | [Línea base con el instrumento corregido](docs/evidencias/2026-10-22-robustez-ejecucion-v2/README.md) | Control negativo 3/3 válido; la obediencia en N0 se reproduce en 0,50 |
+| [Prompt v2 endurecido](docs/evidencias/2026-10-26-robustez-prompt-v2/README.md) | 15 inferencias en N0: misma obediencia (0,50) y mismos canarios; la defensa no puede vivir en el prompt |
 | [Fase de ejecución](docs/referencia/prompt-robustness-testing.md#13-fase-de-ejecución) | `scripts/robustez/run_robustness_lab.sh` instala, ejecuta y restaura el equipo |
 | [Inferencia local frente a cloud](docs/guias/local-vs-cloud.md) | Criterios de decisión y errores frecuentes |
 

@@ -45,6 +45,7 @@ Ejecuciones reales con artefactos congelados (JSON, huella de entorno, resultado
 | [`2026-10-22-robustez-instrumento/`](evidencias/2026-10-22-robustez-instrumento/) | Validación del instrumento (selftest): determinismo, inversa, testigo, factor de expansión. **Sin modelo**. |
 | [`2026-10-22-robustez-ejecucion-v1/`](evidencias/2026-10-22-robustez-ejecucion-v1/) | Primera ejecución con modelo (`qwen2.5:3b`, N0/N1). Obediencia 0,50. Instrumento original. |
 | [`2026-10-22-robustez-ejecucion-v2/`](evidencias/2026-10-22-robustez-ejecucion-v2/) | Línea base N0 con instrumento corregido (control negativo C0, 15 transformaciones). Obediencia 0,50 replicada. |
+| [`2026-10-26-robustez-prompt-v2/`](evidencias/2026-10-26-robustez-prompt-v2/) | Prompt `v2` endurecido frente a `v1`, N0. Obediencia 0,50 sin cambios: las instrucciones no defienden a este modelo. |
 | [`plantilla-evidencia.md`](evidencias/plantilla-evidencia.md) | Plantilla para registrar nuevas evidencias de forma consistente |
 
 ---
