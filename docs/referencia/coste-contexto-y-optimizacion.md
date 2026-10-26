@@ -13,7 +13,7 @@ El coste de una sesión no está solo en la respuesta del modelo. Está en todo 
 
 Un contexto grande no solo cuesta más: degrada la atención del modelo, aumenta la latencia y puede provocar truncado o pérdida de instrucciones críticas. En un laboratorio local, el mismo problema aparece como saturación de la ventana de contexto y respuestas incoherentes.
 
-Ejemplo medido en este laboratorio: el esquema MCP de XERJ añadía ~14,2 k tokens fijos por sesión, por encima del ahorro esperado. El piloto se descartó por esa razón (ver `notes/ideas/archivadas/xerj-...` en `notas privadas`).
+Ejemplo medido en este laboratorio: el esquema MCP de XERJ añadía ~14,2 k tokens fijos por sesión, por encima del ahorro esperado. El piloto se descartó por esa razón.
 
 ## 2. Controles aplicados
 
@@ -62,7 +62,7 @@ Ejemplo medido en este laboratorio: el esquema MCP de XERJ añadía ~14,2 k toke
 ## 4. Verificación
 
 - `git status -s` solo de los repos implicados, no del workspace entero.
-- `check-guia.sh` (en `notas privadas`) para comprobar que los comandos y la guía están sincronizados.
+- `check-guia.sh` del repositorio privado de notas para comprobar que los comandos y la guía están sincronizados.
 - Revisar periódicamente el tamaño de los archivos que se cargan con frecuencia (`AGENTS.md`, `estado-frentes.md`, bloque 0).
 - Si un archivo supera ~8 KB y se lee en cada sesión, evaluar compactarlo o archivar parte de su contenido.
 
