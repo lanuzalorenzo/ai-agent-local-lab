@@ -33,6 +33,7 @@ Marcos de evaluación, bitácora técnica y casos de estudio.
 | [`prompt-robustness-testing.md`](referencia/prompt-robustness-testing.md) | Diseño de la matriz de perturbación: canarios C0–C4, familias F1–F4, niveles N0–N3, métricas de evasión |
 | [`bitacora-decisiones-aprendizaje.md`](referencia/bitacora-decisiones-aprendizaje.md) | Memoria técnica cronológica: decisiones, incidentes, causa raíz, hoja de ruta (GGUF/CUDA, red, clientes, RAG) |
 | [`CASE_STUDY_OPENCODE_MIGRATION.md`](referencia/CASE_STUDY_OPENCODE_MIGRATION.md) | Caso de estudio: migración de asistentes y lecciones de continuidad de sesión |
+| [`coste-contexto-y-optimizacion.md`](referencia/coste-contexto-y-optimizacion.md) | Riesgo de consumo elevado de prompts, controles de optimización y prevención |
 
 ## Evidencias (`evidencias/`)
 
