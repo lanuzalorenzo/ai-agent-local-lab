@@ -19,9 +19,10 @@ Ejemplo medido en este laboratorio: el esquema MCP de XERJ añadía ~14,2 k toke
 
 ### 2.1 Filtrado de entrada
 
-- `.opencodeignore` en cada repositorio para excluir builds, binarios, evidencias pesadas y archivos temporales.
+- `.opencodeignore` en cada repositorio: convención de proyecto. Medido el 2026-10-26 en OpenCode v2.1.4: **no filtra** lo que devuelven `glob`, `grep` ni `read`, así que no cuenta como ahorro real.
+- Regla de no abrir material archivado (briefs antiguos, diario y agenda archivados, evidencias ya cerradas): el ahorro viene de no leerlo, no de un fichero de exclusiones.
 - `watcher.ignore` en la configuración global para evitar reindexar rutas de build.
-- Lectura por rangos (`offset`/`limit`) y `grep` en lugar de `cat` de archivos completos.
+- `tool_output` acotado (líneas y bytes por resultado) y lectura por rangos (`offset`/`limit`) con `grep` en lugar de `cat` de archivos completos.
 
 ### 2.2 Instrucciones compactas
 
