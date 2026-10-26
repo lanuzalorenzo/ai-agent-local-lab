@@ -52,9 +52,9 @@ Ejemplo medido en este laboratorio: el esquema MCP de XERJ añadía ~14,2 k toke
 
 ## 3. Prevención en el flujo de trabajo
 
-- **Un repo, un objetivo, un vagón por sesión.** No abrir dos frentes a la vez.
-- **Prompt atómico**: indicar repo, vagón, objetivo, archivos a leer y archivos a no leer.
-- **No cargar el plan completo** si el estado compacto ya responde (`estado-frentes.md`, bloque 0 de `plan-de-sesiones.md`).
+- **Un repo, un objetivo, un ítem por sesión.** No abrir dos frentes a la vez.
+- **Prompt atómico**: indicar repo, ítem, objetivo, archivos a leer y archivos a no leer.
+- **No cargar el plan completo** si el estado compacto ya responde: basta el backlog del plan de trabajo.
 - **No leer archivos archivados** salvo que falte contexto.
 - **Cerrar la sesión con un brief** para que la siguiente no tenga que releer todo.
 - **Medir**: usar `opencode stats` o las métricas del proveedor para detectar picos; investigar la causa antes de aceptarlos.
@@ -63,7 +63,7 @@ Ejemplo medido en este laboratorio: el esquema MCP de XERJ añadía ~14,2 k toke
 
 - `git status -s` solo de los repos implicados, no del workspace entero.
 - `check-guia.sh` del repositorio privado de notas para comprobar que los comandos y la guía están sincronizados.
-- Revisar periódicamente el tamaño de los archivos que se cargan con frecuencia (`AGENTS.md`, `estado-frentes.md`, bloque 0).
+- Revisar periódicamente el tamaño de los archivos que se cargan con frecuencia (`AGENTS.md` y el backlog del plan).
 - Si un archivo supera ~8 KB y se lee en cada sesión, evaluar compactarlo o archivar parte de su contenido.
 
 ## 5. Relación con seguridad
