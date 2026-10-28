@@ -2,11 +2,9 @@
 
 Un único SVG, `ia-local.svg`, usado en la cabecera del README y como icono de la carpeta del repositorio.
 
-- Dibujo: `robot-outline` (robot).
-- Fondo: `#C2410C`.
-
-Formato común a la familia de repos públicos de Lanuzalorenzo: 64×64, esquinas redondeadas (`rx=14`), glifo blanco de 40×40 centrado y banda inferior de 8 px en blanco al 18 % como firma visual.
+- Glifo: marca de `Ollama`, el motor del laboratorio.
+- Formato: [identidad visual del workspace](https://github.com/lanuzalorenzo/lanuzalorenzo.github.io/blob/main/docs/identidad-visual.md) — 64×64, `rx=16`, fondo navy con degradado y glifo blanco relleno.
 
 ## Origen y licencia
 
-El glifo procede de [Material Design Icons](https://pictogrammers.com/library/mdi/) (Pictogrammers), licencia [Apache 2.0](https://www.apache.org/licenses/LICENSE-2.0). Está recoloreado y compuesto; la geometría del glifo no se ha modificado.
+La marca procede de [Simple Icons](https://simpleicons.org/) (CC0). Ollama es una marca de Ollama Inc.; se usa sin modificar y solo para identificar el motor con el que se ejecuta el laboratorio.
