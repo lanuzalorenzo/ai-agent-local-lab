@@ -1,3 +1,5 @@
+<img src="assets/iconos/ia-local.svg" width="64" alt="Icono del laboratorio de IA local">
+
 # Laboratorio y Portfolio de Aprendizaje en IA Local
 
 Laboratorio personal y bitácora técnica de **IA local aplicada a desarrollo y seguridad**. Documenta las decisiones de arquitectura, la resolución de incidentes, el despliegue bare-metal (Ubuntu Server + Ollama), la integración de asistentes y la hoja de ruta (RAG, cuantización, agentes locales, continuidad de sesiones y evaluación de seguridad con LLM).
