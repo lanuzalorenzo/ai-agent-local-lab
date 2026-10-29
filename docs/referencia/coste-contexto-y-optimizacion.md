@@ -51,6 +51,18 @@ Ejemplo medido en este laboratorio: el esquema MCP de XERJ añadía ~14,2 k toke
 - Modelo por defecto gratuito (`opencode/deepseek-v4.1-flash-free`) para no depender de suscripciones de pago.
 - Reservar modelos de razonamiento para decisiones de diseño y seguridad; usar modelos rápidos para DTOs, tests, Markdown e índices.
 
+### 2.7 Adopción de servidores MCP
+
+Un servidor MCP mete en el contexto la descripción de sus herramientas en cada petición, se usen o no. Es coste fijo que se paga durante toda la sesión, así que se cuenta antes de conectar:
+
+- Medir el esquema completo (herramientas, parámetros y descripciones) y compararlo con lo que el servidor ahorra en la tarea concreta.
+- Preferir pocas herramientas y descripciones breves; si expone operaciones que no se van a usar, se paga por ellas igual.
+- Si el coste supera el ahorro, no se conecta: `grep` y `read` acotados resuelven la mayoría de los casos.
+- Repetir la cuenta tras cada actualización del servidor; el esquema puede crecer sin que cambie su uso.
+
+El criterio sale del caso del §1: 14,2 k tokens fijos por sesión frente a un ahorro menor. No depende del lenguaje ni del cliente, solo del tamaño del esquema.
+
+
 ## 3. Prevención en el flujo de trabajo
 
 - **Un repo, un objetivo, un ítem por sesión.** No abrir dos frentes a la vez.
