@@ -31,6 +31,8 @@ Laboratorio personal y bitácora técnica de **IA local aplicada a desarrollo y 
 
 ## Arquitectura y componentes utilizados
 
+![Arquitectura local: el equipo cliente usa VS Code con Continue y OpenCode; ambos consumen la inferencia de Ollama por HTTP en el puerto 11434 y administran el servidor por SSH. Dentro del servidor headless, Ollama sirve el modelo qwen2.5-coder:7b y el puerto queda limitado a la red de laboratorio](docs/arquitectura-local.svg)
+
 | Componente | Función | Estado documentado |
 |---|---|---|
 | Ubuntu Server (Headless) | Sistema operativo bare-metal optimizado (CLI puro) para maximizar VRAM y RAM dedicadas al cómputo de LLMs | Guía completa en [`docs/guias/server-deployment-ubuntu-ollama.md`](docs/guias/server-deployment-ubuntu-ollama.md) |
