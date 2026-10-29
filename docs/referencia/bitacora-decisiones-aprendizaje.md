@@ -10,6 +10,7 @@ Este documento registra cronológicamente las fases de investigación, decisione
 3. [Entrada 03: Despliegue de Ollama, Inferencia CLI y Gestión Remota SSH](#entrada-03-despliegue-de-ollama-inferencia-cli-y-gestión-remota-ssh)
 4. [Entrada 04: Hoja de Ruta y Ejes de Aprendizaje Futuros](#entrada-04-hoja-de-ruta-y-ejes-de-aprendizaje-futuros)
 5. [Entrada 05: Optimización y Ajuste de Arquitectura de Contexto (`portfolio-agent` + Continue)](#entrada-05-optimización-y-ajuste-de-arquitectura-de-contexto-portfolio-agent--continue)
+6. [Entrada 06: Elección de Almacén Vectorial para el RAG Local](#entrada-06-elección-de-almacén-vectorial-para-el-rag-local)
 
 ---
 
@@ -140,7 +141,7 @@ Este laboratorio evoluciona como portfolio de aprendizaje de Inteligencia Artifi
 - [ ] Evaluación de contexto de código completo (*codebase embeddings*) y autocompletado en tiempo real.
 
 ### Eje 4: RAG Local (Retrieval-Augmented Generation) y Agentes Autónomos
-- [ ] Construcción de un pipeline RAG local con base de datos vectorial embebida (ChromaDB / Qdrant) para consultar documentación técnica y apuntes privados de ciberseguridad sin fuga de datos.
+- [ ] Construcción de un pipeline RAG local con base de datos vectorial embebida (ChromaDB / Qdrant) para consultar documentación técnica y apuntes privados de ciberseguridad sin fuga de datos. Criterio de motor en la [Entrada 06](#entrada-06-elección-de-almacén-vectorial-para-el-rag-local).
 - [ ] Experimentación con frameworks de agentes locales (LangChain, LlamaIndex o AutoGen) conectados al modelo servido en Ollama.
 
 ### Eje 5: Evaluación y Robustez de LLM
@@ -156,4 +157,36 @@ Este laboratorio evoluciona como portfolio de aprendizaje de Inteligencia Artifi
 - [ ] Separar en cada ejecución el fallo del filtro (evasión) del fallo del modelo (obediencia); sin ese desglose no se sabe qué corregir.
 - [ ] Usar la misma matriz para comparar modelos locales con una **puntuación por tarea**, no un ranking general: el resultado solo es válido para el prompt y la tarea evaluados.
 - [ ] Medir el factor de expansión de tokens de cada transformación: una mitigación que multiplica el coste por diez es un problema de consumo, no solo de filtrado.
+
+---
+
+## Entrada 06: Elección de Almacén Vectorial para el RAG Local
+
+- **Fecha:** Octubre 2026
+- **Estado:** Diseño. No se ha medido nada y la decisión no está tomada.
+- **Contexto:** El eje 4 de la hoja de ruta fija un pipeline RAG sobre documentación técnica y apuntes privados. La primera decisión no es qué modelo genera la respuesta, sino dónde viven los vectores. Hay dos familias: base embebida (ChromaDB, Qdrant en local) o PostgreSQL con la extensión `pgvector`.
+- **Decisión de Arquitectura:** ninguna todavía. Se deja escrito el criterio para no elegir por costumbre ni por lo que se lea en una comparativa ajena.
+
+**Criterios que separan las dos opciones:**
+
+| Criterio | Base embebida | PostgreSQL + `pgvector` |
+|---|---|---|
+| Superficie operativa | Una librería; sin servicio ni puerto | Servicio propio, con backups, parches y autenticación |
+| Consulta híbrida (texto + vector) | Limitada o a mano | SQL completo y búsqueda léxica en la misma consulta |
+| Consistencia con metadatos | Copia aparte que puede desincronizarse | Transacciones con el resto de los datos |
+| Corpus pequeño (< 50 000 fragmentos) | Suficiente | Sobredimensionado |
+| Varios consumidores a la vez | Punto débil | Resuelto de origen |
+| Huella en el servidor headless | Menor; se carga al consultar | Un proceso más, siempre en memoria |
+| Cliente .NET | Menos opciones maduras | Proveedor de EF Core con tipos vectoriales |
+
+**Criterio de decisión propuesto:** si el corpus es pequeño y el único consumidor es el agente del laboratorio, base embebida. Menos superficie, copia de seguridad de un directorio y ningún puerto que cerrar. Si aparece metadata relacional que consultar junto al vector, búsqueda híbrida o un segundo cliente, PostgreSQL. Migrar después de tener los índices construidos es reindexar, no mover un archivo.
+
+**Riesgo de método:** el motor influye menos que el modelo de embeddings y el troceado de los documentos. Sin conjunto dorado no se puede afirmar que una opción recupera mejor; se compara con el mismo instrumento del eje 5, sobre las mismas preguntas y el mismo corpus.
+
+**Nota:** `pgvector` no es un complemento de un motor que ya exista en el laboratorio; exige desplegar PostgreSQL, que hoy no está instalado.
+
+**Pendiente:**
+- Fijar tamaño de corpus y número de consumidores antes de la primera prueba.
+- Elegir el modelo de embeddings y documentar su dimensión y su coste en tokens.
+- Medir recuperación (recall sobre las preguntas del conjunto dorado) antes de comparar motores.
 
