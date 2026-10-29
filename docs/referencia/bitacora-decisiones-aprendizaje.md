@@ -11,6 +11,7 @@ Este documento registra cronológicamente las fases de investigación, decisione
 4. [Entrada 04: Hoja de Ruta y Ejes de Aprendizaje Futuros](#entrada-04-hoja-de-ruta-y-ejes-de-aprendizaje-futuros)
 5. [Entrada 05: Optimización y Ajuste de Arquitectura de Contexto (`portfolio-agent` + Continue)](#entrada-05-optimización-y-ajuste-de-arquitectura-de-contexto-portfolio-agent--continue)
 6. [Entrada 06: Elección de Almacén Vectorial para el RAG Local](#entrada-06-elección-de-almacén-vectorial-para-el-rag-local)
+7. [Entrada 07: Cifras de VRAM de terceros: la aritmética primero](#entrada-07-cifras-de-vram-de-terceros-la-aritmética-primero)
 
 ---
 
@@ -189,4 +190,36 @@ Este laboratorio evoluciona como portfolio de aprendizaje de Inteligencia Artifi
 - Fijar tamaño de corpus y número de consumidores antes de la primera prueba.
 - Elegir el modelo de embeddings y documentar su dimensión y su coste en tokens.
 - Medir recuperación (recall sobre las preguntas del conjunto dorado) antes de comparar motores.
+
+---
+
+## Entrada 07: Cifras de VRAM de terceros: la aritmética primero
+
+- **Fecha:** Octubre 2026
+- **Estado:** Observación sin medir. El cálculo justifica el escepticismo; la comprobación en hardware sigue pendiente.
+- **Contexto:** Es habitual encontrar la afirmación de que un modelo de unos 27 000 millones de parámetros "con cuantización ligera" cabe en menos de 10 GB de VRAM y corre entero en la gráfica. Antes de repetirla o de planificar compras con ella, conviene hacer la cuenta.
+
+**El cálculo que no se puede esquivar:** el peso de los parámetros en memoria es proporcional a los bits por peso.
+
+| Cuantización (bits por peso aprox.) | Peso de 27 B | ¿Cabe en 10 GB? |
+|---|---:|---|
+| FP16 (16) | ~54 GB | No |
+| Q8 (8,5) | ~28 GB | No |
+| Q5_K_M (5,7) | ~19 GB | No |
+| Q4_K_M (4,8) | ~16 GB | No |
+| Q3_K_M (3,9) | ~13 GB | No |
+| Q2_K (3,1) | ~10,5 GB | Al límite, y sin caché |
+
+Y a eso se suma la caché del contexto (KV cache), que con ventanas largas puede ocupar varios GB más. Conclusión: un 27 B en menos de 10 GB exige bajar de 3 bits por peso, que no es "cuantización ligera", o bien apoyarse en RAM del sistema con *offload* parcial, que es otra cosa.
+
+**Excepción legítima que no se debe confundir:** los modelos de mezcla de expertos (MoE) activan pocos parámetros por token, pero necesitan todos los pesos residentes para no degradarse. Si parte de los expertos vive en RAM, el modelo "funciona", pero no "corre entero en la gráfica" ni a la velocidad que sugiere el anuncio.
+
+**Regla reutilizable:** antes de aceptar una cifra de VRAM, dividir parámetros entre bits por peso y sumar contexto. Si el resultado no cuadra con lo anunciado, el número es del anuncio, no del modelo.
+
+**Lo que sí es cierto y sostiene el caso local:** un modelo servido en local no está sujeto a las políticas de rechazo del proveedor, y eso importa en auditoría de laboratorios propios. Pero no rechazar no es lo mismo que acertar: la validez del análisis se demuestra ejecutando las pruebas, no leyendo la respuesta.
+
+**Pendiente:**
+- Verificar el tamaño real de cada archivo GGUF descargado frente al cálculo (el tamaño en disco es la comprobación más rápida).
+- Medir VRAM real con `nvidia-smi` durante la inferencia, no al cargar el modelo.
+
 
