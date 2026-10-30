@@ -2,7 +2,9 @@
 
 # Laboratorio y Portfolio de Aprendizaje en IA Local
 
-Laboratorio personal y bitácora técnica de **IA local aplicada a desarrollo y seguridad**. Documenta las decisiones de arquitectura, la resolución de incidentes, el despliegue bare-metal (Ubuntu Server + Ollama), la integración de asistentes y la hoja de ruta (RAG, cuantización, agentes locales, continuidad de sesiones y evaluación de seguridad con LLM).
+Laboratorio personal de **aprendizaje en IA**. Probamos herramientas y formas de trabajar con agentes, comparamos alternativas y contamos lo que pasa. El punto de partida fue la IA local, por privacidad y por límites de uso; ahora el foco es aprender a elegir: qué herramienta, qué modelo y qué datos pueden salir de la red.
+
+Documenta las decisiones y los problemas encontrados, el despliegue en Ubuntu Server con Ollama, la integración de herramientas de desarrollo y la hoja de ruta (RAG, cuantización, agentes locales, continuidad de sesiones y evaluación de seguridad con LLM).
 
 > **Estado del repositorio (2026-10-30).** Validado: instrumento de robustez. Parcial: tres pasadas sobre `qwen2.5:3b` (prompt `v1` con N0/N1; instrumento corregido con prompt `v1` en N0; prompt `v2` en N0) e inferencia con `qwen2.5-coder:7b` y Continue, probada por el autor pero sin artefacto reproducible. Diseño: firewall/TLS, evaluación de funciones y RAG. Pendiente: la Fase 1 (portfolio-agent, digest y bind/firewall) y los tres experimentos de seguridad de asistentes; la ruta está en [`docs/referencia/hoja-de-ruta-seguridad-asistentes.md`](docs/referencia/hoja-de-ruta-seguridad-asistentes.md). El detalle y los límites de las evidencias están en [`docs/evidencias/`](docs/evidencias/).
 
@@ -20,7 +22,7 @@ Laboratorio personal y bitácora técnica de **IA local aplicada a desarrollo y 
 
 **En la hoja de ruta, sin evidencia todavía:** RAG local, cuantización, agentes locales y pruebas de seguridad de funciones con LLM.
 
-**No incluye:** rankings de modelos, noticias de IA, tutoriales genéricos de prompting ni comparativas de rendimiento sin medición propia. El eje sigue siendo **local-first**: el cloud aparece como complemento justificado, no como tema principal.
+**No incluye:** rankings de modelos, noticias de IA, tutoriales de prompting sin prueba propia ni comparativas de rendimiento sin medición propia. El eje sigue siendo la **inferencia local y la seguridad**: los datos sensibles se quedan en local, y el trabajo diario usa un proveedor remoto con criterios explícitos sobre qué datos pueden salir.
 
 ## Descripción del escenario y objetivo de seguridad
 
@@ -57,7 +59,7 @@ Flujo previsto: el servidor ejecuta Ubuntu Server sin interfaz gráfica. Desde e
 |---|---|---|
 | Exposición de Ollama | Diseño: escucha limitada a la red de laboratorio; no se publica en Internet | Requiere firewall, bind explícito y verificación con `ss -lntp`; no verificado en este repositorio |
 | Acceso remoto | SSH para administración; proxy con TLS si cruza redes no confiables | No se incluye configuración de proxy ni hardening de SSH |
-| Claves de API cloud | Variables de entorno (`{env:NVIDIA_API_KEY}`) | No se versionan claves |
+| Claves de API cloud | Variables de entorno o `/connect` en OpenCode | No se versionan claves |
 | Datos de contexto | Código de laboratorio y datos sintéticos | No usar prompts privados ni datos de clientes |
 | Prompts privados | Fuera del repositorio y del contexto cloud | No se referencian rutas privadas |
 | Modelos | Descarga desde fuentes oficiales; licencia pendiente de registrar | Verificar procedencia y licencia en cada actualización |
@@ -97,7 +99,8 @@ Documentos aplicados:
 | Documento | Qué aporta |
 |---|---|
 | [Hoja de ruta de seguridad de asistentes](docs/referencia/hoja-de-ruta-seguridad-asistentes.md) | Frontera de datos, inyección desde repositorio y permisos; fases y criterios de salida |
-| [OpenCode desde cero](docs/guias/opencode-desde-cero.md) | Qué es, instalación, uso básico y qué es gratis frente a lo que se paga |
+| [OpenCode desde cero](docs/guias/opencode-desde-cero.md) | Qué es OpenCode, por qué empezar con un modelo local y tu primera sesión |
+| [AGENTS.md: qué se publica y qué no](docs/guias/agents-md-publico-privado.md) | Cómo organizar las instrucciones de un proyecto y el filtro antes de publicarlas |
 | [Continuidad de sesiones con OpenCode](docs/guias/opencode-session-continuity.md) | Comandos, briefs y estado en archivos |
 | [Evaluación y seguridad de una función con LLM](docs/referencia/ai-security-evaluation.md) | Conjunto dorado, inyección, métricas y CI |
 | [Robustez de prompts frente a perturbaciones de entrada](docs/referencia/prompt-robustness-testing.md) | Cargas canario, familias de transformación, matriz de intensidad y métricas de evasión |

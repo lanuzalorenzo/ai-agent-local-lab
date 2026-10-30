@@ -4,7 +4,7 @@ Laboratorio local de agentes de IA con Ollama y Continue, usado como herramienta
 
 ## Convenciones
 
-- Alcance local-first: nada de rankings, noticias ni comparativas sin medición propia.
+- Alcance: IA local y seguridad. Los datos sensibles se quedan en local; el trabajo diario puede usar un proveedor remoto con política revisada. Nada de rankings, noticias ni comparativas sin medición propia.
 - No expongas Ollama a Internet; documenta firewall, TLS y autenticación.
 - Usa `ollama.lab.local` u otro placeholder, nunca una IP interna real.
 - README de práctica de 240–310 palabras; `informe.md` solo si sostiene el contenido; `runbook.md` solo si es reejecutable; `bitacora/` solo con hechos nuevos.
