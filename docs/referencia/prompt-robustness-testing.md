@@ -267,7 +267,7 @@ Garantías del script, que son el motivo de que exista:
 |---|---|
 | No instala si Ollama ya está | Detecta el programa y no lo modifica |
 | No borra un modelo que ya tenías | Registra si el modelo existía antes |
-| Revierte lo que cambia | Guarda el estado en `~/.local/state/ai-agent-local-lab/sesion.env` |
+| Revierte lo que cambia | Guarda el estado en `~/.local/state/lab-ia-aprendizaje/sesion.env` |
 | No deja el servicio alterado | Restaura el estado activo y habilitado previo |
 | La evidencia no identifica el equipo | Huella del entorno sin nombre de host ni IP |
 | Se puede revisar antes de ejecutar | `--dry-run` imprime cada acción |

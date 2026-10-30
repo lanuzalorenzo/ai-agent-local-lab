@@ -4,7 +4,7 @@
 # Prepara un equipo Ubuntu, ejecuta la matriz de robustez de prompts y deja el
 # sistema como estaba.
 # Autor: Lorenzo Lanuza Arellano
-# Proyecto: ai-agent-local-lab
+# Proyecto: lab-ia-aprendizaje
 #
 # Uso:
 #   ./scripts/robustez/run_robustness_lab.sh                 # instala, ejecuta y restaura
@@ -40,7 +40,7 @@ DRY_RUN=0
 SI=0
 SALIDA=""
 
-ESTADO_DIR="${XDG_STATE_HOME:-$HOME/.local/state}/ai-agent-local-lab"
+ESTADO_DIR="${XDG_STATE_HOME:-$HOME/.local/state}/lab-ia-aprendizaje"
 ESTADO="$ESTADO_DIR/sesion.env"
 
 # --------------------------------------------------------------------------
@@ -433,7 +433,7 @@ if [[ "$MODO" == "restaurar" ]]; then
 fi
 
 echo "════════════════════════════════════════════════════════════"
-echo " Laboratorio de robustez de prompts — ai-agent-local-lab"
+echo " Laboratorio de robustez de prompts — lab-ia-aprendizaje"
 echo " Modelo: $MODELO · Niveles: $NIVELES · Repeticiones: $REPETICIONES · Prompt: $SISTEMA"
 echo "════════════════════════════════════════════════════════════"
 if [[ $DRY_RUN -eq 1 ]]; then echo " MODO SIMULACIÓN: no se ejecutará nada"; fi

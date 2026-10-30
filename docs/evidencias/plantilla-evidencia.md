@@ -67,7 +67,7 @@ Tabla resumen con métricas clave.
 ## 7. Cómo reproducir
 
 ```bash
-cd ai-agent-local-lab
+cd lab-ia-aprendizaje
 # Pasos exactos
 ```
 

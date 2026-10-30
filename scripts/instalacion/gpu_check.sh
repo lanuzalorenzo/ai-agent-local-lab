@@ -3,7 +3,7 @@
 # gpu_check.sh
 # Verificación del estado de la GPU y del servicio Ollama
 # Autor: Lorenzo Lanuza Arellano
-# Proyecto: ai-agent-local-lab
+# Proyecto: lab-ia-aprendizaje
 
 set -uo pipefail
 
