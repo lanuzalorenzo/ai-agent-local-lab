@@ -10,11 +10,13 @@ Laboratorio personal y bitácora técnica de **IA local aplicada a desarrollo y 
 |---|---|
 | Memoria técnica y reinstalabilidad | Procedimientos y resolución de problemas para replicar el entorno de forma reproducible |
 | Bitácora de decisiones | El *por qué* de cada elección: sistema headless, red declarativa, consumo de RAM/VRAM y modelos evaluados |
-| Portfolio de aprendizaje | Patrones con agentes, continuidad de sesiones, evaluación de salidas y seguridad de funciones con LLM; también GGUF, aceleración hardware, RAG local y privacidad |
+| Portfolio de aprendizaje | Patrones con agentes, continuidad de sesiones y evaluación de salidas; GGUF y aceleración hardware. La seguridad de funciones con LLM y el RAG local están en la hoja de ruta |
 
 ## Alcance
 
-**Incluye:** inferencia local con Ollama, clientes de desarrollo (Continue, OpenCode), flujos híbridos local/cloud, patrones de continuidad entre sesiones, evaluación de calidad y pruebas de seguridad de funciones con LLM.
+**Incluye:** inferencia local con Ollama, clientes de desarrollo (Continue, OpenCode), flujos híbridos local/cloud, patrones de continuidad entre sesiones y evaluación de la calidad de las salidas.
+
+**En la hoja de ruta, sin evidencia todavía:** RAG local, cuantización, agentes locales y pruebas de seguridad de funciones con LLM.
 
 **No incluye:** rankings de modelos, noticias de IA, tutoriales genéricos de prompting ni comparativas de rendimiento sin medición propia. El eje sigue siendo **local-first**: el cloud aparece como complemento justificado, no como tema principal.
 
