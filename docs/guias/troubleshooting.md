@@ -1,19 +1,19 @@
-# Diagnóstico del laboratorio local
+# Diagnóstico del laboratorio
 
-> **Estado:** Runbook preparado. No se ha verificado cada caso en este repositorio.
+> **Estado:** Runbook preparado. Cada paso es una comprobación para empezar, no una solución garantizada. No se han probado todos los casos en este repositorio.
 
-Esta guía propone comprobaciones no destructivas; los pasos son pistas de diagnóstico, no soluciones garantizadas.
+Las comprobaciones de esta guía no cambian nada en el sistema. Aplica un arreglo solo cuando sepas qué provoca el problema.
 
 ## Ollama no aparece activo
 
-Consulta estado y logs:
+Mira el estado del servicio y sus últimos mensajes:
 
 ```bash
 systemctl status ollama --no-pager
 journalctl -u ollama -n 50 --no-pager
 ```
 
-Comprueba qué paquete/unidad está instalado y qué informa el error antes de reiniciar, reinstalar o reemplazar archivos. `config/ollama.service` es una referencia no validada y no debe copiarse encima de la unidad existente como remedio general.
+Antes de reiniciar, reinstalar o reemplazar archivos, comprueba qué unidad está instalada y qué dice el error. El archivo `config/ollama.service` es una referencia que no se ha validado: no lo copies encima de la unidad que ya tienes.
 
 ## El sistema no detecta la GPU
 
@@ -21,27 +21,33 @@ Comprueba qué paquete/unidad está instalado y qué informa el error antes de r
 nvidia-smi
 ```
 
-Si falla, diagnostica primero el driver y la configuración específica del equipo. No desactives Secure Boot ni cambies opciones de BIOS/almacenamiento de forma genérica: esos cambios pueden afectar la seguridad o impedir que el sistema arranque.
+Si falla, el problema está en el controlador (driver) del equipo, no en Ollama. Revisa la instalación del driver según tu sistema.
 
-## Ollama no parece usar GPU
+No cambies Secure Boot ni las opciones de la BIOS como primer paso. Esos cambios pueden afectar a la seguridad o impedir que el equipo arranque.
 
-Revisa los logs durante una inferencia y consulta [`docs/guias/gpu-setup.md`](gpu-setup.md). La falta de una palabra clave en una muestra de logs no es concluyente. Comprueba compatibilidad de hardware/runtime y disponibilidad de memoria sin asumir que reinstalar resolverá el problema.
+## Ollama no parece usar la GPU
+
+Revisa los logs durante una inferencia y sigue la [guía de comprobación de GPU](gpu-setup.md). Que no aparezca la palabra CUDA en un fragmento de logs no prueba nada: haz la comprobación con una inferencia completa.
+
+Reinstalar no siempre resuelve el problema. Antes, revisa que el hardware, el driver y la memoria disponible son compatibles con el modelo.
 
 ## Continue no conecta con el modelo
 
-- Comprueba que Ollama está activo y responde localmente.
-- Revisa en la configuración de Continue el proveedor, el identificador del modelo y el endpoint.
-- No des por supuesto un endpoint o formato de API a partir de este repositorio: no se versiona la configuración de Continue.
-- No pegues logs, prompts ni datos sensibles en reportes públicos.
+- Comprueba que Ollama está activo y responde en el propio servidor.
+- Revisa en Continue el proveedor, el nombre del modelo y la dirección del servidor.
+- El repositorio no guarda la configuración de Continue, así que no des por buena una dirección o un formato copiado de aquí: compruébalo en tu equipo.
+- No pegues logs ni prompts en reportes públicos.
 
-## El modelo falla por memoria
+## El modelo falla por falta de memoria
 
-Registra el modelo utilizado, el mensaje de error y los recursos disponibles. Prueba un modelo de menor tamaño solo si es adecuado para la tarea y está disponible; cerrar aplicaciones o reiniciar el servicio son opciones operativas, no soluciones garantizadas. No interpretes la ejecución en CPU como prueba de aceleración GPU.
+Anota el modelo, el mensaje de error y los recursos disponibles. Puedes probar un modelo más pequeño si sirve para la tarea. Cerrar aplicaciones o reiniciar el servicio puede ayudar, pero no siempre.
 
-## Sospecha de conflictos con Snap u otra instalación
+Si el modelo funciona en CPU, no significa que use la GPU. Para eso necesitas la comprobación de la sección anterior.
 
-Identifica el origen de la unidad activa, la ruta del ejecutable y el método de instalación antes de modificar el sistema. No elimines directorios del sistema, datos de modelos ni toda la infraestructura Snap para resolver un conflicto de un único paquete. Si decides retirar una instalación, limita la operación al paquete confirmado y protege antes los datos que quieras conservar.
+## Conflicto con Snap u otra instalación
 
-## Logs vacíos o sin información suficiente
+Antes de tocar nada, identifica cuál es la unidad activa, dónde está el programa que se ejecuta y cómo se instaló. No borres directorios del sistema ni datos de modelos para resolver un conflicto con un solo paquete. Si decides quitar una instalación, limita la operación a ese paquete y guarda antes lo que quieras conservar.
 
-Consulta primero estado y logs con `systemctl`/`journalctl`; [`scripts/instalacion/gpu_check.sh`](../../scripts/instalacion/gpu_check.sh) agrupa algunas comprobaciones. El script puede terminar con error si el servicio está parado; eso debe tratarse como información diagnóstica, no ocultarse.
+## Los logs no dicen nada útil
+
+Empieza por el estado del servicio y los logs con `systemctl` y `journalctl`. El script [`gpu_check.sh`](../../scripts/instalacion/gpu_check.sh) agrupa algunas comprobaciones. Si termina con error porque el servicio está parado, eso es información: el servicio no está levantado.

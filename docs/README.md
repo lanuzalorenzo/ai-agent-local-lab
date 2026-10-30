@@ -19,7 +19,8 @@ Procedimientos paso a paso para instalar, configurar y diagnosticar.
 | [`server-deployment-ubuntu-ollama.md`](guias/server-deployment-ubuntu-ollama.md) | Despliegue bare-metal headless: Ubuntu Server, Netplan, OpenSSH, Ollama |
 | [`continue-remote-ollama-setup.md`](guias/continue-remote-ollama-setup.md) | Sincronización de ventana de contexto 16K entre Continue y Ollama remoto |
 | [`gpu-setup.md`](guias/gpu-setup.md) | Comprobación de drivers CUDA y visibilidad de GPU para Ollama |
-| [`opencode-desde-cero.md`](guias/opencode-desde-cero.md) | Qué es OpenCode, instalación, uso básico y qué es gratis frente a lo que se paga |
+| [`opencode-desde-cero.md`](guias/opencode-desde-cero.md) | Qué es OpenCode, por qué empezar con un modelo local y tu primera sesión |
+| [`agents-md-publico-privado.md`](guias/agents-md-publico-privado.md) | Cómo organizar las instrucciones de un proyecto y el filtro antes de publicarlas |
 | [`opencode-session-continuity.md`](guias/opencode-session-continuity.md) | Patrón de continuidad entre sesiones con comandos y archivos de estado |
 | [`local-vs-cloud.md`](guias/local-vs-cloud.md) | Criterios de decisión para elegir ejecución local vs cloud |
 | [`troubleshooting.md`](guias/troubleshooting.md) | Diagnóstico conservador de problemas frecuentes |
@@ -67,7 +68,7 @@ Ejecuciones reales con artefactos congelados (JSON, huella de entorno, resultado
 ## Navegación rápida
 
 - **Empezar aquí**: [`guias/server-deployment-ubuntu-ollama.md`](guias/server-deployment-ubuntu-ollama.md) (despliegue base)
-- **Primeros pasos con OpenCode**: [`guias/opencode-desde-cero.md`](guias/opencode-desde-cero.md) (qué es, instalación, gratis frente a pago)
+- **Primeros pasos con OpenCode**: [`guias/opencode-desde-cero.md`](guias/opencode-desde-cero.md) (qué es, por qué local, primera sesión)
 - **Contexto 16K**: [`guias/continue-remote-ollama-setup.md`](guias/continue-remote-ollama-setup.md)
 - **Entender la matriz**: [`referencia/prompt-robustness-testing.md`](referencia/prompt-robustness-testing.md)
 - **Seguridad de asistentes**: [`referencia/hoja-de-ruta-seguridad-asistentes.md`](referencia/hoja-de-ruta-seguridad-asistentes.md)

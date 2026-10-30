@@ -1,123 +1,131 @@
-# Despliegue de Servidor de IA Local con Ubuntu Server y Ollama
+# Montar el servidor de IA local con Ubuntu Server y Ollama
 
-> **Estado:** Runbook preparado. Los comandos no se han ejecutado de extremo a extremo en este repositorio y no incluyen firewall, TLS ni hardening de SSH.
+> **Estado:** Runbook preparado. Los comandos no se han ejecutado de principio a fin en este repositorio. No incluye firewall, TLS ni endurecimiento de SSH: ver la sección 6.
 
-Guía técnica de arquitectura, instalación y resolución de conectividad para el despliegue de un servidor bare-metal dedicado (Ubuntu Server) orientado a la inferencia de Modelos de Lenguaje de Gran Tamaño (LLMs) con Ollama, administrado remotamente vía SSH desde un equipo cliente.
+Esta guía instala un servidor sin pantalla, con Ubuntu Server, que ejecuta modelos de lenguaje con Ollama. Tú lo administras por SSH desde otro equipo.
 
----
+## 1. Por qué Ubuntu Server sin escritorio
 
-## 1. Descripción del Escenario y Justificación Técnica
+- **Toda la memoria para el modelo.** Sin entorno gráfico, la RAM y la memoria de la tarjeta gráfica se dedican a cargar el modelo.
+- **Menos superficie de ataque.** Menos programas corriendo significa menos cosas que pueden fallar o ser atacadas.
+- **Se gestiona por línea de comandos.** Todo se hace por SSH, desde el equipo principal.
 
-### Selección de Ubuntu Server (Headless)
-- **Recursos para el modelo:** Instalación CLI pura (sin entorno de escritorio ni gestor de ventanas tipo GNOME o Wayland) para dedicar la RAM y VRAM al cómputo y carga de tensores de los modelos de lenguaje.
-- **Estabilidad y superficie de ataque reducida:** Infraestructura minimalista gobernada por `systemd`, eliminando procesos innecesarios y reduciendo la exposición de servicios auxiliares.
-- **Topología de trabajo:**
-  - **Servidor bare-metal:** Ubuntu Server ejecutando el daemon de `ollama` en el puerto 11434.
-  - **Cliente de administración:** Equipo principal conectado mediante SSH seguro (OpenSSH) y clientes de inferencia local.
+La topología es esta:
+
+- **Servidor:** Ubuntu Server con el servicio `ollama` escuchando en el puerto 11434.
+- **Equipo principal:** se conecta al servidor por SSH y usa el modelo desde su editor o su terminal.
 
 ```mermaid
 flowchart LR
-    subgraph Client["Cliente Principal"]
-        SSH[OpenSSH Client]
+    subgraph Client["Equipo principal"]
+        SSH[Cliente SSH]
         VSCode[VS Code / Continue]
     end
 
-    subgraph Server["Servidor Headless (Ubuntu Server)"]
+    subgraph Server["Servidor (Ubuntu Server)"]
         Net[Netplan / systemd-networkd / NetworkManager]
-        SSHD[OpenSSH Server :22]
-        Ollama[Ollama Runtime :11434]
-        LLM[(Modelo operativo: Qwen 2.5 Coder 7B)]
+        SSHD[OpenSSH :22]
+        Ollama[Ollama :11434]
+        LLM[(Modelo: qwen2.5-coder:7b)]
     end
 
-    SSH -->|Gestión remota SSH| SSHD
-    VSCode -.->|API REST :11434| Ollama
+    SSH -->|administración por SSH| SSHD
+    VSCode -.->|API HTTP :11434| Ollama
     Ollama --> LLM
 ```
 
----
+## 2. Red
 
-## 2. Diagnóstico y Resolución de Conectividad en Servidor Mínimo
+Una instalación mínima de Ubuntu Server no trae herramientas de Wi-Fi como `nmtui` ni `NetworkManager`. El arranque de la red se hace en dos fases.
 
-En una instalación limpia de Ubuntu Server (versión headless mínima) no vienen preinstaladas utilidades interactivas de gestión Wi-Fi como `nmtui`, `NetworkManager` ni `dhclient`. Para resolver el arranque inicial de red se documenta una estrategia en dos fases:
+### Fase 1: cable y Netplan
 
-### Fase 1: Conectividad Declarativa Ethernet con Netplan
-Se conecta el servidor por cable y se define la configuración declarativa mediante Netplan y `systemd-networkd` para obtener salida a repositorios:
+Conecta el servidor por cable. Define la red con Netplan en `/etc/netplan/01-netcfg.yaml` (el nombre puede cambiar según el instalador):
 
-1. Edición de `/etc/netplan/01-netcfg.yaml` (o archivo correspondiente según el instalador):
-   ```yaml
-   network:
-     version: 2
-     renderer: networkd
-     ethernets:
-       enp3s0:
-         dhcp4: true
-   ```
-2. Aplicación de la configuración:
-   ```bash
-   sudo netplan apply
-   ```
+```yaml
+network:
+  version: 2
+  renderer: networkd
+  ethernets:
+    enp3s0:
+      dhcp4: true
+```
 
-### Fase 2: Aprovisionamiento de Gestión Inalámbrica
-Una vez garantizado el acceso a internet por Ethernet, se instalan las herramientas para dar flexibilidad física al servidor sin perder la administración remota:
+Aplica el cambio:
+
+```bash
+sudo netplan apply
+```
+
+Sustituye `enp3s0` por el nombre real de tu interfaz (`ip a` lo muestra).
+
+### Fase 2: Wi-Fi, si lo necesitas
+
+Cuando el servidor ya tiene salida a internet por cable, instala la herramienta de Wi-Fi y configura la red inalámbrica:
 
 ```bash
 sudo apt update && sudo apt install network-manager -y
 sudo nmtui
 ```
-Con `nmtui` se conecta la interfaz inalámbrica a la red local y se guarda el perfil de red.
 
----
+Con `nmtui` conectas la red inalámbrica y se guarda el perfil.
 
-## 3. Acceso Remoto Seguro (OpenSSH)
+## 3. Acceso por SSH
 
-1. **Verificación del servicio SSH:**
+1. Comprueba que SSH está activo:
+
    ```bash
    sudo systemctl status ssh
    ```
-2. **Obtención de la IP asignada en la red local:**
+
+2. Mira la IP del servidor en tu red local:
+
    ```bash
    ip a
    ```
-3. **Conexión remota desde el equipo cliente:**
+
+3. Conéctate desde tu equipo principal:
+
    ```bash
    ssh usuario@IP_DEL_SERVIDOR
    ```
 
----
+Sustituye `IP_DEL_SERVIDOR` por la IP de tu red. En la documentación del repositorio usa siempre marcadores como `usuario` o `ollama.lab.local`, nunca una IP real.
 
-## 4. Instalación y Despliegue del Motor Ollama
+## 4. Instalar Ollama
 
-1. **Instalación del Runtime oficial:**
-   ```bash
-   curl -fsSL https://ollama.com/install.sh | sh
-   ```
-2. **Verificación del estado del daemon:**
-   ```bash
-   sudo systemctl status ollama
-   ```
-   *El servicio queda registrado como servicio de sistema en systemd, escuchando por defecto en el puerto local 11434.*
+```bash
+curl -fsSL https://ollama.com/install.sh | sh
+```
 
----
+Comprueba que el servicio está en marcha:
 
-## 5. Descarga e Inferencia de Modelos de IA
+```bash
+sudo systemctl status ollama
+```
 
-1. **Descarga de pesos y ejecución interactiva:**
-   ```bash
-   ollama run qwen2.5-coder:7b
-   ```
-2. **Validación de inferencia y consumo de recursos:**
-   - Comprobación de tiempos de respuesta por token (tokens/segundo).
-   - Verificación de uso de memoria y procesador mediante herramientas de monitorización (`top`, `htop`, o `nvidia-smi` si dispone de GPU dedicada).
-   - Evaluación adicional con modelos complementarios (por ejemplo, `llama3` o `mistral`), conservando `qwen2.5-coder:7b` como modelo operativo del laboratorio.
+Por defecto, Ollama queda registrado como servicio de sistema y escucha en el puerto 11434.
 
----
+## 5. Descargar un modelo y probarlo
 
-## 6. Stack Tecnológico
+```bash
+ollama run qwen2.5-coder:7b
+```
 
-| Capa | Componente / Tecnología | Propósito |
-|---|---|---|
-| **Sistema Operativo** | Ubuntu Server (Headless / CLI) | Base mínima optimizada para cómputo |
-| **Pila de Red** | Netplan / systemd-networkd / NetworkManager | Bootstrap por cable y enlace Wi-Fi |
-| **Administración** | OpenSSH | Gestión remota segura sin interfaz gráfica |
-| **Motor de Inferencia** | Ollama | Servidor y runtime de modelos locales |
-| **Modelos Evaluados** | Qwen 2.5 Coder 7B (operativo); Llama 3 y Mistral evaluados inicialmente | Inferencia offline privada |
+La primera vez descarga el modelo. Después puedes escribir una pregunta y ver la respuesta. Para comprobar el consumo mientras responde:
+
+- **Velocidad:** cuántos tokens por segundo produce. Un token es un trozo de palabra.
+- **Memoria:** `top` o `htop` muestran la RAM y la CPU. Si tienes tarjeta NVIDIA, `nvidia-smi` muestra su memoria.
+
+El modelo operativo del laboratorio es `qwen2.5-coder:7b`. Se probaron también Llama 3 y Mistral al inicio, sin dejar registro en el repositorio.
+
+## 6. Seguridad antes de usarlo desde otro equipo
+
+Ollama no tiene autenticación propia. Por eso:
+
+- No publiques el puerto 11434 en Internet.
+- Limita el acceso a la red de laboratorio con un firewall.
+- Si necesitas acceso desde fuera de tu red, usa un proxy con TLS y autenticación. No abras el puerto directamente.
+- Verifica dónde escucha el servicio con `ss -lntp | grep 11434`.
+
+El repositorio no verifica estos controles. Si los montas, regístralos en la bitácora con la fecha.

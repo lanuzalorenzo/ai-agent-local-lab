@@ -1,61 +1,61 @@
-# Comprobación de GPU para Ollama
+# Comprobar la GPU para Ollama
 
-> **Estado:** Runbook preparado. Procedimiento de diagnóstico; no consta una ejecución en este repositorio.
+> **Estado:** Runbook preparado. Es un procedimiento de diagnóstico; no hay una ejecución registrada en este repositorio.
 
-## Objetivo y alcance
+Esta guía sirve para saber dos cosas: si el sistema ve una GPU NVIDIA y si Ollama la usa de verdad. No instala drivers ni cambia la configuración del equipo, y no garantiza que funcione con cualquier combinación de GPU, driver y modelo.
 
-Procedimiento de diagnóstico para determinar si el sistema ve una GPU NVIDIA y si hay indicios de que Ollama la utiliza. No instala ni configura automáticamente drivers y no garantiza compatibilidad para todas las combinaciones de GPU, driver, runtime y modelo.
+## Qué necesitas
 
-## Requisitos previos
+- Ubuntu con una GPU NVIDIA y su driver instalado.
+- Ollama instalado y en marcha.
+- La herramienta `nvidia-smi`, que el driver instala.
 
-- Ubuntu con una GPU NVIDIA y un driver instalado.
-- Ollama instalado y ejecutándose.
-- Acceso a `nvidia-smi`, si el driver proporciona esa herramienta.
+Anota la versión de Ubuntu, del driver, de Ollama y del modelo cuando hagas la prueba. Sin esos datos, el resultado no se puede repetir.
 
-Las versiones concretas de Ubuntu, driver, Ollama y modelo no están fijadas en este repositorio. Anótalas al documentar una ejecución real.
+## Pasos
 
-## Procedimiento de comprobación
+### 1. Comprueba que el sistema ve la GPU
 
-1. **Comprueba si el sistema ve la GPU.**
+```bash
+nvidia-smi
+```
 
-   ```bash
-   nvidia-smi
-   ```
+Si el comando falla, el problema está antes que Ollama. Revisa el driver según tu equipo. No cambies Secure Boot, la BIOS ni el modo de almacenamiento como paso de diagnóstico.
 
-   Si no está disponible o falla, el problema precede a la comprobación de Ollama. Revisa el estado del driver y la configuración del equipo según el entorno; no cambies Secure Boot, BIOS o modo de almacenamiento como pasos genéricos.
+### 2. Comprueba el servicio y sus logs
 
-2. **Comprueba el servicio y sus logs.**
+```bash
+systemctl status ollama --no-pager
+journalctl -u ollama -n 50 --no-pager
+```
 
-   ```bash
-   systemctl status ollama --no-pager
-   journalctl -u ollama -n 50 --no-pager
-   ```
+La falta de la palabra CUDA en un fragmento de logs no demuestra que la GPU no se use. Los logs se leen mejor junto con la prueba del paso siguiente.
 
-   La ausencia de menciones a CUDA en un fragmento de logs no demuestra por sí sola que la GPU no se haya utilizado.
+### 3. Lanza una inferencia
 
-3. **Ejecuta una inferencia controlada.**
+```bash
+ollama run qwen2.5-coder:7b
+```
 
-   ```bash
-   ollama run qwen2.5-coder:7b
-   ```
+Si el modelo no está descargado, Ollama lo descarga primero. Antes de usarlo, comprueba que cabe en la memoria del equipo.
 
-   El modelo se obtiene si no está disponible localmente. Confirma que el modelo elegido cabe en los recursos del sistema antes de usarlo.
+### 4. Mira la GPU mientras responde
 
-4. **Observa actividad durante esa inferencia.**
+Con la inferencia en marcha, ejecuta otra vez:
 
-   ```bash
-   nvidia-smi
-   ```
+```bash
+nvidia-smi
+```
 
-   Para documentar uso de GPU, conserva la relación temporal entre una inferencia concreta y evidencias pertinentes de logs/uso de recursos. No uses una salida de ejemplo como resultado propio.
+Si la memoria de la GPU sube durante la respuesta, la GPU se está usando. Anota la hora de la prueba y los logs de ese momento. Ese dato vale para esa ejecución concreta; no lo extiendas a otros modelos o configuraciones.
 
-El script [`run_agent.sh`](../../scripts/utilidades/run_agent.sh) permite lanzar el agente y verificar el entorno de servicio, logs y GPU, pero no ejecuta una inferencia ni demuestra por sí mismo que una petición se procesó en CUDA.
+El script [`run_agent.sh`](../../scripts/utilidades/run_agent.sh) abre una sesión con el modelo y comprueba el servicio, los logs y la GPU. No demuestra por sí solo que una petición se haya procesado en la GPU.
 
-## Interpretación y seguridad
+## Cómo leer el resultado
 
-- GPU visible: confirma que el sistema reporta un dispositivo, no que Ollama lo esté usando.
-- Servicio activo: confirma el estado reportado por systemd, no el funcionamiento del cliente Continue.
-- Modelo que responde: confirma una respuesta, no el backend de cómputo utilizado.
-- Evidencia de GPU durante la inferencia: respalda esa ejecución concreta; no generalizarla a otros modelos o configuraciones.
+- **La GPU aparece en `nvidia-smi`:** el sistema la reconoce. No dice que Ollama la esté usando.
+- **El servicio está activo:** systemd informa de que el servicio corre. No dice que el cliente conecte bien.
+- **El modelo responde:** hay respuesta. No dice en qué parte del equipo se calculó.
+- **La memoria de la GPU sube durante la respuesta:** hay uso de la GPU en esa prueba.
 
-No descargues ni ejecutes scripts privilegiados, cambies drivers o desinstales paquetes como primer paso de diagnóstico. Evalúa las consecuencias y el alcance de cualquier cambio antes de aplicarlo.
+Ante cualquier cambio en el driver o en el sistema, evalúa antes sus consecuencias. No desinstales paquetes ni ejecutes scripts con privilegios como primer paso.
