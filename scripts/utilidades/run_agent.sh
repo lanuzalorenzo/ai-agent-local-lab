@@ -3,7 +3,7 @@
 # run_agent.sh
 # Ejecuta un modelo local con Ollama y muestra los últimos logs al finalizar
 # Autor: Lorenzo Lanuza Arellano
-# Proyecto: ai-agent-local-lab
+# Proyecto: lab-ia-aprendizaje
 
 set -euo pipefail
 

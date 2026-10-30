@@ -156,7 +156,7 @@ N0 y N1 son la ejecución de cada cambio de prompt; N2 y N3 quedan para pasadas 
 ## 7. Cómo reproducir
 
 ```bash
-cd ai-agent-local-lab
+cd lab-ia-aprendizaje
 python3 scripts/robustez/prompt_robustness_matrix.py selftest \
   --out /tmp/robustez --niveles N0 N1 N2 N3
 ```

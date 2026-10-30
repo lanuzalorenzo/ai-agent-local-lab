@@ -177,7 +177,7 @@ Si el control sigue por encima de cero tras dos o tres prompts distintos, la con
 ## 7. Reproducir
 
 ```bash
-cd ai-agent-local-lab
+cd lab-ia-aprendizaje
 ./scripts/robustez/run_robustness_lab.sh -y --modelo qwen2.5:3b --niveles N0 N1
 ```
 

@@ -1,4 +1,4 @@
-# Guía para agentes: ai-agent-local-lab
+# Guía para agentes: lab-ia-aprendizaje
 
 Laboratorio local de agentes de IA con Ollama y Continue, usado como herramienta de desarrollo y seguridad del portfolio público. Estructura y guías: `README.md` y `docs/`.
 

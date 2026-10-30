@@ -3,7 +3,7 @@
 # install_ollama.sh
 # Instalación de Ollama en Ubuntu mediante el instalador del proveedor
 # Autor: Lorenzo Lanuza Arellano
-# Proyecto: ai-agent-local-lab
+# Proyecto: lab-ia-aprendizaje
 
 set -euo pipefail
 
