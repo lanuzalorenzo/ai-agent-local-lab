@@ -73,4 +73,4 @@ Ejecuciones reales con artefactos congelados (JSON, huella de entorno, resultado
 - **Entender la matriz**: [`referencia/prompt-robustness-testing.md`](referencia/prompt-robustness-testing.md)
 - **Seguridad de asistentes**: [`referencia/hoja-de-ruta-seguridad-asistentes.md`](referencia/hoja-de-ruta-seguridad-asistentes.md)
 - **Ver resultados reales**: [`evidencias/2026-10-22-robustez-ejecucion-v2/`](evidencias/2026-10-22-robustez-ejecucion-v2/)
-- **Hoja de ruta**: [`referencia/bitacora-decisiones-aprendizaje.md#entrada-04-hoja-de-ruta-y-ejes-de-aprendizaje-futuros`](referencia/bitacora-decisiones-aprendizaje.md#entrada-04-hoja-de-ruta-y-ejes-de-aprendizaje-futuros)
+- **Hoja de ruta**: [`referencia/bitacora-decisiones-aprendizaje.md#entrada-04-hoja-de-ruta-y-ejes-de-aprendizaje`](referencia/bitacora-decisiones-aprendizaje.md#entrada-04-hoja-de-ruta-y-ejes-de-aprendizaje)
