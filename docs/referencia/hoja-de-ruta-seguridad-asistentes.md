@@ -2,7 +2,7 @@
 
 > **Estado:** Diseño. Fase 0 en revisión (2026-10-30). No hay resultados de los tres experimentos; lo que aparece como pendiente no se presenta como validado.
 >
-> **Alcance:** este repositorio, con Ollama y un cliente de desarrollo local (Continue u OpenCode). La inferencia local es la plataforma; el eje es la seguridad del asistente.
+> **Alcance:** este repositorio, con Ollama y un cliente de desarrollo (Continue u OpenCode). La inferencia local es la plataforma de pruebas. El eje de esta hoja de ruta es la seguridad del asistente: qué datos salen, qué obedece y qué puede tocar.
 
 ## 1. Pregunta y límites
 

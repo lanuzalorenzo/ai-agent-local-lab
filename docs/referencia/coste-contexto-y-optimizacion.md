@@ -20,26 +20,28 @@ Ejemplo del laboratorio, sin medición reproducible adjunta: un esquema MCP aña
 ### 2.1 Filtrado de entrada
 
 - `.opencodeignore` en cada repositorio: convención de proyecto. En una prueba local del 2026-10-26 con OpenCode v2.1.4 no filtró lo que devuelven `glob`, `grep` ni `read`; no hay artefacto adjunto, así que no se cuenta como ahorro real.
-- Regla de no abrir material archivado (briefs antiguos, diario y agenda archivados, evidencias ya cerradas): el ahorro viene de no leerlo, no de un fichero de exclusiones.
+- No abrir material archivado (notas de sesiones antiguas, registros cerrados, evidencias ya cerradas): el ahorro viene de no leerlo, no de un fichero de exclusiones.
 - `watcher.ignore` en la configuración global para evitar reindexar rutas de build.
 - `tool_output` acotado (líneas y bytes por resultado) y lectura por rangos (`offset`/`limit`) con `grep` en lugar de `cat` de archivos completos.
 
 ### 2.2 Instrucciones compactas
 
 - `AGENTS.md` por repositorio compactado: solo reglas y convenciones locales; el detalle vive en documentos de referencia y se lee bajo demanda.
-- Un enrutador por workspace (`AGENTS.md` en la raíz del workspace) en lugar de duplicar el mapa en cada repo.
+- Un único índice de proyectos en lugar de repetir el mapa en cada repositorio.
 
 ### 2.3 Archivado
 
-- Los documentos antiguos o resueltos se mueven a carpetas `archivadas/` o sufijo `-archivo.md`.
+- Los documentos antiguos o resueltos se mueven a carpetas `archivadas/` o al sufijo `-archivo.md`.
 - No se leen por defecto; solo bajo demanda explícita.
-- El diario, la agenda y la guía mantienen solo la parte activa; el histórico queda archivado.
+- Los registros de trabajo mantienen solo la parte activa; el histórico queda archivado.
 
 ### 2.4 Compactación automática
 
 - `compaction.auto: true` con `keep.tokens` bajo (8000) para conservar solo el contexto reciente.
 - `compaction.prune: true` para podar salidas de herramientas antiguas.
 - `experimental.background_compaction: true` para no bloquear la sesión.
+
+Estas claves son las de la versión probada. Antes de copiarlas, compruébalas en la [configuración vigente de OpenCode](https://opencode.ai/v2/docs/config/): la página de configuración que consultamos incluye `compaction.auto`, `compaction.keep.tokens` y `compaction.buffer`, pero no `compaction.prune` ni `experimental.background_compaction`.
 
 ### 2.5 Salida de herramientas acotada
 
@@ -67,7 +69,7 @@ El criterio sale del ejemplo del §1: 14,2 k tokens fijos por sesión frente a u
 
 - **Un repo, un objetivo, un ítem por sesión.** No abrir dos frentes a la vez.
 - **Prompt atómico**: indicar repo, ítem, objetivo, archivos a leer y archivos a no leer.
-- **No cargar el plan completo** si el estado compacto ya responde: basta el backlog del plan de trabajo.
+- **No cargar todo el plan** si el estado resumido ya responde a la pregunta.
 - **No leer archivos archivados** salvo que falte contexto.
 - **Cerrar la sesión con un brief** para que la siguiente no tenga que releer todo.
 - **Medir**: usar `opencode stats` o las métricas del proveedor para detectar picos; investigar la causa antes de aceptarlos.
