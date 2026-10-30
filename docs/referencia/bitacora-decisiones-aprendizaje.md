@@ -13,6 +13,7 @@ Este documento registra cronológicamente las fases de investigación, decisione
 6. [Entrada 06: Elección de Almacén Vectorial para el RAG Local](#entrada-06-elección-de-almacén-vectorial-para-el-rag-local)
 7. [Entrada 07: Cifras de VRAM de terceros: la aritmética primero](#entrada-07-cifras-de-vram-de-terceros-la-aritmética-primero)
 8. [Entrada 08: Trabajo diario con OpenCode Go y local para datos restringidos](#entrada-08-trabajo-diario-con-opencode-go-y-local-para-datos-restringidos)
+9. [Entrada 09: Datos internos en el historial público](#entrada-09-datos-internos-en-el-historial-público)
 
 ---
 
@@ -242,3 +243,22 @@ Y a eso se suma la caché del contexto (KV cache), que con ventanas largas puede
 - Verificar la política de privacidad vigente de OpenCode Go antes de usarlo con datos de clientes o personales.
 
 
+
+---
+
+## Entrada 09: Datos internos en el historial público
+
+- **Fecha:** 2026-10-30
+- **Estado:** Parcial. El estado actual del repositorio está saneado y el historial local está reescrito. El historial de la rama principal en GitHub sigue sin cambios.
+- **Contexto:** Revisión de coherencia antes de seguir publicando. El historial público contenía una dirección IP de la red interna, el nombre de un equipo personal, el rol personal del prompt de sistema de `portfolio-agent`, una ruta del equipo y referencias a notas privadas. No había credenciales.
+- **Acción:**
+  - Se sustituyeron esos datos por marcadores (`ollama.lab.local`, «equipo cliente», «asistente de desarrollo») en el estado actual y en todos los commits, con `git filter-branch`.
+  - Se guardó una copia de seguridad del repositorio fuera de él antes de reescribir.
+  - La rama principal tiene protección: exige revisión y no admite reescrituras forzadas. Por eso el historial reescrito no se ha subido.
+- **Consecuencias:**
+  - No hay que rotar credenciales, porque no se expuso ninguna.
+  - Mientras el historial remoto no se reescriba, los datos antiguos siguen visibles en GitHub al consultar commits anteriores.
+- **Pendiente:**
+  - Decidir si se desactiva temporalmente la protección de la rama principal para subir el historial saneado y volver a activarla después.
+  - Si se hace, pedir a GitHub que elimine la caché de los commits antiguos.
+  - Borrar la copia de seguridad fuera del repositorio cuando ya no haga falta.
