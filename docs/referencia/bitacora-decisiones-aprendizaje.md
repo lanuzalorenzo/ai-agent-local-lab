@@ -242,15 +242,14 @@ A eso se suma la caché del contexto (KV cache), que con ventanas largas puede o
 ## Entrada 09: Datos internos en el historial público
 
 - **Fecha:** 2026-10-30
-- **Estado:** Parcial. El estado actual y el historial de la rama principal ya están saneados en GitHub. Queda pendiente que GitHub borre de su caché los commits antiguos.
+- **Estado:** Parcial. El estado actual y el historial de la rama principal ya están saneados en GitHub. El repositorio se renombró a `lab-ia-aprendizaje`. Queda pendiente que GitHub borre de su caché los commits antiguos.
 - **Contexto:** antes de seguir publicando se revisó la coherencia del repositorio. El historial público contenía una dirección IP de la red interna, el nombre de un equipo personal, el rol personal del prompt de sistema de `portfolio-agent`, una ruta del equipo y referencias a notas privadas. No había credenciales.
 - **Acción:**
   - Se sustituyeron esos datos por marcadores (`ollama.lab.local`, «equipo cliente», «asistente de desarrollo») en el estado actual y en todos los commits, con `git filter-branch`.
-  - Se guardó una copia de seguridad fuera del repositorio antes de reescribir.
+  - Se guardó una copia de seguridad fuera del repositorio antes de reescribir, y se borró al terminar.
   - La rama principal tiene protección que impide reescrituras forzadas. Para subir el historial saneado se activó temporalmente la reescritura forzada, se subió el cambio y se restauró la protección con sus valores originales.
 - **Consecuencias:**
   - No hay que rotar credenciales, porque no se expuso ninguna.
   - Los commits antiguos pueden seguir visibles en las cachés de GitHub hasta que se soliciten.
 - **Pendiente:**
   - Pedir a GitHub Support que elimine de su caché los commits antiguos.
-  - Borrar la copia de seguridad fuera del repositorio cuando ya no haga falta.
