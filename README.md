@@ -97,6 +97,7 @@ Documentos aplicados:
 | Documento | Qué aporta |
 |---|---|
 | [Hoja de ruta de seguridad de asistentes](docs/referencia/hoja-de-ruta-seguridad-asistentes.md) | Frontera de datos, inyección desde repositorio y permisos; fases y criterios de salida |
+| [OpenCode desde cero](docs/guias/opencode-desde-cero.md) | Qué es, instalación, uso básico y qué es gratis frente a lo que se paga |
 | [Continuidad de sesiones con OpenCode](docs/guias/opencode-session-continuity.md) | Comandos, briefs y estado en archivos |
 | [Evaluación y seguridad de una función con LLM](docs/referencia/ai-security-evaluation.md) | Conjunto dorado, inyección, métricas y CI |
 | [Robustez de prompts frente a perturbaciones de entrada](docs/referencia/prompt-robustness-testing.md) | Cargas canario, familias de transformación, matriz de intensidad y métricas de evasión |
@@ -105,6 +106,7 @@ Documentos aplicados:
 | [Línea base con el instrumento corregido](docs/evidencias/2026-10-22-robustez-ejecucion-v2/README.md) | Un caso C0 × 3 repeticiones válido; la obediencia en N0 se reproduce en 0,50 |
 | [Prompt v2 endurecido](docs/evidencias/2026-10-26-robustez-prompt-v2/README.md) | 15 inferencias en N0: misma obediencia (0,50) y mismos canarios; la defensa no puede vivir en el prompt |
 | [Registro parcial: 7B + Continue](docs/evidencias/2026-10-30-inferencia-7b-continue/README.md) | Integración probada por el autor; sin artefacto reproducible; no es un PASS |
+| [Uso real de OpenCode](docs/evidencias/2026-10-30-opencode-uso-real/README.md) | Sesión validada en esta máquina; no valida precios ni instalación limpia |
 | [Fase de ejecución](docs/referencia/prompt-robustness-testing.md#13-fase-de-ejecución) | `scripts/robustez/run_robustness_lab.sh` instala, ejecuta y restaura el equipo |
 | [Inferencia local frente a cloud](docs/guias/local-vs-cloud.md) | Criterios de decisión y errores frecuentes |
 

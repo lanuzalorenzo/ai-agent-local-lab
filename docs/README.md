@@ -19,6 +19,7 @@ Procedimientos paso a paso para instalar, configurar y diagnosticar.
 | [`server-deployment-ubuntu-ollama.md`](guias/server-deployment-ubuntu-ollama.md) | Despliegue bare-metal headless: Ubuntu Server, Netplan, OpenSSH, Ollama |
 | [`continue-remote-ollama-setup.md`](guias/continue-remote-ollama-setup.md) | Sincronización de ventana de contexto 16K entre Continue y Ollama remoto |
 | [`gpu-setup.md`](guias/gpu-setup.md) | Comprobación de drivers CUDA y visibilidad de GPU para Ollama |
+| [`opencode-desde-cero.md`](guias/opencode-desde-cero.md) | Qué es OpenCode, instalación, uso básico y qué es gratis frente a lo que se paga |
 | [`opencode-session-continuity.md`](guias/opencode-session-continuity.md) | Patrón de continuidad entre sesiones con comandos y archivos de estado |
 | [`local-vs-cloud.md`](guias/local-vs-cloud.md) | Criterios de decisión para elegir ejecución local vs cloud |
 | [`troubleshooting.md`](guias/troubleshooting.md) | Diagnóstico conservador de problemas frecuentes |
@@ -48,6 +49,7 @@ Ejecuciones reales con artefactos congelados (JSON, huella de entorno, resultado
 | [`2026-10-22-robustez-ejecucion-v2/`](evidencias/2026-10-22-robustez-ejecucion-v2/) | Línea base N0 con instrumento corregido (control negativo C0, 15 transformaciones). Obediencia 0,50 replicada. |
 | [`2026-10-26-robustez-prompt-v2/`](evidencias/2026-10-26-robustez-prompt-v2/) | Prompt `v2` endurecido frente a `v1`, N0. Obediencia 0,50 sin cambios: las instrucciones no defienden a este modelo. |
 | [`2026-10-30-inferencia-7b-continue/`](evidencias/2026-10-30-inferencia-7b-continue/) | Registro **Parcial**: integración 7B + Continue probada por el autor, sin artefacto reproducible. No es un PASS. |
+| [`2026-10-30-opencode-uso-real/`](evidencias/2026-10-30-opencode-uso-real/) | **Validado** el uso de OpenCode v2.1.4 en esta máquina: lectura del repositorio, consulta de documentación, escritura y enlaces. No valida precios ni instalación limpia. |
 | [`plantilla-evidencia.md`](evidencias/plantilla-evidencia.md) | Plantilla para registrar nuevas evidencias de forma consistente |
 
 ---
@@ -65,6 +67,7 @@ Ejecuciones reales con artefactos congelados (JSON, huella de entorno, resultado
 ## Navegación rápida
 
 - **Empezar aquí**: [`guias/server-deployment-ubuntu-ollama.md`](guias/server-deployment-ubuntu-ollama.md) (despliegue base)
+- **Primeros pasos con OpenCode**: [`guias/opencode-desde-cero.md`](guias/opencode-desde-cero.md) (qué es, instalación, gratis frente a pago)
 - **Contexto 16K**: [`guias/continue-remote-ollama-setup.md`](guias/continue-remote-ollama-setup.md)
 - **Entender la matriz**: [`referencia/prompt-robustness-testing.md`](referencia/prompt-robustness-testing.md)
 - **Seguridad de asistentes**: [`referencia/hoja-de-ruta-seguridad-asistentes.md`](referencia/hoja-de-ruta-seguridad-asistentes.md)
