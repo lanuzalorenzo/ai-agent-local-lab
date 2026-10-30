@@ -13,7 +13,7 @@ Este documento describe el flujo que el repositorio pretende facilitar: usar Oll
 | Modelo | Genera respuestas a partir del prompt y el contexto disponible | No se fija una versión; la calidad y el consumo dependen del modelo seleccionado |
 | GPU NVIDIA / driver | Posible aceleración de inferencia | La GPU puede no estar disponible para el servicio; CPU/GPU y uso real deben verificarse por ejecución |
 | Scripts del repositorio | Instalación, diagnóstico y ejecución interactiva | Algunos pasos necesitan privilegios; revisar antes de ejecutar |
-| systemd | Gestión del proceso persistente | `system/ollama.service` es una referencia no validada y no debe reemplazar automáticamente la unidad existente |
+| systemd | Gestión del proceso persistente | `config/ollama.service` es una referencia no validada y no debe reemplazar automáticamente la unidad existente |
 
 ## Flujo previsto
 
@@ -37,7 +37,7 @@ El flujo no implica que Continue solo envíe datos a Ollama ni que el contenido 
 | `docs/guias/server-deployment-ubuntu-ollama.md` | Despliegue en servidor bare-metal headless (Ubuntu Server), Netplan y OpenSSH |
 | `docs/guias/gpu-setup.md` | Pasos de comprobación de GPU |
 | `docs/guias/troubleshooting.md` | Diagnóstico conservador |
-| `config/Modelfile.portfolio-agent` | Definición declarativa del agente con prompt ligero y ventana de 16K tokens |
+| `config/Modelfile.portfolio-agent` | Definición declarativa del agente con prompt ligero y ventana de 16K tokens; no se ha ejecutado `ollama create` en este repositorio |
 | `config/ollama.service` | Unidad de referencia; su usuario, rutas, permisos y compatibilidad con GPU no se han validado aquí |
 | `scripts/instalacion/install_ollama.sh` | Instala Ollama utilizando el instalador remoto del proveedor |
 | `scripts/instalacion/gpu_check.sh` | Consulta servicio, logs y `nvidia-smi` |

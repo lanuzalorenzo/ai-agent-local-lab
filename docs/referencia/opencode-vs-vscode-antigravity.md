@@ -1,6 +1,6 @@
 # OpenCode vs VS Code / Google Antigravity: criterios de decisión
 
-> **Referencia del laboratorio.** Comparativa orientada a privacidad, coste y control de contexto para elegir herramienta de agente. No es una evidencia de ejecución ni un benchmark; las afirmaciones sobre políticas de privacidad deben verificarse en las fuentes oficiales de cada proveedor.
+> **Estado:** Diseño. Comparativa orientada a privacidad, coste y control de contexto para elegir herramienta de agente. No es una evidencia de ejecución ni un benchmark; las afirmaciones sobre políticas de privacidad deben verificarse en las fuentes oficiales de cada proveedor.
 
 ## 1. Propósito
 
@@ -34,7 +34,7 @@ Decidir qué herramienta usar como agente de código en este laboratorio, sin as
 
 | Dimensión | OpenCode | VS Code + Copilot/agentes | Antigravity |
 |---|---|---|---|
-| **Privacidad de datos** | Configurable: modelos locales (Ollama) sin salida a la nube; los modelos remotos dependen del proveedor. OpenCode Go entrena con datos de la petición. | Depende del proveedor del asistente y de la configuración de la cuenta. | Depende de los términos de Google y de la configuración de la cuenta. |
+| **Privacidad de datos** | Configurable: modelos locales (Ollama) sin salida a la nube; los modelos remotos dependen del proveedor. En OpenCode Go hay que revisar la política vigente: no se ha verificado aquí qué modelos usan datos de la petición. | Depende del proveedor del asistente y de la configuración de la cuenta. | Depende de los términos de Google y de la configuración de la cuenta. |
 | **Control de contexto** | Alto: `AGENTS.md`, `.opencodeignore`, `compaction`, `tool_output`, comandos y archivos de estado. | Medio: gestionado por el editor y la extensión; menos explícito. | Medio: gestionado por el asistente; menos explícito. |
 | **Coste** | Gratuito con modelos locales; suscripción Go para modelos gestionados; cuotas por proveedor. | Suscripción Copilot o proveedor externo. | Suscripción o cuota de Google. |
 | **Extensibilidad** | Plugins, MCP, skills, comandos, agents personalizados. | Extensiones del marketplace, MCP según soporte. | Integración con el ecosistema Google. |
@@ -44,11 +44,11 @@ Decidir qué herramienta usar como agente de código en este laboratorio, sin as
 
 ## 4. OpenCode Go vs consola/CLI
 
-- **OpenCode Go**: suscripción que da acceso a modelos gestionados. Algunos de esos modelos entrenan con los datos de la petición; revisar la política de privacidad antes de usarlos con código o datos sensibles.
+- **OpenCode Go**: suscripción que da acceso a modelos gestionados. Algunos modelos gestionados pueden usar datos de la petición según la política vigente; no se ha verificado en este repositorio. Revisar la política antes de usarlos con código o datos sensibles.
 - **CLI/TUI y web**: interfaces al mismo servicio. La CLI/TUI permite trabajar en terminal y servidores remotos; la web facilita la gestión visual. La configuración y las sesiones son compartidas.
 - **Modelos locales (Ollama)**: no requieren suscripción ni salida a la nube; son la opción por defecto cuando la privacidad es prioritaria.
 
-Regla práctica: si el código o los datos no deben salir del equipo, usa modelos locales. Si usas Go, asume que los datos pueden usarse para entrenamiento.
+Regla práctica: si el código o los datos no deben salir del equipo, usa modelos locales. Si usas Go, revisa la política vigente antes de enviar datos sensibles; no des por hecho que no se usan para entrenamiento.
 
 ## 5. Cuándo elegir cada uno
 

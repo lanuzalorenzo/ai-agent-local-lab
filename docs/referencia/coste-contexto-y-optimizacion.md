@@ -1,6 +1,6 @@
 # Coste de contexto y optimización de prompts
 
-> **Privado del laboratorio.** Marco de referencia para controlar el consumo de tokens y el coste de contexto en sesiones con agentes. No es una evidencia de ejecución; describe riesgos, controles y verificación.
+> **Estado:** Diseño. Marco de referencia para controlar el consumo de tokens y el coste de contexto en sesiones con agentes. No es una evidencia de ejecución; describe riesgos, controles y verificación.
 
 ## 1. El riesgo
 
@@ -13,13 +13,13 @@ El coste de una sesión no está solo en la respuesta del modelo. Está en todo 
 
 Un contexto grande no solo cuesta más: degrada la atención del modelo, aumenta la latencia y puede provocar truncado o pérdida de instrucciones críticas. En un laboratorio local, el mismo problema aparece como saturación de la ventana de contexto y respuestas incoherentes.
 
-Ejemplo medido en este laboratorio: el esquema MCP de XERJ añadía ~14,2 k tokens fijos por sesión, por encima del ahorro esperado. El piloto se descartó por esa razón.
+Ejemplo del laboratorio, sin medición reproducible adjunta: un esquema MCP añadía del orden de 14,2 k tokens fijos por sesión, por encima del ahorro esperado. El piloto se descartó por esa razón; la cifra no se usa como benchmark.
 
 ## 2. Controles aplicados
 
 ### 2.1 Filtrado de entrada
 
-- `.opencodeignore` en cada repositorio: convención de proyecto. Medido el 2026-10-26 en OpenCode v2.1.4: **no filtra** lo que devuelven `glob`, `grep` ni `read`, así que no cuenta como ahorro real.
+- `.opencodeignore` en cada repositorio: convención de proyecto. En una prueba local del 2026-10-26 con OpenCode v2.1.4 no filtró lo que devuelven `glob`, `grep` ni `read`; no hay artefacto adjunto, así que no se cuenta como ahorro real.
 - Regla de no abrir material archivado (briefs antiguos, diario y agenda archivados, evidencias ya cerradas): el ahorro viene de no leerlo, no de un fichero de exclusiones.
 - `watcher.ignore` en la configuración global para evitar reindexar rutas de build.
 - `tool_output` acotado (líneas y bytes por resultado) y lectura por rangos (`offset`/`limit`) con `grep` en lugar de `cat` de archivos completos.
@@ -27,7 +27,7 @@ Ejemplo medido en este laboratorio: el esquema MCP de XERJ añadía ~14,2 k toke
 ### 2.2 Instrucciones compactas
 
 - `AGENTS.md` por repositorio compactado: solo reglas y convenciones locales; el detalle vive en documentos de referencia y se lee bajo demanda.
-- Un enrutador por workspace (`/home/tglla/Repositorios/AGENTS.md`) en lugar de duplicar el mapa en cada repo.
+- Un enrutador por workspace (`AGENTS.md` en la raíz del workspace) en lugar de duplicar el mapa en cada repo.
 
 ### 2.3 Archivado
 
@@ -60,7 +60,7 @@ Un servidor MCP mete en el contexto la descripción de sus herramientas en cada 
 - Si el coste supera el ahorro, no se conecta: `grep` y `read` acotados resuelven la mayoría de los casos.
 - Repetir la cuenta tras cada actualización del servidor; el esquema puede crecer sin que cambie su uso.
 
-El criterio sale del caso del §1: 14,2 k tokens fijos por sesión frente a un ahorro menor. No depende del lenguaje ni del cliente, solo del tamaño del esquema.
+El criterio sale del ejemplo del §1: 14,2 k tokens fijos por sesión frente a un ahorro menor. No depende del lenguaje ni del cliente, solo del tamaño del esquema.
 
 
 ## 3. Prevención en el flujo de trabajo
@@ -75,7 +75,7 @@ El criterio sale del caso del §1: 14,2 k tokens fijos por sesión frente a un a
 ## 4. Verificación
 
 - `git status -s` solo de los repos implicados, no del workspace entero.
-- `check-guia.sh` del repositorio privado de notas para comprobar que los comandos y la guía están sincronizados.
+- Un script local de comprobación, si existe, para verificar que los comandos y la guía están sincronizados.
 - Revisar periódicamente el tamaño de los archivos que se cargan con frecuencia (`AGENTS.md` y el backlog del plan).
 - Si un archivo supera ~8 KB y se lee en cada sesión, evaluar compactarlo o archivar parte de su contenido.
 

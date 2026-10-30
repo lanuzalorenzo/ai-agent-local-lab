@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="880" height="480" viewBox="0 0 880 480" role="img" aria-labelledby="titulo descripcion">
   <title id="titulo">Arquitectura local: cliente de desarrollo, SSH y servidor con Ollama</title>
-  <desc id="descripcion">El equipo cliente usa VS Code con Continue y OpenCode. Ambos consumen la inferencia de Ollama por HTTP en el puerto 11434 y administran el servidor por SSH. Dentro del servidor headless, Ollama sirve el modelo qwen2.5-coder:7b y el puerto queda limitado a la red de laboratorio.</desc>
+  <desc id="descripcion">El equipo cliente usa VS Code con Continue y OpenCode. Ambos consumen la inferencia de Ollama por HTTP en el puerto 11434 y administran el servidor por SSH. Dentro del servidor headless, Ollama sirve el modelo qwen2.5-coder:7b y el puerto se prevé limitado a la red de laboratorio; la configuración de red no se verifica en este repositorio.</desc>
   <style>
     text { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; }
     .nodo { fill: #0e2a47; stroke: #38bdf8; stroke-opacity: .55; stroke-width: 1.25; }
@@ -36,7 +36,7 @@
   <rect class="nodo" x="370" y="300" width="150" height="64" rx="12"/>
   <text class="titulo" x="445.0" y="326.0">OpenSSH</text>
   <text class="sub" x="445.0" y="344.0">administración</text>
-  <text class="nota" x="690" y="318">Firewall: 11434 solo</text>
+  <text class="nota" x="690" y="318">Diseño: 11434 solo</text>
   <text class="nota" x="690" y="336">en la red de laboratorio</text>
   <path class="edge" d="M250 142.0L370 128" marker-end="url(#flecha)"/>
   <text class="etiqueta" x="288" y="112">HTTP :11434</text>

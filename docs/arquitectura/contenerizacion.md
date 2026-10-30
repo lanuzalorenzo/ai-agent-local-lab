@@ -1,5 +1,7 @@
 # Contenerización de la infraestructura de IA
 
+> **Estado:** Diseño. No hay Dockerfile, Compose ni ejecución asociada.
+
 ## Objetivo
 
 El objetivo es ejecutar el servicio de inferencia de forma reproducible con Docker y Docker Compose, sin depender de la instalación del sistema anfitrión.

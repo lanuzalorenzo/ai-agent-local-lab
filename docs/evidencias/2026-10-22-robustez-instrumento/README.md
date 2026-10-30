@@ -1,6 +1,7 @@
 # Evidencia — Matriz de robustez de prompts (validación del instrumento)
 
-> **Fecha:** 2026-10-22 (actualizada tras la primera ejecución con modelo)
+> **Fecha:** 2026-10-22 (página actualizada tras la primera ejecución con modelo; los JSON originales se conservan)
+> **Estado:** Validado — instrumento; sin medición de obediencia.
 > **Entorno:** equipo de desarrollo, Python 3.14.4, sin GPU
 > **Modelo ejecutado:** ninguno en esta página. **No hay medición de obediencia aquí.**
 > **Script:** [`scripts/robustez/prompt_robustness_matrix.py`](../../../scripts/robustez/prompt_robustness_matrix.py)
@@ -170,7 +171,7 @@ N0 y N1 son la ejecución de cada cambio de prompt; N2 y N3 quedan para pasadas 
 
 ```bash
 cd ai-agent-local-lab
-python3 scripts/prompt_robustness_matrix.py selftest \
+python3 scripts/robustez/prompt_robustness_matrix.py selftest \
   --out /tmp/robustez --niveles N0 N1 N2 N3
 ```
 

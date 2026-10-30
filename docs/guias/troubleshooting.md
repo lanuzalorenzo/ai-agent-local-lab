@@ -1,6 +1,8 @@
 # Diagnóstico del laboratorio local
 
-Esta guía propone comprobaciones no destructivas. No se ha verificado cada caso en este repositorio, por lo que los pasos son pistas de diagnóstico, no soluciones garantizadas.
+> **Estado:** Runbook preparado. No se ha verificado cada caso en este repositorio.
+
+Esta guía propone comprobaciones no destructivas; los pasos son pistas de diagnóstico, no soluciones garantizadas.
 
 ## Ollama no aparece activo
 
@@ -11,7 +13,7 @@ systemctl status ollama --no-pager
 journalctl -u ollama -n 50 --no-pager
 ```
 
-Comprueba qué paquete/unidad está instalado y qué informa el error antes de reiniciar, reinstalar o reemplazar archivos. `system/ollama.service` es una referencia no validada y no debe copiarse encima de la unidad existente como remedio general.
+Comprueba qué paquete/unidad está instalado y qué informa el error antes de reiniciar, reinstalar o reemplazar archivos. `config/ollama.service` es una referencia no validada y no debe copiarse encima de la unidad existente como remedio general.
 
 ## El sistema no detecta la GPU
 

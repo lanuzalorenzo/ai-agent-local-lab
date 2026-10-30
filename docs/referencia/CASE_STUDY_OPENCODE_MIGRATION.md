@@ -1,5 +1,7 @@
 # Caso de estudio: dos flujos de asistencia con IA
 
+> **Estado:** Diseño. La configuración es un ejemplo; no se incluyen claves ni ejecuciones medidas.
+
 ## 1. Visión general del proyecto
 
 Diseño de una estrategia de desarrollo asistido por IA basada en **dos flujos de trabajo independientes y desacoplados**, para alternar según las exigencias de privacidad, contexto y capacidad de razonamiento entre un servidor de inferencia local y modelos de alta capacidad en la nube.

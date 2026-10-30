@@ -22,7 +22,7 @@ Este documento registra cronológicamente las fases de investigación, decisione
 - **Decisión de Arquitectura:** 
   - Desplegar **Ubuntu Server (Headless / CLI pura)** en máquina bare-metal física en lugar de una distribución de escritorio (Desktop con GNOME/KDE) o máquina virtual con virtualización de GPU compleja.
 - **Justificación Técnica:**
-  - **Eficiencia de memoria (RAM / VRAM):** Un entorno de escritorio tradicional reserva entre 1.5 GB y 3.5 GB de RAM para el gestor de ventanas (Wayland/X11), renderizado gráfico y servicios auxiliares. En un servidor headless, esos recursos quedan disponibles para alojar los tensores y matrices del modelo de lenguaje en memoria.
+  - **Eficiencia de memoria (RAM / VRAM):** Un entorno de escritorio tradicional reserva del orden de 1,5 a 3,5 GB de RAM para el gestor de ventanas (Wayland/X11), renderizado gráfico y servicios auxiliares; es una estimación general, no una medición de este laboratorio. En un servidor headless, esos recursos quedan disponibles para alojar los tensores y matrices del modelo de lenguaje en memoria.
   - **Superficie de ataque reducida:** Al prescindir de paquetes de escritorio y navegadores en el servidor, se reduce la superficie de exposición y la complejidad de parches del sistema operativo.
   - **Gobernanza por `systemd`:** Ollama corre como daemon desatendido en background, facilitando reinicios automáticos y telemetría de logs con `journalctl`.
 
@@ -69,7 +69,7 @@ Este documento registra cronológicamente las fases de investigación, decisione
     ```bash
     ollama run llama3
     ```
-  - Evaluación cualitativa de tiempos de respuesta, latencia del primer token (TTFT) y consumo en CPU/GPU.
+  - Evaluación cualitativa del autor sobre tiempos de respuesta, latencia del primer token (TTFT) y consumo en CPU/GPU; no hay datos ni artefactos adjuntos en el repositorio.
   - Extensión a modelos de razonamiento y codificación como `mistral` / `codellama`.
   - **Modelo operativo actual:** `qwen2.5-coder:7b`, elegido por su rendimiento en código y su integración con el `Modelfile` del laboratorio.
 
@@ -88,7 +88,7 @@ Este documento registra cronológicamente las fases de investigación, decisione
 
 #### A. Reestructuración del `Modelfile` en el Servidor Remoto
 - **Prompt de Sistema Ligero:** Se sustituyó el prompt masivo por un bloque `SYSTEM` conciso que define únicamente el rol principal (*Lead Cloud Security Architect, DevSecOps & .NET Architect*), la orientación hacia *Security by Design*, el principio de *Rumbo Fijo* y el activo de referencia `lab-api-local-azure`.
-- **Ampliación de Ventana de Contexto (`num_ctx`):** Se añadió la directiva `PARAMETER num_ctx 16384` en [`system/Modelfile.portfolio-agent`](../../config/Modelfile.portfolio-agent) para permitir la inyección de documentos extensos bajo demanda sin saturar la memoria inicial:
+- **Ampliación de Ventana de Contexto (`num_ctx`):** Se añadió la directiva `PARAMETER num_ctx 16384` en [`config/Modelfile.portfolio-agent`](../../config/Modelfile.portfolio-agent) para permitir la inyección de documentos extensos bajo demanda sin saturar la memoria inicial:
 
 ```dockerfile
 FROM qwen2.5-coder:7b
@@ -119,7 +119,9 @@ models:
 ```
 
 ### 3. Resultados y Patrón de Trabajo Establecido
-1. **Inferencia rápida:** El agente responde sin reprocesar un prompt de sistema largo en cada llamada.
+Los siguientes puntos describen la observación del autor; no hay una ejecución reproducible adjunta en este repositorio.
+
+1. **Inferencia más ágil:** El agente responde sin reprocesar un prompt de sistema largo en cada llamada.
 2. **Carga contextual bajo demanda:** Buena práctica de referenciar dinámicamente los archivos del workspace (`@AGENTS.md`, `@file`, `@folder` o `@workspace`) según la tarea.
 3. **Soporte de ficheros grandes:** Capacidad de adjuntar archivos de contexto de hasta 16K tokens sin errores de desbordamiento de ventana.
 
@@ -149,12 +151,12 @@ Este laboratorio evoluciona como portfolio de aprendizaje de Inteligencia Artifi
 - [ ] Construir el conjunto dorado mínimo (20–50 casos) descrito en [`ai-security-evaluation.md`](ai-security-evaluation.md) y automatizarlo en CI.
 - [x] Implementar la matriz de perturbación de [`prompt-robustness-testing.md`](prompt-robustness-testing.md): canarios C0–C4, familias F1–F4 y niveles N0–N3.
 - [x] Ejecutar la matriz en el equipo Ubuntu con [`run_robustness_lab.sh`](../../scripts/robustez/run_robustness_lab.sh) y registrar la huella del entorno junto a los resultados.
-- [x] Primera ejecución (2026-10-22, `qwen2.5:3b`, N0 y N1): obediencia en el control del 50 %, inyección directa funcional sin transformación.
+- [x] Primera ejecución (2026-10-22, `qwen2.5:3b`, N0 y N1): obediencia N0 = 0,50; inyección directa funcional sin transformación.
 - [x] Añadir el control negativo C0 y excluir las cuatro transformaciones que el modelo no decodifica: medían ilegibilidad, no resistencia.
 - [x] Segunda pasada, solo N0 (2026-10-22, prompt `v1`): control negativo 3/3 con JSON válido; obediencia 0,50, idéntica a la primera.
-- [x] Versionar el prompt de sistema y registrar su huella en cada ejecución.
+- [x] Versionar el prompt de sistema y registrar su huella desde la pasada `prompt-v2`; las evidencias `v1`/`v2` anteriores no la registraron.
 - [ ] Completar la corrección del instrumento: comprobación de decodificación (reactiva F3) y detector de C3 separado del formato.
-- [ ] Endurecer el prompt de sistema hasta que N0 dé cero y repetir N1; solo entonces la cifra de robustez significa algo.
+- [x] Medir el prompt `v2`: N0 sigue en 0,50; la defensa debe ser un control externo, no otra instrucción. N1 con `v2` sigue pendiente.
 - [ ] Separar en cada ejecución el fallo del filtro (evasión) del fallo del modelo (obediencia); sin ese desglose no se sabe qué corregir.
 - [ ] Usar la misma matriz para comparar modelos locales con una **puntuación por tarea**, no un ranking general: el resultado solo es válido para el prompt y la tarea evaluados.
 - [ ] Medir el factor de expansión de tokens de cada transformación: una mitigación que multiplica el coste por diez es un problema de consumo, no solo de filtrado.
@@ -196,7 +198,7 @@ Este laboratorio evoluciona como portfolio de aprendizaje de Inteligencia Artifi
 ## Entrada 07: Cifras de VRAM de terceros: la aritmética primero
 
 - **Fecha:** Octubre 2026
-- **Estado:** Observación sin medir. El cálculo justifica el escepticismo; la comprobación en hardware sigue pendiente.
+- **Estado:** Parcial — observación sin medir. El cálculo justifica el escepticismo; la comprobación en hardware sigue pendiente.
 - **Contexto:** Es habitual encontrar la afirmación de que un modelo de unos 27 000 millones de parámetros "con cuantización ligera" cabe en menos de 10 GB de VRAM y corre entero en la gráfica. Antes de repetirla o de planificar compras con ella, conviene hacer la cuenta.
 
 **El cálculo que no se puede esquivar:** el peso de los parámetros en memoria es proporcional a los bits por peso.
