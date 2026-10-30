@@ -1,6 +1,6 @@
 # Inferencia local frente a cloud: criterios de decisión
 
-> **Estado:** criterios documentados. No es un benchmark ni una comparación de rendimiento medida.
+> **Estado:** Diseño — criterios documentados. No es un benchmark ni una comparación de rendimiento medida.
 >
 > **Propósito:** decidir dónde ejecutar cada carga de trabajo sin convertir la elección en una preferencia ideológica.
 

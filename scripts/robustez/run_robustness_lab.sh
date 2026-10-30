@@ -73,6 +73,7 @@ estado_ini() {
     mkdir -p "$ESTADO_DIR"
     cat > "$ESTADO" <<EOF
 # Sesión iniciada $(date -Is). Se elimina al restaurar.
+MODELO=$MODELO
 OLLAMA_INSTALADO_POR_SCRIPT=0
 MODELO_DESCARGADO_POR_SCRIPT=0
 SERVICIO_ACTIVO_ANTES=0
@@ -138,6 +139,15 @@ preflight() {
 
     if command -v nvidia-smi >/dev/null 2>&1; then
         log "GPU: $(nvidia-smi --query-gpu=name --format=csv,noheader | head -1)"
+        local mem_mib
+        mem_mib="$(nvidia-smi --query-gpu=memory.total --format=csv,noheader,nounits | head -1 | tr -dc '0-9')"
+        case "$MODELO" in
+            *7b*|*7B*)
+                if [[ -n "$mem_mib" && "$mem_mib" -lt 8000 ]]; then
+                    warn "GPU con ${mem_mib} MiB: un 7B en Q4 no cabe entero; usa --modelo qwen2.5:3b o asume offload a CPU."
+                fi
+                ;;
+        esac
     else
         warn "Sin nvidia-smi: la inferencia será por CPU y lenta."
     fi
@@ -254,13 +264,19 @@ PY
 
 ejecutar_matriz() {
     log "Ejecutando la matriz de robustez"
+    local estado=0
     ejecutar python3 "$RAIZ_REPO/scripts/robustez/prompt_robustness_matrix.py" run \
         --model "$MODELO" \
         --endpoint "$ENDPOINT" \
         --niveles $NIVELES \
         --sistema "$SISTEMA" \
         --repeticiones "$REPETICIONES" \
-        --out "$SALIDA"
+        --out "$SALIDA" || estado=$?
+    if [[ $estado -eq 3 ]]; then
+        warn "La matriz terminó con N0 > 0 (código 3): línea base fallida, no error de infraestructura. La evidencia está en $SALIDA."
+        return 3
+    fi
+    return $estado
 }
 
 # --------------------------------------------------------------------------
@@ -274,18 +290,19 @@ restaurar() {
     fi
 
     log "Restaurando el estado del equipo"
-    local descargado instalado activo_antes habilitado_antes preexistente
+    local descargado instalado activo_antes habilitado_antes preexistente modelo_guardado
     descargado="$(estado_get MODELO_DESCARGADO_POR_SCRIPT 0)"
     instalado="$(estado_get OLLAMA_INSTALADO_POR_SCRIPT 0)"
     activo_antes="$(estado_get SERVICIO_ACTIVO_ANTES 0)"
     habilitado_antes="$(estado_get SERVICIO_HABILITADO_ANTES 0)"
     preexistente="$(estado_get MODELO_PREEXISTENTE 0)"
+    modelo_guardado="$(estado_get MODELO "$MODELO")"
 
     # 1. Modelo: solo si lo descargamos nosotros y no estaba antes.
     if [[ "$descargado" == "1" && "$preexistente" != "1" ]]; then
         if command -v ollama >/dev/null 2>&1 && systemctl is-active --quiet ollama 2>/dev/null; then
-            log "Eliminando el modelo $MODELO"
-            ejecutar ollama rm "$MODELO" || warn "No se pudo eliminar el modelo"
+            log "Eliminando el modelo $modelo_guardado"
+            ejecutar ollama rm "$modelo_guardado" || warn "No se pudo eliminar el modelo"
         fi
     fi
 
@@ -433,10 +450,14 @@ if [[ $SI -eq 0 && $DRY_RUN -eq 0 ]]; then
     [[ "$r" == "y" || "$r" == "Y" ]] || { echo "Cancelado."; exit 1; }
 fi
 
-estado_ini
 if [[ $DRY_RUN -eq 0 ]]; then
-    if systemctl is-active --quiet ollama 2>/dev/null; then estado_set SERVICIO_ACTIVO_ANTES 1; fi
-    if systemctl is-enabled --quiet ollama 2>/dev/null; then estado_set SERVICIO_HABILITADO_ANTES 1; fi
+    activo_antes=0
+    habilitado_antes=0
+    if systemctl is-active --quiet ollama 2>/dev/null; then activo_antes=1; fi
+    if systemctl is-enabled --quiet ollama 2>/dev/null; then habilitado_antes=1; fi
+    estado_ini
+    estado_set SERVICIO_ACTIVO_ANTES "$activo_antes"
+    estado_set SERVICIO_HABILITADO_ANTES "$habilitado_antes"
     sudo_c -v || die "Se necesitan privilegios para instalar o gestionar el servicio"
 fi
 

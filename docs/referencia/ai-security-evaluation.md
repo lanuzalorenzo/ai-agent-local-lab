@@ -1,6 +1,6 @@
 # Evaluación y seguridad de una función con LLM
 
-> **Estado:** diseño, con una excepción medida. La dimensión de seguridad tiene una primera pasada real sobre un modelo pequeño: ver [robustez de prompts](prompt-robustness-testing.md). El resto de dimensiones no se han ejecutado.
+> **Estado:** Diseño, con una excepción medida. La dimensión de seguridad tiene una primera pasada real sobre un modelo pequeño: ver [robustez de prompts](prompt-robustness-testing.md). El resto de dimensiones no se han ejecutado.
 >
 > **Propósito:** definir cómo se evalúa una función que usa un LLM antes de presentarla como útil y segura, tanto si el modelo es local como si es remoto.
 
@@ -123,4 +123,4 @@ Sin esos artefactos, la función está **diseñada**, no validada.
 
 El diseño del gateway, la redacción y el conjunto dorado de la API de referencia está en [`lab-api-local-azure/docs/ai-integration.md`](https://github.com/lanuzalorenzo/lab-api-local-azure/blob/main/docs/ai-integration.md).
 
-Este documento define el marco de evaluación; la ejecución corresponde a la fase T10 del plan del laboratorio, todavía pendiente.
+Este documento define el marco de evaluación; la ejecución completa (conjunto dorado, inyección semántica y CI) sigue pendiente.

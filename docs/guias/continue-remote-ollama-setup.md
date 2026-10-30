@@ -1,11 +1,15 @@
 # Guía de Configuración: Continue (VS Code) + Ollama Remoto
 
+> **Estado:** Runbook preparado. La configuración de ejemplo no está versionada y el resultado de la conexión no se ha registrado en este repositorio.
+
 Configuración del cliente de desarrollo Continue en VS Code conectado al servidor bare-metal dedicado de inferencia local.
 
 > **Privacidad:** esta guía usa `ollama.lab.local` como hostname de ejemplo. No
 > publiques direcciones IP internas, nombres de máquinas ni rutas de prompts
 > privados. Sustituye el hostname por el valor de tu red y mantén el repositorio
 > libre de datos de infraestructura.
+
+> **Modelo:** `portfolio-agent` se crea con `ollama create portfolio-agent -f config/Modelfile.portfolio-agent`. El repositorio no incluye una ejecución de ese comando; `scripts/utilidades/run_agent.sh` usa el modelo base `qwen2.5-coder:7b`.
 
 ---
 

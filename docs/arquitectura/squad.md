@@ -1,5 +1,7 @@
 # Arquitectura de equipo multi-agente (Squad)
 
+> **Estado:** Diseño. No hay implementación ni evidencia de ejecución.
+
 ## Objetivo
 
 La arquitectura de equipo multi-agente, también conocida como Squad, reparte el trabajo entre agentes especializados con roles diferenciados, para automatizar el desarrollo del portfolio y de la aplicación.

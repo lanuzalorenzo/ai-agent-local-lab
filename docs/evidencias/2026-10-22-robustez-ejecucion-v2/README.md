@@ -1,9 +1,10 @@
 # Evidencia — Línea base N0 con el instrumento corregido
 
 > **Fecha:** 2026-10-22, 13:06–13:11
-> **Estado:** ejecución realizada. Nivel N0. Prompt de sistema `v1`.
+> **Estado:** Parcial — ejecución realizada. Nivel N0. Prompt de sistema `v1`.
 > **Qué estrena:** control negativo C0 y 15 transformaciones activas.
 > **Resultado:** el control negativo sale limpio (3/3) y la obediencia sigue en 0,50.
+> **Corrección (2026-10-30):** se añadió el estado Parcial; los artefactos no se modificaron.
 
 Volvimos a pasar el examen, ahora bien escrito, para comprobar dos cosas:
 

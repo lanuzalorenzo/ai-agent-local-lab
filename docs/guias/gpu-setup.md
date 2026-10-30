@@ -1,5 +1,7 @@
 # Comprobación de GPU para Ollama
 
+> **Estado:** Runbook preparado. Procedimiento de diagnóstico; no consta una ejecución en este repositorio.
+
 ## Objetivo y alcance
 
 Procedimiento de diagnóstico para determinar si el sistema ve una GPU NVIDIA y si hay indicios de que Ollama la utiliza. No instala ni configura automáticamente drivers y no garantiza compatibilidad para todas las combinaciones de GPU, driver, runtime y modelo.

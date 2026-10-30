@@ -1,6 +1,6 @@
 # Índice de Documentación
 
-Este directorio organiza la documentación del laboratorio en tres capas: **arquitectura** (decisiones y diseño), **guías** (procedimientos ejecutables) y **referencia** (marcos de evaluación y bitácora). Las **evidencias** registran ejecuciones reales con artefactos verificables.
+Este directorio organiza la documentación del laboratorio en tres capas: **arquitectura** (decisiones y diseño), **guías** (procedimientos ejecutables) y **referencia** (marcos de evaluación y bitácora). Las **evidencias** registran ejecuciones reales con artefactos verificables o registros parciales que declaran explícitamente lo que falta.
 
 ## Arquitectura (`arquitectura/`)
 
@@ -32,13 +32,14 @@ Marcos de evaluación, bitácora técnica y casos de estudio.
 | [`ai-security-evaluation.md`](referencia/ai-security-evaluation.md) | Marco de evaluación de calidad y seguridad de funciones con LLM (conjunto dorado, inyección, métricas, CI) |
 | [`prompt-robustness-testing.md`](referencia/prompt-robustness-testing.md) | Diseño de la matriz de perturbación: canarios C0–C4, familias F1–F4, niveles N0–N3, métricas de evasión |
 | [`bitacora-decisiones-aprendizaje.md`](referencia/bitacora-decisiones-aprendizaje.md) | Memoria técnica cronológica: decisiones, incidentes, causa raíz, hoja de ruta (GGUF/CUDA, red, clientes, RAG) |
+| [`hoja-de-ruta-seguridad-asistentes.md`](referencia/hoja-de-ruta-seguridad-asistentes.md) | Hoja de ruta del eje de seguridad de asistentes: frontera de datos, inyección desde repositorio y permisos; fases y criterios de salida |
 | [`CASE_STUDY_OPENCODE_MIGRATION.md`](referencia/CASE_STUDY_OPENCODE_MIGRATION.md) | Caso de estudio: migración de asistentes y lecciones de continuidad de sesión |
 | [`coste-contexto-y-optimizacion.md`](referencia/coste-contexto-y-optimizacion.md) | Riesgo de consumo elevado de prompts, controles de optimización y prevención |
 | [`opencode-vs-vscode-antigravity.md`](referencia/opencode-vs-vscode-antigravity.md) | Criterios de decisión: OpenCode vs VS Code / Google Antigravity (privacidad, coste, contexto) |
 
 ## Evidencias (`evidencias/`)
 
-Ejecuciones reales con artefactos congelados (JSON, huella de entorno, resultados). Cada carpeta es inmutable tras su creación.
+Ejecuciones reales con artefactos congelados (JSON, huella de entorno, resultados) o registros parciales declarados. Cada carpeta conserva sus artefactos originales; si se corrige un README, se anota la fecha y el motivo en lugar de reescribir la evidencia.
 
 | Carpeta | Qué registra |
 |---------|--------------|
@@ -46,6 +47,7 @@ Ejecuciones reales con artefactos congelados (JSON, huella de entorno, resultado
 | [`2026-10-22-robustez-ejecucion-v1/`](evidencias/2026-10-22-robustez-ejecucion-v1/) | Primera ejecución con modelo (`qwen2.5:3b`, N0/N1). Obediencia 0,50. Instrumento original. |
 | [`2026-10-22-robustez-ejecucion-v2/`](evidencias/2026-10-22-robustez-ejecucion-v2/) | Línea base N0 con instrumento corregido (control negativo C0, 15 transformaciones). Obediencia 0,50 replicada. |
 | [`2026-10-26-robustez-prompt-v2/`](evidencias/2026-10-26-robustez-prompt-v2/) | Prompt `v2` endurecido frente a `v1`, N0. Obediencia 0,50 sin cambios: las instrucciones no defienden a este modelo. |
+| [`2026-10-30-inferencia-7b-continue/`](evidencias/2026-10-30-inferencia-7b-continue/) | Registro **Parcial**: integración 7B + Continue probada por el autor, sin artefacto reproducible. No es un PASS. |
 | [`plantilla-evidencia.md`](evidencias/plantilla-evidencia.md) | Plantilla para registrar nuevas evidencias de forma consistente |
 
 ---
@@ -65,5 +67,6 @@ Ejecuciones reales con artefactos congelados (JSON, huella de entorno, resultado
 - **Empezar aquí**: [`guias/server-deployment-ubuntu-ollama.md`](guias/server-deployment-ubuntu-ollama.md) (despliegue base)
 - **Contexto 16K**: [`guias/continue-remote-ollama-setup.md`](guias/continue-remote-ollama-setup.md)
 - **Entender la matriz**: [`referencia/prompt-robustness-testing.md`](referencia/prompt-robustness-testing.md)
+- **Seguridad de asistentes**: [`referencia/hoja-de-ruta-seguridad-asistentes.md`](referencia/hoja-de-ruta-seguridad-asistentes.md)
 - **Ver resultados reales**: [`evidencias/2026-10-22-robustez-ejecucion-v2/`](evidencias/2026-10-22-robustez-ejecucion-v2/)
 - **Hoja de ruta**: [`referencia/bitacora-decisiones-aprendizaje.md#entrada-04-hoja-de-ruta-y-ejes-de-aprendizaje-futuros`](referencia/bitacora-decisiones-aprendizaje.md#entrada-04-hoja-de-ruta-y-ejes-de-aprendizaje-futuros)

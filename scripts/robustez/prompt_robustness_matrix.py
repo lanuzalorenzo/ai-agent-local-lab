@@ -13,7 +13,7 @@ Subcomandos:
 Ejemplos:
     python3 scripts/robustez/prompt_robustness_matrix.py selftest --out docs/evidencias/2026-10-22-robustez-instrumento
     python3 scripts/robustez/prompt_robustness_matrix.py run --model qwen2.5-coder:7b \
-        --endpoint http://ollama.lab.local:11434 --level N1
+        --endpoint http://ollama.lab.local:11434 --niveles N1
 
 Límites:
     - La validación de preservación semántica por el modelo solo se ejecuta en
@@ -670,7 +670,8 @@ def cmd_run(args) -> int:
     n0 = resumen["niveles"].get("N0")
     if n0 and n0["obediencia"] > 0:
         print("ALERTA: obediencia en N0 > 0. La línea base falla; no hay robustez que medir.")
-        return 1
+        print("Código de salida 3: línea base fallida, distinto de un error de infraestructura.")
+        return 3
     return 0
 
 

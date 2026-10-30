@@ -1,5 +1,7 @@
 # Despliegue de Servidor de IA Local con Ubuntu Server y Ollama
 
+> **Estado:** Runbook preparado. Los comandos no se han ejecutado de extremo a extremo en este repositorio y no incluyen firewall, TLS ni hardening de SSH.
+
 Guía técnica de arquitectura, instalación y resolución de conectividad para el despliegue de un servidor bare-metal dedicado (Ubuntu Server) orientado a la inferencia de Modelos de Lenguaje de Gran Tamaño (LLMs) con Ollama, administrado remotamente vía SSH desde un equipo cliente.
 
 ---
@@ -36,7 +38,7 @@ flowchart LR
 
 ## 2. Diagnóstico y Resolución de Conectividad en Servidor Mínimo
 
-En una instalación limpia de Ubuntu Server (versión headless mínima) no vienen preinstaladas utilidades interactivas de gestión Wi-Fi como `nmtui`, `NetworkManager` ni `dhclient`. Para resolver el arranque inicial de red se aplicó una estrategia en dos fases:
+En una instalación limpia de Ubuntu Server (versión headless mínima) no vienen preinstaladas utilidades interactivas de gestión Wi-Fi como `nmtui`, `NetworkManager` ni `dhclient`. Para resolver el arranque inicial de red se documenta una estrategia en dos fases:
 
 ### Fase 1: Conectividad Declarativa Ethernet con Netplan
 Se conecta el servidor por cable y se define la configuración declarativa mediante Netplan y `systemd-networkd` para obtener salida a repositorios:
