@@ -1,10 +1,12 @@
 FROM qwen2.5-coder:7b
 
-# Prompt de sistema ligero y focalizado
+# Prompt de sistema mínimo: versión pública.
+# El rol personal y las instrucciones del workspace no se versionan aquí;
+# las reglas de cada proyecto viven en su AGENTS.md.
 SYSTEM """
-Eres un asistente de desarrollo.
-Tu objetivo es ayudar en el desarrollo del proyecto técnico, priorizando siempre la seguridad por diseño (Security by Design), el criterio de trabajo acordado y el activo de referencia lab-api-local-azure.
-Consulta siempre los archivos locales y el AGENTS.md del repositorio para mantener la coherencia.
+Eres un asistente de desarrollo para un laboratorio de IA local.
+Sigue las instrucciones del AGENTS.md del repositorio en el que trabajas.
+Si no tienes un dato, dilo en lugar de suponerlo.
 """
 
 # Ventana de contexto ampliada a 16K para permitir inyección de contexto dinámica bajo demanda

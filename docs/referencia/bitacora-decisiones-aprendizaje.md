@@ -12,6 +12,7 @@ Este documento registra cronológicamente las fases de investigación, decisione
 5. [Entrada 05: Optimización y Ajuste de Arquitectura de Contexto (`portfolio-agent` + Continue)](#entrada-05-optimización-y-ajuste-de-arquitectura-de-contexto-portfolio-agent--continue)
 6. [Entrada 06: Elección de Almacén Vectorial para el RAG Local](#entrada-06-elección-de-almacén-vectorial-para-el-rag-local)
 7. [Entrada 07: Cifras de VRAM de terceros: la aritmética primero](#entrada-07-cifras-de-vram-de-terceros-la-aritmética-primero)
+8. [Entrada 08: Trabajo diario con OpenCode Go y local para datos restringidos](#entrada-08-trabajo-diario-con-opencode-go-y-local-para-datos-restringidos)
 
 ---
 
@@ -82,21 +83,21 @@ Este documento registra cronológicamente las fases de investigación, decisione
 
 ### 1. Diagnóstico del Problema Inicial
 - **Cuello de botella en procesamiento de prompt:** Un prompt de sistema de ~1.500 tokens fijado en el `Modelfile` obligaba al modelo a recomputar toda la secuencia en cada llamada, aumentando la latencia del primer token (TTFT) y haciendo la interacción lentísima.
-- **Límite de ventana de contexto en cliente y servidor:** Al adjuntar archivos extensos (ej. un archivo de contexto de ~18.8 KB) mediante `@file` desde Continue, el sistema arrojaba `File exceeds model's context length`. El límite por defecto era **2.048 tokens** en el runtime de Ollama y en la configuración local de Continue.
+- **Límite de ventana de contexto en cliente y servidor:** Al adjuntar archivos extensos (ej. un archivo de contexto de ~18,8 KB) mediante `@file` desde Continue, el sistema arrojaba `File exceeds model's context length`. El límite por defecto era **2.048 tokens** en el runtime de Ollama y en la configuración local de Continue.
 
 ### 2. Acciones y Soluciones Aplicadas
 
 #### A. Reestructuración del `Modelfile` en el Servidor Remoto
-- **Prompt de Sistema Ligero:** Se sustituyó el prompt masivo por un bloque `SYSTEM` conciso que define únicamente el rol principal (*asistente de desarrollo*), la orientación hacia *Security by Design*, el criterio de trabajo acordado y el activo de referencia `lab-api-local-azure`.
+- **Prompt de Sistema Ligero:** Se sustituyó el prompt masivo por un bloque `SYSTEM` conciso que solo fija el papel del asistente y remite a las reglas del repositorio (su `AGENTS.md`). Las reglas personales de rol se mantienen fuera del repositorio público: la versión publicada es esta.
 - **Ampliación de Ventana de Contexto (`num_ctx`):** Se añadió la directiva `PARAMETER num_ctx 16384` en [`config/Modelfile.portfolio-agent`](../../config/Modelfile.portfolio-agent) para permitir la inyección de documentos extensos bajo demanda sin saturar la memoria inicial:
 
 ```dockerfile
 FROM qwen2.5-coder:7b
 
 SYSTEM """
-Eres un asistente de desarrollo. 
-Tu objetivo es ayudar en el desarrollo del proyecto técnico, priorizando siempre la seguridad por diseño (Security by Design), el criterio de trabajo acordado y el activo de referencia lab-api-local-azure. 
-Consulta siempre los archivos locales y el AGENTS.md del repositorio para mantener la coherencia.
+Eres un asistente de desarrollo para un laboratorio de IA local.
+Sigue las instrucciones del AGENTS.md del repositorio en el que trabajas.
+Si no tienes un dato, dilo en lugar de suponerlo.
 """
 
 PARAMETER num_ctx 16384
@@ -223,5 +224,21 @@ Y a eso se suma la caché del contexto (KV cache), que con ventanas largas puede
 **Pendiente:**
 - Verificar el tamaño real de cada archivo GGUF descargado frente al cálculo (el tamaño en disco es la comprobación más rápida).
 - Medir VRAM real con `nvidia-smi` durante la inferencia, no al cargar el modelo.
+
+---
+
+## Entrada 08: Trabajo diario con OpenCode Go y local para datos restringidos
+
+- **Fecha:** Octubre 2026
+- **Estado:** Parcial — decisión en uso. Las comparaciones de límites y disponibilidad son experiencia de uso propia, sin medición.
+- **Contexto:** Copilot y Antigravity se agotaban antes del reseteo a medida que crecían los proyectos. OpenRouter con modelos gratuitos quedaba corto para el trabajo diario. OpenCode con Ollama en local funcionaba, pero montarlo y ajustar el rendimiento consumía demasiado tiempo. OpenCode Console se quedó corto al crecer el trabajo y se agotaron sus créditos. Mientras tanto se conectó Antigravity a OpenCode: fue caótico y no permitía trabajar bien. La API de NVIDIA (build/dev) también se probó, pero no se pudo validar la cuenta y no llegó a usarse.
+- **Decisión:** el trabajo diario se hace con OpenCode Go. El modelo local (Ollama) queda para código y datos que no pueden salir de la red del laboratorio. Deja de ser la opción por defecto.
+- **Consecuencias:**
+  - Antes de enviar datos a Go hay que revisar su política de privacidad vigente. No está verificada en el repositorio.
+  - Las guías de decisión (`local-vs-cloud.md` y la comparativa de OpenCode) reflejan este criterio.
+  - La decisión se revisa si cambian los límites, la política del proveedor o el hardware.
+
+**Pendiente:**
+- Verificar la política de privacidad vigente de OpenCode Go antes de usarlo con datos de clientes o personales.
 
 
