@@ -1,6 +1,6 @@
 # OpenCode vs VS Code / Google Antigravity: criterios de decisión
 
-> **Estado:** Diseño. Comparativa orientada a privacidad, coste y control de contexto para elegir herramienta de agente. No es una evidencia de ejecución ni un benchmark; las afirmaciones sobre políticas de privacidad deben verificarse en las fuentes oficiales de cada proveedor.
+> **Estado:** Parcial. Comparativa orientada a privacidad, coste y control de contexto para elegir herramienta de agente. La elección de OpenCode Go para el trabajo diario se basa en la experiencia de uso propia, no en una medición. No es un benchmark; las afirmaciones sobre políticas de privacidad deben verificarse en las fuentes oficiales de cada proveedor.
 
 ## 1. Propósito
 
@@ -44,9 +44,9 @@ Decidir qué herramienta usar como agente de código en este laboratorio, sin as
 
 ## 4. OpenCode Go vs consola/CLI
 
-- **OpenCode Go**: suscripción que da acceso a modelos gestionados. Algunos modelos gestionados pueden usar datos de la petición según la política vigente; no se ha verificado en este repositorio. Revisar la política antes de usarlos con código o datos sensibles.
+- **OpenCode Go**: suscripción que da acceso a modelos gestionados. Es el que usamos a diario: en límites y disponibilidad de modelos ha funcionado mejor que los planes gratuitos y los de pago por uso que probamos antes (experiencia propia, no medida). Algunos modelos gestionados pueden usar datos de la petición según la política vigente; no se ha verificado en este repositorio. Revisar la política antes de usarlos con código o datos sensibles.
 - **CLI/TUI y web**: interfaces al mismo servicio. La CLI/TUI permite trabajar en terminal y servidores remotos; la web facilita la gestión visual. La configuración y las sesiones son compartidas.
-- **Modelos locales (Ollama)**: no requieren suscripción ni salida a la nube; son la opción por defecto cuando la privacidad es prioritaria.
+- **Modelos locales (Ollama)**: no requieren suscripción ni salen a la nube. Los reservamos para código o datos que no pueden salir de la red. Para el trabajo diario dejaron de ser la opción: montarlos y ajustarlos consumía mucho tiempo, y sus límites de capacidad se quedaban cortos.
 
 Regla práctica: si el código o los datos no deben salir del equipo, usa modelos locales. Si usas Go, revisa la política vigente antes de enviar datos sensibles; no des por hecho que no se usan para entrenamiento.
 
@@ -56,7 +56,7 @@ Regla práctica: si el código o los datos no deben salir del equipo, usa modelo
 - **VS Code + Copilot/agentes** cuando la productividad en el editor sea prioritaria y la política de datos del proveedor sea aceptable.
 - **Antigravity** cuando ya estés en el ecosistema Google y su política de datos encaje con tu caso.
 
-En este laboratorio, la opción por defecto es OpenCode con modelos locales, por privacidad y trazabilidad.
+En este laboratorio, la herramienta es OpenCode. Para el trabajo diario usamos OpenCode Go; los modelos locales quedan para código y datos que no pueden salir de la red. La trazabilidad viene de las sesiones y de los archivos versionados, no del modelo.
 
 ## 6. Límites
 

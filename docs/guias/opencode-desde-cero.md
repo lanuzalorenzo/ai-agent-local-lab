@@ -1,253 +1,193 @@
 <img src="../../assets/iconos/ia-local.svg" width="64" alt="Icono del laboratorio de IA local">
 
-# OpenCode desde cero: qué es, cómo se instala y cuánto cuesta
+# OpenCode desde cero
 
-> **Estado:** Validado el uso real de OpenCode en esta máquina ([evidencia](../evidencias/2026-10-30-opencode-uso-real/README.md)). Parcial en el resto: precios y planes contrastados con la documentación oficial, sin compra ni instalación limpia. Los precios, modelos y cuotas cambian: comprueba siempre la fuente enlazada antes de decidir.
->
-> **Para quién:** alguien que nunca ha usado un agente de código en la terminal. No requiere saber programar para entender la guía, aunque se aprovecha más si tienes un proyecto a mano.
+> Para quién: si nunca has usado un agente de código en la terminal. No hace falta saber programar a fondo.
 
-## 1. Qué es OpenCode
+Esta guía cuenta cómo llegamos a OpenCode, qué es y cómo empezar. Está escrita desde el uso, no desde el manual.
 
-OpenCode es un agente de programación de código abierto que se ejecuta en la terminal. Le hablas en lenguaje natural, lee los archivos de tu proyecto, propone cambios y los aplica con las herramientas que le hayas dado: leer, editar, buscar, ejecutar comandos, consultar la web o llamar a servidores MCP.
+## Cómo llegamos aquí
 
-No es un autocompletado ni un chat dentro de un editor. Es un programa que trabaja sobre tu directorio:
+Todo empezó por los límites.
+
+Copilot se nos quedaba corto cada mes. Antigravity se reseteaba cada semana, pero a medida que los proyectos crecían, se agotaba antes de que llegara el reseteo.
+
+Probamos OpenRouter con Continue en VS Code. Había modelos gratuitos, pero no eran suficientes para trabajar a diario.
+
+Después encontramos OpenCode. Intentamos usarlo con Ollama en local. Funcionaba, pero montarlo y ajustar el rendimiento costaba mucho tiempo.
+
+Pasamos a OpenCode Console y nos convenció, hasta que el proyecto creció y se quedaron sin créditos. Mientras tanto probamos a conectar Antigravity para seguir trabajando con OpenCode. Fue caótico: no nos dejaba trabajar bien. Acabamos en OpenCode Go, que es lo que usamos hoy. En límites y en disponibilidad de modelos ha funcionado mejor que todo lo anterior.
+
+La lección que nos dejó el camino: el límite no lo marca solo la herramienta, sino cuánto trabajas. Y el modelo se puede cambiar sin cambiar la herramienta.
+
+Las opciones, los planes y las condiciones cambian. Mira la [documentación de proveedores](https://opencode.ai/v2/docs/providers/) antes de decidir.
+
+## Qué es OpenCode
+
+OpenCode es un agente de programación de código abierto que funciona en la terminal. También hay aplicación de escritorio y versión web.
+
+Le pides cosas en lenguaje normal. Lee los archivos de tu proyecto, propone cambios y los aplica si se lo permites. Tú decides qué se queda.
 
 ```bash
 cd ~/proyectos/mi-api
 opencode
 ```
 
-A partir de ahí escribes lo que quieres, por ejemplo:
+Para empezar, pide algo que no cambie nada:
 
 ```text
-Explica cómo funciona la autenticación de este proyecto y señala los puntos débiles
+Explica cómo funciona la autenticación de este proyecto y señala lo que veas frágil
 ```
 
-Y ves el razonamiento, las lecturas de archivos y los cambios propuestos. Tú decides qué se acepta.
+Piensa en el agente como el mecánico y en el modelo como el motor. Puedes cambiar de motor sin cambiar de taller.
 
-### La idea que hay detrás
+## Por qué no un asistente dentro del editor
 
-OpenCode separa dos piezas:
+Un asistente de editor es cómodo para empezar. OpenCode tiene otras ventajas:
 
-- **El agente** (el programa): decide qué hacer, pide herramientas y muestra resultados.
-- **El modelo** (el motor): el modelo de lenguaje que razona. Puede ser local o remoto, y lo eliges tú.
+- Funciona en la terminal y en servidores. Puedes usarlo aunque el modelo esté en otra máquina.
+- Cambias de modelo sin cambiar de forma de trabajar.
+- Las reglas del proyecto viven en archivos. Se leen, se revisan y se guardan en Git.
+- Es de código abierto.
 
-Esa separación es la parte importante: el mismo OpenCode funciona con un modelo gratuito en tu portátil, con el modelo que ya pagas en otra suscripción o con una API de pago. El agente no te obliga a un proveedor.
+El precio es que hay más que aprender. Si solo quieres autocompletar mientras escribes, un asistente de editor basta.
 
-### Qué ofrece
+## Local o remoto
 
-| Capacidad | Para qué sirve |
-|---|---|
-| Sesiones | Cada conversación conserva su contexto; se pueden recuperar, reanudar y separar por tarea |
-| Lectura y edición del proyecto | Abre archivos por ruta o con `@`, aplica cambios y muestra el diff |
-| Terminal integrada | Ejecuta comandos con `!` y devuelve la salida a la conversación |
-| Agentes | Perfiles con instrucciones y herramientas distintas (por ejemplo, uno de revisión y otro de implementación) |
-| Instrucciones del proyecto | `AGENTS.md` fija convenciones, estructura y límites para que el agente no improvise |
-| Permisos | Controlan qué herramientas y comandos puede ejecutar sin preguntar |
-| MCP y skills | Conecta servicios externos y carga procedimientos especializados |
-| Plugins | Extiende el comportamiento del servidor o de la interfaz |
-| API y SDK | Permite integrar OpenCode en otros programas |
-| Interfaces | Terminal, aplicación de escritorio, web y Docker |
+Cada opción tiene su sitio.
 
-### Qué no es
+**Modelo local** (con Ollama, en tu equipo o en un servidor):
 
-- No es un sustituto de revisar el código. Un agente puede equivocarse con seguridad; el diff y los tests siguen siendo tuyos.
-- No es una herramienta de privacidad por sí sola. Si usas un modelo remoto, tu código viaja al proveedor. La privacidad depende de dónde ejecutes el modelo.
-- No es un editor. Convive con VS Code, Neovim o el que uses; no lo reemplaza.
+- El código no sale de tu red.
+- No dependes de límites de un proveedor.
+- Cuesta tiempo montarlo y ajustarlo, y el rendimiento depende de tu hardware.
 
-## 2. Antes de instalar: decide dónde razona el modelo
+**Modelo remoto** (un proveedor conectado a OpenCode):
 
-Esta decisión explica casi todo el resto: coste, privacidad, velocidad y calidad.
+- Tiene más capacidad y menos problemas de límites para el trabajo diario.
+- Tu código viaja al proveedor, así que antes revisa su política de privacidad.
 
-| Opción | Coste | Privacidad | Cuándo tiene sentido |
-|---|---|---|---|
-| Modelo local (Ollama, LM Studio, vLLM) | 0 en software; pagas tu hardware y la electricidad | Alta: el código no sale de tu red | Privacidad estricta, aprendizaje, equipos con GPU |
-| Plan que ya pagas (ChatGPT Plus/Pro, GitHub Copilot) | Lo que ya pagas | Según el proveedor | Ya tienes suscripción y quieres aprovecharla |
-| Modelos gratuitos de OpenCode | 0, con límites y disponibilidad variable | Según el proveedor | Probar sin tarjeta |
-| API key propia (OpenAI, Anthropic, Google, OpenRouter…) | Pago por uso | Según el proveedor | Control de modelo y presupuesto por consumo |
-| OpenCode Console (pago por uso) | Créditos | Según el proveedor elegido | Un solo proveedor para varios modelos |
-| OpenCode Go (suscripción) | Desde 10 USD/mes | Según el proveedor elegido | Uso intensivo con coste predecible |
+Nuestra regla práctica: lo que no debe salir de tu red, va en local. Para el trabajo diario, un proveedor con buenos límites, siempre que su política te valga.
 
-Regla práctica: empieza gratis con un modelo local si tu equipo lo aguanta; si no, prueba los modelos gratuitos; si el trabajo es diario, compara el coste real de una API con la suscripción.
+## Instalación
 
-## 3. Instalación
+Necesitas Linux, macOS o Windows y un proyecto en disco. En Windows, usa el binario o la aplicación de escritorio.
 
-### Requisitos
-
-- Linux, macOS o Windows.
-- Node.js solo si instalas por npm; el instalador y los binarios no lo necesitan.
-- Un proyecto en disco y permisos de escritura sobre él.
-- Salida a Internet si el modelo es remoto. Con un modelo local, no hace falta para razonar.
-
-### Terminal (recomendado)
+La forma recomendada:
 
 ```bash
 curl -fsSL https://opencode.ai/v2/install | bash
 ```
 
-Alternativas:
-
-```bash
-brew install anomalyco/tap/opencode-v2   # macOS/Linux con Homebrew
-npm install -g @opencode/cli             # requiere Node.js
-```
-
-También hay binarios sueltos para Linux, macOS y Windows en la página de instalación. Los gestores de paquetes de Windows no están soportados; usa el binario o la aplicación de escritorio.
-
-Comprueba que quedó instalado:
+Comprueba que funciona:
 
 ```bash
 opencode --version
 ```
 
-### Aplicación de escritorio
+También hay instalación con Homebrew o npm, y aplicación de escritorio. Para la versión web, `opencode pair` genera un enlace de un solo uso.
 
-Hay builds para macOS, Windows y Linux (`.deb`, `.rpm`, `AppImage`). Es la misma base con interfaz gráfica; útil si la terminal te frena al principio.
+## Conectar un modelo
 
-### Web y Docker
+### Opción A: Ollama en local
 
-- Web: `opencode pair` abre un enlace local de un solo uso para conectar la interfaz web.
-- Docker: `ghcr.io/anomalyco/opencode:2.0.0` (usa etiquetas versionadas).
+Crea un archivo `opencode.json` en la raíz del proyecto:
 
-### Primer arranque
-
-```bash
-cd ~/proyectos/mi-api
-opencode
+```jsonc
+{
+  "$schema": "https://opencode.ai/config.json",
+  "model": "ollama/qwen2.5-coder:7b",
+  "providers": {
+    "ollama": {
+      "package": "@opencode/ai/providers/openai-compatible",
+      "settings": {
+        "baseURL": "http://ollama.lab.local:11434/v1"
+      },
+      "models": {
+        "qwen2.5-coder:7b": {
+          "name": "Qwen 2.5 Coder 7B (local)"
+        }
+      }
+    }
+  }
+}
 ```
 
-Dentro:
+Cambia `ollama.lab.local` por el nombre de tu servidor. Ollama debe ser accesible solo desde tu red. No publiques el puerto 11434 en Internet. La [guía de despliegue en Ubuntu Server](server-deployment-ubuntu-ollama.md) explica el firewall.
 
-1. `/connect` para enlazar un proveedor. Si eliges un modelo local, normalmente no hay que conectar nada.
-2. `/models` para elegir modelo. La lista solo muestra los disponibles en ese proyecto.
-3. Escribe tu primera petición y pulsa Enter.
+### Opción B: un proveedor remoto
 
-Si no quieres abrir la interfaz interactiva:
+Dentro de OpenCode escribe `/connect`, elige el proveedor y sigue los pasos para iniciar sesión o pegar tu clave. Luego `/models` te muestra qué puedes usar.
 
-```bash
-opencode run --model ollama/qwen2.5-coder:7b "Resume la estructura del proyecto"
+En OpenCode Go, por ejemplo, el modelo Claude Haiku 5.5 se identifica como `opencode-go/claude-haiku-5-5`. Si quieres que sea el de uso habitual, ponlo en `opencode.json`:
+
+```jsonc
+{
+  "$schema": "https://opencode.ai/config.json",
+  "model": "opencode-go/claude-haiku-5-5"
+}
 ```
 
-## 4. Lo mínimo para no perderse
+La lista de modelos cambia. Antes de enviar código de un cliente, revisa la política de privacidad del proveedor y la sección de privacidad de tu cuenta, porque algunos modelos la tienen configurada de forma distinta.
 
-| Acción | Cómo |
-|---|---|
-| Adjuntar un archivo | Escribe `@` y busca; también `@ruta/archivo#20-45` para un rango |
-| Ejecutar un comando | Empieza el mensaje con `!`, por ejemplo `!git status` |
-| Ver comandos | `/` y filtra |
-| Nueva sesión | `/new` o `Ctrl+X`, luego `N` |
-| Recuperar sesión | `/sessions` o `Ctrl+X`, luego `L` |
-| Cambiar de modelo | `/models` o `Ctrl+X`, luego `M` |
-| Cambiar de agente | `/agents` o `Shift+Tab` |
-| Deshacer | `/undo` o `Ctrl+X`, luego `U` |
-| Rehacer | `/redo` o `Ctrl+X`, luego `R` |
-| Salto de línea | `Shift+Enter`, `Ctrl+J` o `Alt+Enter` |
-| Pregunta rápida sin ensuciar el hilo | `/btw ¿por qué falló el test del paso 2?` |
-| Paleta completa | `Ctrl+P` |
+No pegues claves en el chat ni en `opencode.json`. Usa `/connect` o variables de entorno.
 
-La tecla líder por defecto es `Ctrl+X`. Todo esto es configurable en `~/.config/opencode/cli.json`, que guarda preferencias de terminal y no se mezcla con la configuración del proyecto.
+## Tu primera sesión
 
-### Tres archivos que conviene conocer
+1. Entra en un proyecto pequeño y ejecuta `opencode`.
+2. Escribe `/models` y comprueba que aparece el modelo que quieres.
+3. Pide una lectura, como el ejemplo de arriba.
+4. Crea una rama para no tocar tu trabajo: `git switch -c prueba-opencode`.
+5. Pide un cambio pequeño, como corregir una errata.
+6. Revisa el cambio. Si no te gusta, escribe `/undo`.
 
-- **`AGENTS.md`**: instrucciones del proyecto. Convenciones, comandos de verificación, qué no tocar. Es lo que evita que el agente invente estilo o estructura.
-- **`opencode.json` o `opencode.jsonc`**: configuración del proyecto: modelo por defecto, agentes, permisos, MCP, plugins.
-- **`~/.config/opencode/opencode.json`**: configuración global del usuario, para lo que quieres en todos los proyectos.
+Deshacer es parte de aprender a usar un agente. En una rama, no pasa nada si algo sale mal.
 
-La configuración se recarga al guardar; no hace falta reiniciar.
+## Lo que usarás a diario
 
-### Permisos: el detalle que separa una demo de un incidente
+- `@` y el nombre de un archivo para adjuntarlo al mensaje.
+- `!` delante de un mensaje para ejecutar un comando de terminal, por ejemplo `!git status`.
+- `/` para ver los comandos disponibles.
+- `/new` para empezar una conversación limpia.
+- `/models` para cambiar de modelo.
+- `/undo` para deshacer el último cambio.
+
+## Las reglas del proyecto
+
+Las instrucciones de cada proyecto van en un archivo llamado `AGENTS.md`. Ahí dices cómo se organiza el código, cómo se comprueba que un cambio funciona y qué no se toca. El agente lo lee al empezar.
+
+Lo más útil de este archivo es que queda guardado en el proyecto, como cualquier otro código. Una guía futura explicará cómo lo organizamos aquí.
+
+## Permisos
 
 Un agente puede leer archivos, ejecutar comandos y modificar el repositorio. Antes de dejarlo trabajar solo:
 
-- Revisa qué herramientas tiene habilitadas y cuáles piden confirmación.
-- Trabaja en una rama, no en `main`.
-- Mira el diff antes de aceptar.
+- Revisa qué puede hacer sin preguntarte.
+- Trabaja en una rama, nunca en `main`.
+- Mira el cambio antes de aceptarlo.
 - No le des claves ni datos personales que no necesite.
 - Si el modelo es remoto, asume que lo que lee puede salir de tu equipo.
 
-## 5. Gratis y de pago, sin marketing
+## Errores comunes
 
-### Lo que es gratis siempre
+- **Pedir una tarea enorme de golpe.** El agente se pierde y gasta contexto. Divide el trabajo y adjunta los archivos que importan.
+- **No tener `AGENTS.md`.** El agente inventa estilo y comandos.
+- **Trabajar sobre `main`.** Mezclas pruebas con trabajo real.
+- **Pegar claves en el chat.** Quedan en el historial.
+- **Usar un modelo local demasiado pequeño.** Falla al usar herramientas y da respuestas incoherentes.
 
-- **El programa.** OpenCode es código abierto. Todas las interfaces y funciones principales están disponibles sin licencia de pago.
-- **Modelos locales.** Con Ollama, LM Studio o vLLM en tu equipo, el coste de software es cero. Pagas hardware y luz. En este repositorio hay un [runbook de despliegue](server-deployment-ubuntu-ollama.md) y una guía de [inferencia local frente a cloud](local-vs-cloud.md).
-- **Traer tu propia clave.** Si ya tienes API de un proveedor, la conectas y pagas solo su consumo. OpenCode no añade margen.
-- **Aprovechar un plan existente.** ChatGPT Plus/Pro se puede enlazar con «Sign in with ChatGPT» y GitHub Copilot con su inicio de sesión; el uso cuenta contra tu plan. Requiere que el plan tenga acceso a los modelos que quieras usar.
+## Dónde seguir
 
-### Modelos gratuitos de OpenCode
+Documentación oficial:
 
-OpenCode Console publica una lista de modelos con precio de entrada cero. En la fecha de esta guía incluye, entre otros, `big-pickle`, `glm-5.3-flash-free`, `deepseek-v4.1-flash-free`, `beam-free`, `flint-40b-free`, `mimo-v2.6-flash-free` y varios Nemotron. Son útiles para probar sin tarjeta.
-
-Dos avisos:
-
-- Son ofertas de tiempo limitado, con regiones restringidas en algunos casos y disponibilidad variable. No los uses como base de un flujo de trabajo crítico.
-- Para usarlos hace falta una cuenta de OpenCode Console; sin sesión, el proveedor `opencode` no aparece.
-
-Además, algunos proveedores externos tienen cuota gratuita propia (Google AI Studio, OpenRouter con modelos gratuitos, etc.). Sus límites cambian a menudo y no los controla OpenCode: compruébalos en su web.
-
-### Lo que se paga
-
-**OpenCode Console (pago por uso).** Sin cuota de asiento. Añades créditos y pagas por petición según la tabla de precios por millón de tokens. Hay un recargo de procesamiento del 4,6 % + 0,31 USD al comprar créditos. Cuando el saldo llega a cero, las peticiones de pago fallan con `402`.
-
-**OpenCode Go (suscripción).** Acceso a un catálogo de modelos de código con límites mensuales expresados en dólares de consumo:
-
-| Plan | Precio | Qué incluye |
-|---|---|---|
-| Go | 10 USD/mes | Acceso de bajo coste al catálogo |
-| Go Plus | 40 USD/mes | Límites más altos |
-| Go Teams | 20 USD/miembro/mes | Un límite por miembro, 5 USD por encima de Go en cada modelo |
-
-Los límites se reparten por ventanas: 20 % del mensual en 5 horas, 50 % semanal y 100 % mensual. Es una suscripción opcional: no hace falta para usar OpenCode.
-
-**API de proveedor.** La opción con más control y la más fácil de disparar sin querer: se paga por token de entrada y salida, y el contexto largo multiplica la factura. La guía de coste de contexto de este repositorio explica por qué una sesión mal llevada puede costar más que una suscripción.
-
-### Qué elegir según tu caso
-
-| Situación | Elección razonable |
-|---|---|
-| Portátil sin GPU y quiero probar hoy | Modelos gratuitos de Console; si no hay, una API con 5 USD de límite |
-| Tengo GPU y datos que no pueden salir | Ollama local con un modelo de código de 7B a 14B |
-| Ya pago ChatGPT Plus o Copilot | Enlazarlo y medir si cubre tu uso |
-| Uso diario de 4 a 8 horas | Comparar Go (10 USD) con el gasto real de tu API durante un mes |
-| Equipo pequeño | Go Teams; cada miembro con su límite y sus credenciales |
-| Solo quiero aprender el flujo | Modelo local pequeño o modelos gratuitos; no pagues todavía |
-
-## 6. Cómo empezar en diez minutos
-
-1. Instala: `curl -fsSL https://opencode.ai/v2/install | bash`.
-2. Entra en un proyecto pequeño y ejecuta `opencode`.
-3. Sin conectar nada, comprueba si detecta Ollama o LM Studio con `/models`. Si no, conecta un proveedor con `/connect`.
-4. Pide algo de solo lectura: «Resume la estructura y dime dónde está la configuración».
-5. Crea un `AGENTS.md` con las convenciones del proyecto y las órdenes de test.
-6. Pide un cambio pequeño en una rama y revisa el diff.
-7. Ejecuta `/undo` para ver cómo se revierte. Saber deshacer es parte de aprender a usarlo.
-
-## 7. Errores frecuentes
-
-| Error | Qué pasa | Remedio |
-|---|---|---|
-| Dar una tarea enorme sin contexto | El agente explora a ciegas y gasta contexto | Divide, nombra archivos con `@`, define el criterio de hecho |
-| No tener `AGENTS.md` | Estilo y comandos inventados | Escribe convenciones y verificación |
-| Usar `main` para probar | Cambios mezclados con trabajo real | Rama por tarea |
-| Ignorar el coste del contexto | Factura alta o límites agotados | Sesiones cortas, `/new` por tarea, evitar volcar archivos enteros |
-| Confiar en el resumen de la sesión | Se pierde detalle al compactar | Deja estado en archivos versionados |
-| Pegar claves en el chat | Quedan en el historial y pueden salir al proveedor | Variables de entorno y gestor de secretos |
-| Modelo local demasiado pequeño | Herramientas mal usadas y respuestas incoherentes | Sube de tamaño o baja la ambición de la tarea |
-| Instalar con `sudo npm` | Permisos rotos y actualizaciones frágiles | Instalador oficial o gestor de versiones |
-
-## 8. Dónde seguir
-
-- Documentación oficial, instalación y descargas: <https://opencode.ai/v2/docs/>
-- Proveedores y conexión de cuentas: <https://opencode.ai/v2/docs/providers/>
-- Modelos y precios de Console: <https://opencode.ai/v2/docs/console/models/>
-- Suscripción Go: <https://opencode.ai/v2/docs/console/go/>
+- Instalación: <https://opencode.ai/v2/docs/>
+- Proveedores: <https://opencode.ai/v2/docs/providers/>
 - Configuración: <https://opencode.ai/v2/docs/config/>
 - Permisos: <https://opencode.ai/v2/docs/permissions/>
-- Solución de problemas: <https://opencode.ai/v2/docs/troubleshooting/>
+- Problemas: <https://opencode.ai/v2/docs/troubleshooting/>
 
-Dentro de este repositorio:
+En este repositorio:
 
-- [Continuidad de sesiones con OpenCode](opencode-session-continuity.md): cómo evitar que el contexto se pierda entre sesiones.
-- [Inferencia local frente a cloud](local-vs-cloud.md): criterios para decidir dónde ejecutar el modelo.
+- [Continuidad de sesiones con OpenCode](opencode-session-continuity.md): cómo no perder el contexto entre sesiones.
+- [Inferencia local frente a cloud](local-vs-cloud.md): criterios para decidir dónde corre el modelo.
 - [OpenCode frente a VS Code y Antigravity](../referencia/opencode-vs-vscode-antigravity.md): comparación por privacidad, coste y control.
-- [Coste de contexto y optimización](../referencia/coste-contexto-y-optimizacion.md): por qué el contexto es la partida cara.

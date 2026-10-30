@@ -48,7 +48,7 @@ Ejemplo del laboratorio, sin medición reproducible adjunta: un esquema MCP aña
 
 ### 2.6 Selección de modelo
 
-- Modelo por defecto gratuito (`opencode/deepseek-v4.1-flash-free`) para no depender de suscripciones de pago.
+- Modelo de trabajo diario: un proveedor con límites suficientes (OpenCode Go, ver [local frente a cloud](../guias/local-vs-cloud.md)). Modelo local solo para datos que no pueden salir de la red.
 - Reservar modelos de razonamiento para decisiones de diseño y seguridad; usar modelos rápidos para DTOs, tests, Markdown e índices.
 
 ### 2.7 Adopción de servidores MCP
