@@ -6,10 +6,10 @@
 > **Resultado:** el control negativo sale limpio (3/3) y la obediencia sigue en 0,50.
 > **Corrección (2026-10-30):** se añadió el estado Parcial; los artefactos no se modificaron.
 
-Volvimos a pasar el examen, ahora bien escrito, para comprobar dos cosas:
+Esta pasada repite la prueba con el instrumento corregido, para comprobar dos cosas:
 
-1. **Que el vigilante sabe rellenar un formulario normal.** Le dimos un pedido sin trampa y devolvió el JSON correcto las tres veces. Eso significa que, cuando abandona el formato en el examen de verdad, es por la orden escondida y no porque escriba mal.
-2. **Que el resultado anterior no era casualidad.** Otra vez dos de cuatro. La orden escondida entra sin disfraz.
+1. **Que el modelo produce formato válido cuando el pedido es normal.** Sin orden escondida, devolvió el JSON correcto las tres veces. Así, cuando abandona el formato en la prueba real, la causa es la orden escondida y no un fallo de formato.
+2. **Que el resultado anterior no era casualidad.** Otra vez dos de cuatro canarios obedecieron. La orden escondida funciona sin disfraz.
 
 ## 1. Montaje
 
