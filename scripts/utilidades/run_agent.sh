@@ -5,7 +5,14 @@
 # Autor: Lorenzo Lanuza Arellano
 # Proyecto: ai-agent-local-lab
 
-MODEL="qwen2.5-coder:7b"
+set -euo pipefail
+
+MODEL="${MODEL:-qwen2.5-coder:7b}"
+
+if ! command -v ollama >/dev/null 2>&1; then
+    echo "Error: 'ollama' no está instalado o no está en PATH." >&2
+    exit 1
+fi
 
 echo "🚀 Iniciando agente local con el modelo: $MODEL"
 echo ""
@@ -19,4 +26,4 @@ journalctl -u ollama -n 30 --no-pager
 
 echo ""
 echo "💡 Consejo:"
-echo "Puedes cambiar el modelo editando la variable MODEL al inicio del script."
+echo "Puedes cambiar el modelo al invocarlo: MODEL=qwen2.5-coder:7b ./scripts/utilidades/run_agent.sh"
